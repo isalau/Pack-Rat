@@ -1,55 +1,62 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { FaUserPlus, FaArrowLeft, FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import {
+  FaUserPlus,
+  FaArrowLeft,
+  FaEnvelope,
+  FaLock,
+  FaUser,
+} from "react-icons/fa";
 
 function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [userName, setUserName] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       return setError("Passwords don't match");
     }
-    
+
     if (password.length < 6) {
-      return setError('Password should be at least 6 characters');
+      return setError("Password should be at least 6 characters");
     }
 
     try {
-      setError('');
+      setError("");
       setLoading(true);
-      
+
       // Sign up the user with their profile
-      const { data, error } = await signUp(email, password, fullName);
-      
+      const { data, error } = await signUp(email, password, userName);
+
       if (error) {
         throw error;
       }
-      
+
       // Check if email confirmation is required
       if (data?.user?.identities?.length === 0) {
         // Email confirmation required
-        navigate('/login', { 
-          state: { 
-            message: 'Check your email to confirm your account before logging in' 
-          } 
+        navigate("/login", {
+          state: {
+            message:
+              "Check your email to confirm your account before logging in",
+          },
         });
       } else {
         // Auto-login successful, redirect to home
-        navigate('/');
+        navigate("/");
       }
     } catch (err) {
-      console.error('Signup error:', err);
-      setError(err.message || 'Failed to create an account');
+      console.error("Signup error:", err);
+      setError(err.message || "Failed to create an account");
     } finally {
       setLoading(false);
     }
@@ -71,8 +78,16 @@ function SignUp() {
           <div className="bg-red-50 border-l-4 border-red-500 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-red-500"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="ml-3">
@@ -86,7 +101,7 @@ function SignUp() {
           <div className="rounded-md shadow-sm space-y-4">
             <div>
               <label htmlFor="full-name" className="sr-only">
-                Full Name
+                Display Name
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -98,9 +113,9 @@ function SignUp() {
                   type="text"
                   required
                   className="appearance-none rounded-lg relative block w-full px-3 py-3 pl-10 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Full name"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
             </div>
@@ -179,9 +194,13 @@ function SignUp() {
               className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <FaUserPlus className={`h-5 w-5 text-blue-500 group-hover:text-blue-400 ${loading ? 'opacity-0' : ''}`} />
+                <FaUserPlus
+                  className={`h-5 w-5 text-blue-500 group-hover:text-blue-400 ${
+                    loading ? "opacity-0" : ""
+                  }`}
+                />
               </span>
-              {loading ? 'Creating account...' : 'Sign up'}
+              {loading ? "Creating account..." : "Sign up"}
             </button>
           </div>
         </form>

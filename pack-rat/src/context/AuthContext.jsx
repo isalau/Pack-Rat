@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
 
 const AuthContext = createContext();
 
@@ -11,10 +11,12 @@ export function AuthProvider({ children }) {
     // Check active sessions and sets the user
     const checkUser = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         setUser(session?.user ?? null);
       } catch (error) {
-        console.error('Error checking user session:', error);
+        console.error("Error checking user session:", error);
       } finally {
         setLoading(false);
       }
@@ -23,7 +25,9 @@ export function AuthProvider({ children }) {
     checkUser();
 
     // Listen for changes on auth state
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
 
@@ -39,7 +43,7 @@ export function AuthProvider({ children }) {
         email,
         password,
       });
-      
+
       if (error) throw error;
       return { data, error: null };
     } catch (error) {
@@ -48,45 +52,45 @@ export function AuthProvider({ children }) {
   };
 
   // Sign up with email and password and create user profile
-  const signUp = async (email, password, fullName) => {
+  const signUp = async (email, password, username) => {
     try {
       // Create the auth user
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            full_name: fullName
-          }
+      const { data: authData, error: signUpError } = await supabase.auth.signUp(
+        {
+          email,
+          password,
+          options: {
+            data: {
+              full_name: username,
+            },
+          },
         }
-      });
-      
+      );
+
       if (signUpError) throw signUpError;
-      
-      // If we have a user and fullName, create/update their profile
-      if (authData?.user && fullName) {
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .upsert({
-            id: authData.user.id,
-            full_name: fullName,
-            updated_at: new Date().toISOString(),
-          });
-          
+
+      // If we have a user and username, create/update their profile
+      if (authData?.user && username) {
+        const { error: profileError } = await supabase.from("profiles").upsert({
+          id: authData.user.id,
+          full_name: username,
+          updated_at: new Date().toISOString(),
+        });
+
         if (profileError) {
-          console.error('Profile update error:', profileError);
+          console.error("Profile update error:", profileError);
           // Don't fail the signup if profile update fails
         }
       }
-      
+
       // Manually set the user in state since onAuthStateChange might not fire immediately
       if (authData?.session?.user) {
         setUser(authData.session.user);
       }
-      
+
       return { data: authData, error: null };
     } catch (error) {
-      console.error('Signup error:', error);
+      console.error("Signup error:", error);
       return { data: null, error };
     }
   };
@@ -100,7 +104,7 @@ export function AuthProvider({ children }) {
       setUser(null);
       return { error: null };
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
       return { error };
     }
   };
@@ -111,7 +115,7 @@ export function AuthProvider({ children }) {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/reset-password`,
       });
-      
+
       if (error) throw error;
       return { error: null };
     } catch (error) {
@@ -138,7 +142,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }
