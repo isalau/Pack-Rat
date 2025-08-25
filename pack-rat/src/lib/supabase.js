@@ -5,13 +5,20 @@ const supabaseKey = process.env.REACT_APP_SUPABASE_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Helper function to fetch all trips
-export const fetchTrips = async () => {
+// Helper function to fetch trips for the current user
+export const fetchTrips = async (userId = null) => {
   try {
-    const { data, error } = await supabase
+    let query = supabase
       .from("trips")
       .select("*")
       .order("created_at", { ascending: false });
+
+    // If userId is provided, filter by that user
+    if (userId) {
+      query = query.eq("user_id", userId);
+    }
+
+    const { data, error } = await query;
 
     if (error) throw error;
     return data || [];
@@ -22,7 +29,7 @@ export const fetchTrips = async () => {
 };
 
 // Helper function to add a new trip
-export const addTrip = async (tripData) => {
+export const addTrip = async (tripData, userId) => {
   try {
     const { data, error } = await supabase
       .from("trips")
@@ -35,6 +42,7 @@ export const addTrip = async (tripData) => {
           end_date: tripData.endDate,
           packing_days: tripData.packingDays,
           notes: tripData.notes,
+          user_id: userId, // Add the user's UID to the trip
         },
       ])
       .select();

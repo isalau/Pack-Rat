@@ -1,24 +1,28 @@
 import { useState, useEffect } from "react";
 import { FaTrash, FaTimes, FaSpinner, FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import TripForm from "./TripForm";
 import ConfirmationModal from "../common/ConfirmationModal";
 import { fetchTrips, addTrip, deleteTrip } from "../../lib/supabase";
 import "./TripsList.css";
 
 const TripsList = () => {
+  const { user } = useAuth();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [tripToDelete, setTripToDelete] = useState(null);
   const [error, setError] = useState(null);
 
-  // Fetch trips on component mount
+  // Fetch trips on component mount or when user changes
   useEffect(() => {
     const loadTrips = async () => {
+      if (!user) return;
+      
       try {
         setIsLoading(true);
-        const tripsData = await fetchTrips();
+        const tripsData = await fetchTrips(user.id);
         setTrips(tripsData);
       } catch (err) {
         console.error("Failed to load trips:", err);
@@ -29,11 +33,16 @@ const TripsList = () => {
     };
 
     loadTrips();
-  }, []);
+  }, [user]);
 
   const handleSaveTrip = async (tripData) => {
+    if (!user) {
+      setError("You must be logged in to create a trip.");
+      return;
+    }
+    
     try {
-      const newTrip = await addTrip(tripData);
+      const newTrip = await addTrip(tripData, user.id);
       if (newTrip) {
         setTrips([newTrip, ...trips]);
         setShowForm(false);
