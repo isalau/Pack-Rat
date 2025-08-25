@@ -57,6 +57,13 @@ function Login() {
     <div className="login-container">
       <div className="login-card">
         <div className="login-header">
+          <div className="logo-container">
+            <img 
+              src="/packityrat.png" 
+              alt="Pack Rat Logo" 
+              className="login-logo"
+            />
+          </div>
           <h2>Welcome Back</h2>
           <p>Sign in to continue to Pack Rat</p>
         </div>
