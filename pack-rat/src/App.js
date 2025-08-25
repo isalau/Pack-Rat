@@ -9,6 +9,7 @@ import EventInstanceManager from "./components/events/EventInstanceManager";
 import MainNav from "./components/layout/MainNav";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
 
 // A wrapper for routes that require authentication
@@ -42,6 +43,7 @@ const AppContent = () => {
           {/* Public routes */}
           <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
           <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUp />} />
+          <Route path="/forgot-password" element={user ? <Navigate to="/" replace /> : <ForgotPassword />} />
 
           {/* Protected routes */}
           <Route
