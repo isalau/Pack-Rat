@@ -60,29 +60,38 @@ const DaySection = ({ day, tripId, totalDays }) => {
   };
   
   return (
-    <div className="day-section">
+    <div className="day-section" style={{ position: 'relative' }}>
       <div className="day-header">
         <h3>Day {day}</h3>
         <div className="day-actions">
-          <div className="dropdown">
-            <button 
-              className="btn btn-sm btn-secondary"
-              onClick={() => setShowEventModal(true)}
-              disabled={isAdding}
-            >
-              <FaPlus /> {isAdding ? 'Adding...' : 'Add Event'}
-            </button>
-          </div>
+          <button 
+            className="btn btn-sm btn-secondary"
+            onClick={() => setShowEventModal(true)}
+            disabled={isAdding}
+          >
+            <FaPlus /> {isAdding ? 'Adding...' : 'Add Event'}
+          </button>
         </div>
       </div>
       
-      <EventModal 
-        isOpen={showEventModal}
-        onClose={() => setShowEventModal(false)}
-        onSelectEvent={handleAddEvent}
-        tripId={tripId}
-        day={day}
-      />
+      {showEventModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 9999
+        }}>
+          <EventModal 
+            isOpen={showEventModal}
+            onClose={() => setShowEventModal(false)}
+            onSelectEvent={handleAddEvent}
+            tripId={tripId}
+            day={day}
+          />
+        </div>
+      )}
       <PackingList 
         tripId={tripId} 
         day={day} 
