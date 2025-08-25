@@ -51,6 +51,7 @@ code {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
+  margin-left: min(160px);
   padding-bottom: 30px; /* Extra space at the bottom */
 }
 
