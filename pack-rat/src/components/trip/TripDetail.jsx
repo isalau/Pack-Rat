@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import PackingList from '../packing/PackingList';
+import PackingList from "../packing/PackingList";
+import PackingListSummary from "../packing/PackingListSummary";
 import './TripDetail.css';
 
-const TripDetail = () => {
+const TripDetail = ({ trip: initialTrip, onBack }) => {
   const { id } = useParams();
-  const [trip, setTrip] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [view, setView] = useState('days'); // 'days' or 'summary'
+  const [trip, setTrip] = useState(initialTrip);
+  const [isLoading, setIsLoading] = useState(!initialTrip);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const TripDetail = () => {
   }
 
   // Generate array of packing days
-  const packingDays = Array.from({ length: trip.packing_days || 1 }, (_, i) => i + 1);
+  const packingDays = trip ? Array.from({ length: trip.packing_days || 1 }, (_, i) => i + 1) : [];
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -109,22 +111,46 @@ const TripDetail = () => {
         )}
       </div>
 
-      <div className="packing-days">
-        <h2>Packing Days</h2>
-        <div className="days-container">
-          {packingDays.map((day) => (
-            <div key={day} className="day-section">
-              <div className="day-header">
-                <h3>Day {day}</h3>
-              </div>
-              <PackingList 
-                tripId={trip.id} 
-                day={day} 
-                totalDays={packingDays.length} 
-              />
-            </div>
-          ))}
+      <div className="packing-views">
+        <div className="view-tabs">
+          <button 
+            className={`view-tab ${view === 'days' ? 'active' : ''}`}
+            onClick={() => setView('days')}
+          >
+            By Day
+          </button>
+          <button 
+            className={`view-tab ${view === 'summary' ? 'active' : ''}`}
+            onClick={() => setView('summary')}
+          >
+            Summary
+          </button>
         </div>
+
+        {view === 'days' ? (
+          <div className="packing-days">
+            <h2>Packing Days</h2>
+            <div className="days-container">
+              {packingDays.map((day) => (
+                <div key={day} className="day-section">
+                  <div className="day-header">
+                    <h3>Day {day}</h3>
+                  </div>
+                  <PackingList 
+                    tripId={trip.id} 
+                    day={day} 
+                    totalDays={packingDays.length} 
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <PackingListSummary 
+            tripId={trip.id} 
+            days={packingDays} 
+          />
+        )}
       </div>
     </div>
   );
