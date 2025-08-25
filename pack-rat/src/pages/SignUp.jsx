@@ -62,9 +62,9 @@ function SignUp() {
       <div className="login-card">
         <div className="login-header">
           <div className="logo-container">
-            <img 
-              src="/packityrat.png" 
-              alt="Pack Rat Logo" 
+            <img
+              src="/packityrat.png"
+              alt="Pack Rat Logo"
               className="login-logo"
             />
           </div>
@@ -89,7 +89,7 @@ function SignUp() {
           <div className="form-group">
             <label htmlFor="username">Username</label>
             <div className="input-wrapper">
-              <FaUser className="input-icon" />
+              {/* <FaUser className="input-icon" /> */}
               <input
                 id="username"
                 type="text"
@@ -147,14 +147,13 @@ function SignUp() {
           </div>
 
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Creating account...' : 'Sign Up'}
+            {loading ? "Creating account..." : "Sign Up"}
             <FaArrowRight className="button-icon" />
           </button>
         </form>
 
         <div className="signup-link">
-          Already have an account?{' '}
-          <Link to="/login">Sign in</Link>
+          Already have an account? <Link to="/login">Sign in</Link>
         </div>
       </div>
     </div>
