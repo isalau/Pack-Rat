@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import PackingList from '../packing/PackingList';
 import './TripDetail.css';
 
 const TripDetail = () => {
@@ -63,6 +64,12 @@ const TripDetail = () => {
   // Generate array of packing days
   const packingDays = Array.from({ length: trip.packing_days || 1 }, (_, i) => i + 1);
 
+  // Format date for display
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="trip-detail-container">
       <div className="trip-header">
@@ -104,14 +111,20 @@ const TripDetail = () => {
 
       <div className="packing-days">
         <h2>Packing Days</h2>
-        <div className="days-grid">
-          {packingDays.map(day => (
-            <div key={day} className="day-card">
-              <h3>Day {day}</h3>
-              <div className="packing-list">
-                {/* Packing items will go here */}
-                <p className="empty-message">Add items to pack for this day</p>
+        <div className="days-container">
+          {packingDays.map((day) => (
+            <div key={day} className="day-section">
+              <div className="day-header">
+                <h3>Day {day}</h3>
+                <span className="date-badge">
+                  {formatDate(trip.start_date)}
+                </span>
               </div>
+              <PackingList 
+                tripId={trip.id} 
+                day={day} 
+                totalDays={packingDays.length} 
+              />
             </div>
           ))}
         </div>

@@ -1,0 +1,158 @@
+.packing-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: #fff;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  gap: 1rem;
+}
+
+.packing-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.packing-item.packed {
+  opacity: 0.7;
+  background-color: #f8f9fa;
+}
+
+.item-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.item-checkbox:hover {
+  border-color: #3a7bc8;
+  background-color: #f0f7ff;
+}
+
+.item-checkbox .checked {
+  color: #4a90e2;
+  font-size: 0.9rem;
+}
+
+.item-checkbox .unchecked {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background-color: transparent;
+  transition: all 0.2s ease;
+}
+
+.packed .item-name,
+.packed .item-category,
+.packed .item-day {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.item-name {
+  flex: 3;
+  font-weight: 500;
+  color: #333;
+}
+
+.item-category {
+  flex: 2;
+  font-size: 0.85rem;
+  color: #666;
+  background-color: #f0f0f0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.item-day {
+  flex: 1;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.item-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+/* Editing state */
+.packing-item.editing {
+  padding: 0.5rem;
+  background-color: #f8f9ff;
+  border: 1px solid #e0e6ff;
+}
+
+.item-input,
+.category-select,
+.day-select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.item-input {
+  flex: 3;
+}
+
+.category-select,
+.day-select {
+  flex: 2;
+  background-color: white;
+}
+
+.day-select {
+  flex: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .packing-item {
+    flex-wrap: wrap;
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .item-name,
+  .item-category,
+  .item-day {
+    flex: 1 0 100%;
+    text-align: left;
+    padding-left: 2rem;
+  }
+
+  .item-actions {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
