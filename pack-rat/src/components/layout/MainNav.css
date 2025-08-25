@@ -11,12 +11,13 @@
 }
 
 .nav-container {
-  max-width: 600px;
-  margin: 0 auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 15px;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  width: 100%;
 }
 
 .nav-link {
@@ -24,10 +25,11 @@
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: #6c757d;
-  padding: 8px 15px;
-  border-radius: 20px;
+  color: #4b5563;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   transition: all 0.2s ease;
+  margin: 0 0.25rem;
   font-size: 0.8rem;
   flex: 1;
   max-width: 100px;

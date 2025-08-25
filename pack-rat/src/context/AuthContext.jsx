@@ -96,8 +96,11 @@ export function AuthProvider({ children }) {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+      // Clear the user from state
+      setUser(null);
       return { error: null };
     } catch (error) {
+      console.error('Error signing out:', error);
       return { error };
     }
   };
