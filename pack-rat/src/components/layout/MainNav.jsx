@@ -8,13 +8,8 @@ const MainNav = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  // Don't show nav on the home page, login, signup, or when adding an event to a trip
-  if (
-    location.pathname === "/" ||
-    location.pathname === "/login" ||
-    location.pathname === "/signup" ||
-    location.pathname.includes("add-to-trip")
-  ) {
+  // Only show nav if user is logged in
+  if (!user) {
     return null;
   }
 
