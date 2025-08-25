@@ -52,16 +52,18 @@ const TripsList = () => {
         <div className="trips-grid">
           {trips.map(trip => (
             <div key={trip.id} className="trip-card">
-              <h3>{trip.destination}</h3>
-              <p className="trip-detail">
-                <span className="label">From:</span> {trip.origin}
+              <h3>{trip.tripName || 'Unnamed Trip'}</h3>
+              <p className="trip-destination">
+                {trip.origin} → {trip.destination}
               </p>
-              <p className="trip-detail">
-                <span className="label">Dates:</span> {trip.startDate} to {trip.endDate}
-              </p>
-              <p className="trip-detail">
-                <span className="label">Packing Days:</span> {trip.packingDays}
-              </p>
+              <div className="trip-details">
+                <p className="trip-detail">
+                  <span className="label">Dates:</span> {trip.startDate} to {trip.endDate}
+                </p>
+                <p className="trip-detail">
+                  <span className="label">Packing Days:</span> {trip.packingDays}
+                </p>
+              </div>
               {trip.notes && (
                 <p className="trip-notes">
                   <span className="label">Notes:</span> {trip.notes}

@@ -3,6 +3,7 @@ import './TripForm.css';
 
 const TripForm = ({ onSave, onCancel }) => {
   const [formData, setFormData] = useState({
+    tripName: '',
     destination: '',
     origin: '',
     startDate: '',
@@ -28,6 +29,19 @@ const TripForm = ({ onSave, onCancel }) => {
     <div className="trip-form-container">
       <h2>Create New Trip</h2>
       <form onSubmit={handleSubmit} className="trip-form">
+        <div className="form-group">
+          <label htmlFor="tripName">Trip Name:</label>
+          <input
+            type="text"
+            id="tripName"
+            name="tripName"
+            value={formData.tripName}
+            onChange={handleChange}
+            placeholder="e.g., Summer Vacation 2023"
+            required
+          />
+        </div>
+
         <div className="form-group">
           <label htmlFor="origin">From:</label>
           <input
