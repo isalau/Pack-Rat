@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import PackingList from "../packing/PackingList";
 import PackingListSummary from "../packing/PackingListSummary";
+import { FaPlus } from 'react-icons/fa';
 import './TripDetail.css';
 
 const TripDetail = ({ trip: initialTrip, onBack }) => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [view, setView] = useState('days'); // 'days' or 'summary'
   const [trip, setTrip] = useState(initialTrip);
   const [isLoading, setIsLoading] = useState(!initialTrip);
@@ -73,10 +75,24 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
   };
 
   return (
-    <div className="trip-detail-container">
+    <div className="trip-detail">
       <div className="trip-header">
-        <Link to="/" className="btn btn-secondary">← Back to Trips</Link>
-        <h1>{trip.trip_name || 'Unnamed Trip'}</h1>
+        <Link to="/" className="back-link">
+          &larr; Back to Trips
+        </Link>
+        <div className="trip-title-container">
+          <h1>{trip.destination}</h1>
+          <button 
+            onClick={() => navigate('/events')}
+            className="btn btn-primary"
+          >
+            <FaPlus /> Manage Events
+          </button>
+        </div>
+        <p className="trip-dates">
+          {new Date(trip.start_date).toLocaleDateString()} - {new Date(trip.end_date).toLocaleDateString()}
+        </p>
+        <p className="trip-days">{trip.packing_days} days</p>
       </div>
 
       <div className="trip-overview">
