@@ -40,12 +40,37 @@
   transform: translateY(0);
 }
 
-.empty-state {
+.loading-state,
+.empty-state,
+.error-state {
   text-align: center;
   padding: 4rem 2rem;
   background-color: #f8f9fa;
   border-radius: 8px;
   color: #666;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.loading-state .spinner {
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #4a90e2;
+}
+
+.error-state {
+  color: #dc3545;
+  background-color: #fff5f5;
+  border: 1px solid #ffebee;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .trips-grid {

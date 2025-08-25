@@ -1,23 +1,46 @@
-import { useState } from 'react';
-import { FaTrash, FaTimes } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaTrash, FaTimes, FaSpinner } from 'react-icons/fa';
 import TripForm from './TripForm';
 import ConfirmationModal from '../common/ConfirmationModal';
+import { fetchTrips, addTrip, deleteTrip } from '../../lib/supabase';
 import './TripsList.css';
 
 const TripsList = () => {
   const [trips, setTrips] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [tripToDelete, setTripToDelete] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleSaveTrip = (tripData) => {
-    const newTrip = {
-      id: Date.now(),
-      ...tripData,
-      createdAt: new Date().toISOString()
+  // Fetch trips on component mount
+  useEffect(() => {
+    const loadTrips = async () => {
+      try {
+        setIsLoading(true);
+        const tripsData = await fetchTrips();
+        setTrips(tripsData);
+      } catch (err) {
+        console.error('Failed to load trips:', err);
+        setError('Failed to load trips. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
     };
-    
-    setTrips([...trips, newTrip]);
-    setShowForm(false);
+
+    loadTrips();
+  }, []);
+
+  const handleSaveTrip = async (tripData) => {
+    try {
+      const newTrip = await addTrip(tripData);
+      if (newTrip) {
+        setTrips([newTrip, ...trips]);
+        setShowForm(false);
+      }
+    } catch (err) {
+      console.error('Error saving trip:', err);
+      setError('Failed to save trip. Please try again.');
+    }
   };
 
   const handleCancel = () => {
@@ -28,10 +51,16 @@ const TripsList = () => {
     setTripToDelete(trip);
   };
 
-  const handleConfirmDelete = () => {
-    if (tripToDelete) {
+  const handleConfirmDelete = async () => {
+    if (!tripToDelete) return;
+
+    try {
+      await deleteTrip(tripToDelete.id);
       setTrips(trips.filter(trip => trip.id !== tripToDelete.id));
       setTripToDelete(null);
+    } catch (err) {
+      console.error('Error deleting trip:', err);
+      setError('Failed to delete trip. Please try again.');
     }
   };
 
@@ -77,7 +106,16 @@ const TripsList = () => {
         message={`Are you sure you want to delete the trip "${tripToDelete?.tripName || 'Unnamed Trip'}"? This action cannot be undone.`}
       />
 
-      {trips.length === 0 ? (
+      {isLoading ? (
+        <div className="loading-state">
+          <FaSpinner className="spinner" />
+          <p>Loading trips...</p>
+        </div>
+      ) : error ? (
+        <div className="error-state">
+          <p>{error}</p>
+        </div>
+      ) : trips.length === 0 ? (
         <div className="empty-state">
           <p>No trips yet. Create your first trip to get started!</p>
         </div>
