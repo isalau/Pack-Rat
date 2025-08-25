@@ -9,6 +9,7 @@ import EventInstanceManager from "./components/events/EventInstanceManager";
 import MainNav from "./components/layout/MainNav";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import ProtectedLayout from "./components/layout/ProtectedLayout";
 
 // A wrapper for routes that require authentication
 const PrivateRoute = ({ children }) => {
@@ -37,62 +38,34 @@ const AppContent = () => {
   return (
     <Router>
       <div className="App">
-        <main className="main-content">
-          <Routes>
-            {/* Public routes */}
-            <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
-            <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUp />} />
-            
-            {/* Protected routes */}
-            <Route path="/" element={
-              <PrivateRoute>
-                <TripsList />
-              </PrivateRoute>
-            } />
-            
-            <Route path="/trip/:id" element={
-              <PrivateRoute>
-                <TripDetail />
-              </PrivateRoute>
-            } />
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
+          <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUp />} />
 
-            {/* Event Routes */}
-            <Route path="/events" element={
+          {/* Protected routes */}
+          <Route
+            path="/*"
+            element={
               <PrivateRoute>
-                <EventList />
+                <Routes>
+                  <Route element={<ProtectedLayout />}>
+                    <Route path="/" element={<TripsList />} />
+                    <Route path="/trip/:id" element={<TripDetail />} />
+                    <Route path="/events" element={<EventList />} />
+                    <Route path="/events/new" element={<EventForm />} />
+                    <Route path="/events/:id/edit" element={<EventForm />} />
+                    <Route
+                      path="/events/:eventId/add-to-trip/:tripId"
+                      element={<EventInstanceManager />}
+                    />
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                  </Route>
+                </Routes>
               </PrivateRoute>
-            } />
-            
-            <Route path="/events/new" element={
-              <PrivateRoute>
-                <EventForm />
-              </PrivateRoute>
-            } />
-            
-            <Route path="/events/:id/edit" element={
-              <PrivateRoute>
-                <EventForm />
-              </PrivateRoute>
-            } />
-            
-            <Route
-              path="/events/:eventId/add-to-trip/:tripId"
-              element={
-                <PrivateRoute>
-                  <EventInstanceManager />
-                </PrivateRoute>
-              }
-            />
-            
-            {/* Redirect any unknown routes to home */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </main>
-        
-        {/* Only show navigation when user is authenticated */}
-        <PrivateRoute>
-          <MainNav />
-        </PrivateRoute>
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );
