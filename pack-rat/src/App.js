@@ -1,5 +1,5 @@
-import './App.css';
-import TripsList from './components/trip/TripsList';
+import "./App.css";
+import TripsList from "./components/trip/TripsList";
 
 function App() {
   return (
