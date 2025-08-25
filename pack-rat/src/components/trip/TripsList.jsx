@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { FaTrash, FaTimes } from 'react-icons/fa';
 import TripForm from './TripForm';
+import ConfirmationModal from '../common/ConfirmationModal';
 import './TripsList.css';
 
 const TripsList = () => {
   const [trips, setTrips] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [tripToDelete, setTripToDelete] = useState(null);
 
   const handleSaveTrip = (tripData) => {
     const newTrip = {
@@ -19,6 +22,21 @@ const TripsList = () => {
 
   const handleCancel = () => {
     setShowForm(false);
+  };
+
+  const handleDeleteClick = (trip) => {
+    setTripToDelete(trip);
+  };
+
+  const handleConfirmDelete = () => {
+    if (tripToDelete) {
+      setTrips(trips.filter(trip => trip.id !== tripToDelete.id));
+      setTripToDelete(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setTripToDelete(null);
   };
 
   return (
@@ -36,6 +54,13 @@ const TripsList = () => {
       {showForm && (
         <div className="modal">
           <div className="modal-content">
+            <button 
+              className="close-button"
+              onClick={handleCancel}
+              aria-label="Close form"
+            >
+              <FaTimes />
+            </button>
             <TripForm 
               onSave={handleSaveTrip} 
               onCancel={handleCancel} 
@@ -43,6 +68,14 @@ const TripsList = () => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={!!tripToDelete}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="Delete Trip"
+        message={`Are you sure you want to delete the trip "${tripToDelete?.tripName || 'Unnamed Trip'}"? This action cannot be undone.`}
+      />
 
       {trips.length === 0 ? (
         <div className="empty-state">
@@ -52,7 +85,19 @@ const TripsList = () => {
         <div className="trips-grid">
           {trips.map(trip => (
             <div key={trip.id} className="trip-card">
-              <h3>{trip.tripName || 'Unnamed Trip'}</h3>
+              <div className="trip-card-header">
+                <h3>{trip.tripName || 'Unnamed Trip'}</h3>
+                <button 
+                  className="delete-trip-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteClick(trip);
+                  }}
+                  aria-label="Delete trip"
+                >
+                  <FaTrash />
+                </button>
+              </div>
               <p className="trip-destination">
                 {trip.origin} → {trip.destination}
               </p>
