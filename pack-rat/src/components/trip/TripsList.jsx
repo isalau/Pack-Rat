@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { FaTrash, FaTimes, FaSpinner, FaArrowRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import TripForm from './TripForm';
-import ConfirmationModal from '../common/ConfirmationModal';
-import { fetchTrips, addTrip, deleteTrip } from '../../lib/supabase';
-import './TripsList.css';
+import { useState, useEffect } from "react";
+import { FaTrash, FaTimes, FaSpinner, FaArrowRight } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import TripForm from "./TripForm";
+import ConfirmationModal from "../common/ConfirmationModal";
+import { fetchTrips, addTrip, deleteTrip } from "../../lib/supabase";
+import "./TripsList.css";
 
 const TripsList = () => {
   const [trips, setTrips] = useState([]);
@@ -21,8 +21,8 @@ const TripsList = () => {
         const tripsData = await fetchTrips();
         setTrips(tripsData);
       } catch (err) {
-        console.error('Failed to load trips:', err);
-        setError('Failed to load trips. Please try again later.');
+        console.error("Failed to load trips:", err);
+        setError("Failed to load trips. Please try again later.");
       } finally {
         setIsLoading(false);
       }
@@ -39,8 +39,8 @@ const TripsList = () => {
         setShowForm(false);
       }
     } catch (err) {
-      console.error('Error saving trip:', err);
-      setError('Failed to save trip. Please try again.');
+      console.error("Error saving trip:", err);
+      setError("Failed to save trip. Please try again.");
     }
   };
 
@@ -57,11 +57,11 @@ const TripsList = () => {
 
     try {
       await deleteTrip(tripToDelete.id);
-      setTrips(trips.filter(trip => trip.id !== tripToDelete.id));
+      setTrips(trips.filter((trip) => trip.id !== tripToDelete.id));
       setTripToDelete(null);
     } catch (err) {
-      console.error('Error deleting trip:', err);
-      setError('Failed to delete trip. Please try again.');
+      console.error("Error deleting trip:", err);
+      setError("Failed to delete trip. Please try again.");
     }
   };
 
@@ -73,10 +73,7 @@ const TripsList = () => {
     <div className="trips-container">
       <div className="trips-header">
         <h1>My Trips</h1>
-        <button 
-          className="btn btn-primary"
-          onClick={() => setShowForm(true)}
-        >
+        <button className="btn btn-primary" onClick={() => setShowForm(true)}>
           + Create Trip
         </button>
       </div>
@@ -84,17 +81,14 @@ const TripsList = () => {
       {showForm && (
         <div className="modal">
           <div className="modal-content">
-            <button 
+            <button
               className="close-button"
               onClick={handleCancel}
               aria-label="Close form"
             >
               <FaTimes />
             </button>
-            <TripForm 
-              onSave={handleSaveTrip} 
-              onCancel={handleCancel} 
-            />
+            <TripForm onSave={handleSaveTrip} onCancel={handleCancel} />
           </div>
         </div>
       )}
@@ -104,7 +98,9 @@ const TripsList = () => {
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
         title="Delete Trip"
-        message={`Are you sure you want to delete the trip "${tripToDelete?.tripName || 'Unnamed Trip'}"? This action cannot be undone.`}
+        message={`Are you sure you want to delete the trip "${
+          tripToDelete?.tripName || "Unnamed Trip"
+        }"? This action cannot be undone.`}
       />
 
       {isLoading ? (
@@ -122,13 +118,17 @@ const TripsList = () => {
         </div>
       ) : (
         <div className="trips-grid">
-          {trips.map(trip => (
-            <Link to={`/trip/${trip.id}`} key={trip.id} className="trip-card-link">
+          {trips.map((trip) => (
+            <Link
+              to={`/trip/${trip.id}`}
+              key={trip.id}
+              className="trip-card-link"
+            >
               <div className="trip-card">
                 <div className="trip-card-header">
-                  <h3>{trip.trip_name || 'Unnamed Trip'}</h3>
+                  <h3>{trip.trip_name || "Unnamed Trip"}</h3>
                   <div className="trip-actions">
-                    <button 
+                    <button
                       className="view-trip-button"
                       onClick={(e) => {
                         e.preventDefault();
@@ -137,9 +137,9 @@ const TripsList = () => {
                       }}
                       aria-label="View trip details"
                     >
-                      <FaArrowRight />
+                      {/* <FaArrowRight /> */}
                     </button>
-                    <button 
+                    <button
                       className="delete-trip-button"
                       onClick={(e) => {
                         e.preventDefault();
@@ -157,10 +157,13 @@ const TripsList = () => {
                 </p>
                 <div className="trip-details">
                   <p className="trip-detail">
-                    <span className="label">Dates:</span> {new Date(trip.start_date).toLocaleDateString()} to {new Date(trip.end_date).toLocaleDateString()}
+                    <span className="label">Dates:</span>{" "}
+                    {new Date(trip.start_date).toLocaleDateString()} to{" "}
+                    {new Date(trip.end_date).toLocaleDateString()}
                   </p>
                   <p className="trip-detail">
-                    <span className="label">Packing Days:</span> {trip.packing_days}
+                    <span className="label">Packing Days:</span>{" "}
+                    {trip.packing_days}
                   </p>
                 </div>
                 {trip.notes && (
