@@ -1,0 +1,156 @@
+# Windsurf IDE Rules - React + JavaScript
+
+## Project Configuration
+
+- Use React with JavaScript only - NO TypeScript
+- File extensions: `.js` and `.jsx` for React components
+- Use ES6+ modern JavaScript features
+- Use functional components with hooks (avoid class components)
+
+## Code Style & Structure
+
+- Use camelCase for variable and function names
+- Use PascalCase for React component names
+- Use kebab-case for file names (e.g., `user-profile.jsx`)
+- Place React components in individual files with `.jsx` extension
+- Use arrow functions for component definitions
+
+## React Best Practices
+
+- Always use functional components with React hooks
+- Use `useState` for local component state
+- Use `useEffect` for side effects and lifecycle methods
+- Use `useContext` for global state management
+- Destructure props in function parameters
+- Use JSX fragment (`<>...</>`) instead of unnecessary div wrappers
+
+## Import/Export Rules
+
+- Use ES6 import/export syntax
+- Use named exports for utility functions
+- Use default exports for React components
+- Group imports: React imports first, then third-party, then local imports
+- Use absolute imports when possible (with path mapping)
+
+## Folder Structure
+
+```
+src/
+├── components/
+│   ├── common/
+│   └── pages/
+├── hooks/
+├── utils/
+├── styles/
+├── assets/
+└── services/
+```
+
+## Naming Conventions
+
+- Components: `UserProfile.jsx`
+- Hooks: `useUserData.js`
+- Utilities: `api-helper.js`
+- Constants: `API_ENDPOINTS.js`
+- Styles: `user-profile.module.css`
+
+## JSX Rules
+
+- Use self-closing tags when there are no children: `<img />`
+- Use double quotes for JSX attributes: `className="container"`
+- Use curly braces for JavaScript expressions in JSX
+- Keep JSX readable with proper indentation
+- Limit JSX nesting - extract complex parts into separate components
+
+## State Management
+
+- Use `useState` for simple local state
+- Use `useReducer` for complex state logic
+- Use React Context for app-wide state
+- Avoid prop drilling - use context or state management library if needed
+
+## Performance
+
+- Use `React.memo()` for expensive components
+- Use `useMemo()` for expensive calculations
+- Use `useCallback()` for function props to prevent re-renders
+- Lazy load components with `React.lazy()` when appropriate
+
+## Error Handling
+
+- Use Error Boundaries for component error handling
+- Handle async operations with try-catch blocks
+- Provide meaningful error messages
+- Use PropTypes for runtime type checking (since no TypeScript)
+
+## PropTypes (Required since no TypeScript)
+
+```javascript
+import PropTypes from "prop-types";
+
+Component.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number,
+  items: PropTypes.arrayOf(PropTypes.object),
+};
+
+Component.defaultProps = {
+  age: 0,
+  items: [],
+};
+```
+
+## Event Handling
+
+- Use arrow functions for event handlers to maintain `this` context
+- Pass minimal data to event handlers
+- Use descriptive handler names: `handleSubmit`, `handleInputChange`
+
+## Styling
+
+- Use CSS Modules or styled-components for component styling
+- Avoid inline styles unless dynamic
+- Use consistent naming for CSS classes
+- Consider using a CSS framework like Tailwind CSS
+
+## Code Quality
+
+- Use ESLint with React-specific rules
+- Use Prettier for code formatting
+- Write descriptive variable and function names
+- Add comments for complex logic
+- Keep functions small and focused
+
+## Testing (Recommended)
+
+- Use Jest and React Testing Library
+- Test component behavior, not implementation details
+- Write integration tests for critical user flows
+- Mock external dependencies in tests
+
+## Common Anti-Patterns to Avoid
+
+- Don't use `var` - use `const` and `let`
+- Don't mutate props or state directly
+- Don't use array indices as keys in lists
+- Don't put business logic in components - extract to custom hooks
+- Don't use `document.getElementById()` - use refs instead
+- Avoid deeply nested conditional rendering in JSX
+
+## Git & Development
+
+- Use conventional commit messages
+- Create feature branches for new development
+- Review code before merging to main branch
+- Keep commits atomic and focused
+
+## Build & Deployment
+
+- Use Create React App or Vite for development setup
+- Optimize bundle size for production
+- Use environment variables for configuration
+- Enable source maps for debugging
+
+---
+
+_Follow these rules consistently to maintain clean, readable, and maintainable React JavaScript code in Windsurf IDE._
