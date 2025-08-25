@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import TripsList from "./components/trip/TripsList";
 import TripDetail from "./components/trip/TripDetail";
@@ -15,18 +20,18 @@ import ProtectedLayout from "./components/layout/ProtectedLayout";
 // A wrapper for routes that require authentication
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
-  
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return children;
 };
 
 // Component that has access to auth context
 const AppContent = () => {
   const { user, loading } = useAuth();
-  
+
   // Don't render anything while checking auth state
   if (loading) {
     return (
@@ -35,15 +40,24 @@ const AppContent = () => {
       </div>
     );
   }
-  
+
   return (
     <Router>
       <div className="App">
         <Routes>
           {/* Public routes */}
-          <Route path="/login" element={user ? <Navigate to="/" replace /> : <Login />} />
-          <Route path="/signup" element={user ? <Navigate to="/" replace /> : <SignUp />} />
-          <Route path="/forgot-password" element={user ? <Navigate to="/" replace /> : <ForgotPassword />} />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/" replace /> : <Login />}
+          />
+          <Route
+            path="/signup"
+            element={user ? <Navigate to="/" replace /> : <SignUp />}
+          />
+          <Route
+            path="/forgot-password"
+            element={user ? <Navigate to="/" replace /> : <ForgotPassword />}
+          />
 
           {/* Protected routes */}
           <Route

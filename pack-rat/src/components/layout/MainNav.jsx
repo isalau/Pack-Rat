@@ -9,39 +9,35 @@ const MainNav = () => {
   const { user } = useAuth();
 
   // Don't show nav on the home page, login, signup, or when adding an event to a trip
-  if (location.pathname === "/" || 
-      location.pathname === "/login" || 
-      location.pathname === "/signup" ||
-      location.pathname.includes("add-to-trip")) {
+  if (
+    location.pathname === "/" ||
+    location.pathname === "/login" ||
+    location.pathname === "/signup" ||
+    location.pathname.includes("add-to-trip")
+  ) {
     return null;
   }
 
   return (
     <nav className="main-nav">
       <div className="nav-container">
-        <div className="flex-1 flex items-center">
-          <Link to="/" className="nav-link" title="Home">
-            <FaHome className="nav-icon" />
-            <span className="nav-text">Home</span>
-          </Link>
+        <Link to="/" className="nav-link" title="Home">
+          <div className="logo-nav">
+            <img src="/packityrat.png" alt="Pack Rat Logo" />
+          </div>
+        </Link>
 
-          <Link to="/events" className="nav-link" title="Events">
-            <FaCalendarAlt className="nav-icon" />
-            <span className="nav-text">Events</span>
-          </Link>
+        <Link to="/events" className="nav-link" title="Events">
+          <FaCalendarAlt className="nav-icon" />
+          <span className="nav-text">Events</span>
+        </Link>
 
-          <Link to="/events/new" className="nav-link new-event" title="New Event">
-            <FaPlus className="nav-icon" />
-            <span className="nav-text">New Event</span>
-          </Link>
-        </div>
-        
         {user && (
-          <div className="flex items-center">
-            <span className="text-sm text-gray-600 mr-4 hidden md:inline">
-              {user.email}
+          <div className="nav-link">
+            <span className="nav-link">{user.email}</span>
+            <span className="nav-link">
+              <LogoutButton />
             </span>
-            <LogoutButton />
           </div>
         )}
       </div>
