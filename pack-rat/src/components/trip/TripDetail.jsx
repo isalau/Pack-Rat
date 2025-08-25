@@ -116,9 +116,6 @@ const TripDetail = () => {
             <div key={day} className="day-section">
               <div className="day-header">
                 <h3>Day {day}</h3>
-                <span className="date-badge">
-                  {formatDate(trip.start_date)}
-                </span>
               </div>
               <PackingList 
                 tripId={trip.id} 

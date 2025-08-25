@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { FaTrash, FaCheck, FaTimes, FaEdit, FaSave } from 'react-icons/fa';
+import { useState } from "react";
+import { FaTrash, FaCheck, FaTimes, FaEdit, FaSave } from "react-icons/fa";
 
 const PackingItem = ({ item, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +11,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
     onUpdate(item.id, {
       name: editedName,
       category: editedCategory,
-      day: parseInt(editedDay, 10)
+      day: parseInt(editedDay, 10),
     });
     setIsEditing(false);
   };
@@ -22,7 +22,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
 
   if (isEditing) {
     return (
-      <div className={`packing-item editing ${item.is_packed ? 'packed' : ''}`}>
+      <div className={`packing-item editing ${item.is_packed ? "packed" : ""}`}>
         <input
           type="text"
           value={editedName}
@@ -45,15 +45,25 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
           onChange={(e) => setEditedDay(e.target.value)}
           className="day-select"
         >
-          {[...Array(item.totalDays || 1).keys()].map(day => (
-            <option key={day + 1} value={day + 1}>Day {day + 1}</option>
+          {[...Array(item.totalDays || 1).keys()].map((day) => (
+            <option key={day + 1} value={day + 1}>
+              Day {day + 1}
+            </option>
           ))}
         </select>
         <div className="item-actions">
-          <button onClick={handleSave} className="icon-button" aria-label="Save">
+          <button
+            onClick={handleSave}
+            className="icon-button"
+            aria-label="Save"
+          >
             <FaSave />
           </button>
-          <button onClick={() => setIsEditing(false)} className="icon-button" aria-label="Cancel">
+          <button
+            onClick={() => setIsEditing(false)}
+            className="icon-button"
+            aria-label="Cancel"
+          >
             <FaTimes />
           </button>
         </div>
@@ -62,18 +72,30 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   }
 
   return (
-    <div className={`packing-item ${item.is_packed ? 'packed' : ''}`}>
+    <div className={`packing-item ${item.is_packed ? "packed" : ""}`}>
       <div className="item-checkbox" onClick={handleTogglePacked}>
-        {item.is_packed ? <FaCheck className="checked" /> : <div className="unchecked" />}
+        {item.is_packed ? (
+          <FaCheck className="checked" />
+        ) : (
+          <div className="unchecked" />
+        )}
       </div>
       <span className="item-name">{item.name}</span>
-      <span className="item-category">{item.category}</span>
-      <span className="item-day">Day {item.day}</span>
+      {/* <span className="item-category">{item.category}</span> */}
+      {/* <span className="item-day">Day {item.day}</span> */}
       <div className="item-actions">
-        <button onClick={() => setIsEditing(true)} className="icon-button" aria-label="Edit">
+        <button
+          onClick={() => setIsEditing(true)}
+          className="icon-button"
+          aria-label="Edit"
+        >
           <FaEdit />
         </button>
-        <button onClick={() => onDelete(item.id)} className="icon-button" aria-label="Delete">
+        <button
+          onClick={() => onDelete(item.id)}
+          className="icon-button"
+          aria-label="Delete"
+        >
           <FaTrash />
         </button>
       </div>
