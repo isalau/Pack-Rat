@@ -124,7 +124,7 @@ const TripsList = () => {
           {trips.map(trip => (
             <div key={trip.id} className="trip-card">
               <div className="trip-card-header">
-                <h3>{trip.tripName || 'Unnamed Trip'}</h3>
+                <h3>{trip.trip_name || 'Unnamed Trip'}</h3>
                 <button 
                   className="delete-trip-button"
                   onClick={(e) => {
@@ -141,10 +141,10 @@ const TripsList = () => {
               </p>
               <div className="trip-details">
                 <p className="trip-detail">
-                  <span className="label">Dates:</span> {trip.startDate} to {trip.endDate}
+                  <span className="label">Dates:</span> {trip.start_date} to {trip.end_date}
                 </p>
                 <p className="trip-detail">
-                  <span className="label">Packing Days:</span> {trip.packingDays}
+                  <span className="label">Packing Days:</span> {trip.packing_days}
                 </p>
               </div>
               {trip.notes && (
