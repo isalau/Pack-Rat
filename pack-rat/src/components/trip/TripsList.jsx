@@ -19,7 +19,7 @@ const TripsList = () => {
   useEffect(() => {
     const loadTrips = async () => {
       if (!user) return;
-      
+
       try {
         setIsLoading(true);
         const tripsData = await fetchTrips(user.id);
@@ -40,7 +40,7 @@ const TripsList = () => {
       setError("You must be logged in to create a trip.");
       return;
     }
-    
+
     try {
       const newTrip = await addTrip(tripData, user.id);
       if (newTrip) {
@@ -80,6 +80,9 @@ const TripsList = () => {
 
   return (
     <div className="trips-container">
+      <div className="logo-main">
+        <img src="/packityrat.png" alt="Pack Rat Logo" />
+      </div>
       <div className="trips-header">
         <h1>My Trips</h1>
         <button className="btn btn-primary" onClick={() => setShowForm(true)}>
