@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { FaTrash, FaEdit, FaPlus } from 'react-icons/fa';
+import { FaTrash, FaEdit, FaPlus, FaCalendarPlus } from 'react-icons/fa';
 import { supabase } from '../../lib/supabase';
 
-const EventCard = ({ event, onDelete }) => {
+const EventCard = ({ event, onDelete, onAddToDay, showAddButton = false }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -30,13 +30,19 @@ const EventCard = ({ event, onDelete }) => {
       <div className="event-card-header">
         <h3>{event.name}</h3>
         <div className="event-actions">
-          <Link 
-            to={`/events/${event.id}/add-to-day`} 
-            className="icon-button" 
-            title="Add to day"
-          >
-            <FaPlus />
-          </Link>
+          {showAddButton && onAddToDay && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onAddToDay();
+              }}
+              className="icon-button primary"
+              title="Add to day"
+            >
+              <FaCalendarPlus />
+            </button>
+          )}
           <Link 
             to={`/events/${event.id}/edit`} 
             className="icon-button" 

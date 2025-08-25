@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import PackingList from "../packing/PackingList";
 import PackingListSummary from "../packing/PackingListSummary";
+import DaySection from "../packing/DaySection";
 import { FaPlus } from 'react-icons/fa';
 import './TripDetail.css';
 
@@ -148,16 +148,12 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
             <h2>Packing Days</h2>
             <div className="days-container">
               {packingDays.map((day) => (
-                <div key={day} className="day-section">
-                  <div className="day-header">
-                    <h3>Day {day}</h3>
-                  </div>
-                  <PackingList 
-                    tripId={trip.id} 
-                    day={day} 
-                    totalDays={packingDays.length} 
-                  />
-                </div>
+                <DaySection 
+                  key={day}
+                  day={day}
+                  tripId={trip.id}
+                  totalDays={packingDays.length}
+                />
               ))}
             </div>
           </div>

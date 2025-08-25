@@ -63,6 +63,15 @@
   color: #dc3545;
 }
 
+.icon-button.primary {
+  color: #0d6efd;
+}
+
+.icon-button.primary:hover {
+  background-color: #e7f1ff;
+  color: #0a58ca;
+}
+
 .event-description {
   padding: 16px 20px;
   margin: 0;

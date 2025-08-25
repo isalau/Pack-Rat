@@ -8,12 +8,24 @@ const EventForm = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [tripId, setTripId] = useState(null);
+  const [day, setDay] = useState(null);
   
   const [formData, setFormData] = useState({
     name: '',
     description: '',
     items: [{ name: '', category: 'Clothing', quantity: 1 }]
   });
+  
+  // Check URL for tripId and day parameters
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tripIdParam = params.get('tripId');
+    const dayParam = params.get('day');
+    
+    if (tripIdParam) setTripId(tripIdParam);
+    if (dayParam) setDay(parseInt(dayParam, 10));
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -180,7 +192,40 @@ const EventForm = () => {
         if (insertError) throw insertError;
       }
 
-      navigate(`/events/${eventId}`);
+      // If this is a new event and we have tripId and day, add to trip immediately
+      if (!id && tripId && day) {
+        const { error: instanceError } = await supabase
+          .from('event_instances')
+          .insert([{
+            event_id: eventId,
+            trip_id: tripId,
+            day: day
+          }]);
+          
+        if (instanceError) throw instanceError;
+        
+        // Add items to packing list for this day
+        const itemsToAdd = formData.items.map(item => ({
+          trip_id: tripId,
+          name: item.name.trim(),
+          category: item.category,
+          quantity: parseInt(item.quantity, 10) || 1,
+          day: day,
+          is_packed: false
+        }));
+        
+        const { error: itemsError } = await supabase
+          .from('packing_items')
+          .insert(itemsToAdd);
+          
+        if (itemsError) throw itemsError;
+        
+        // Navigate back to the trip
+        navigate(`/trip/${tripId}`);
+        return;
+      }
+
+      navigate('/events', { replace: true });
     } catch (err) {
       console.error('Error saving event:', err);
       setError(err.message || 'Failed to save event');
