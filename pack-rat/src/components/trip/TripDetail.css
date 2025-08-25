@@ -1,0 +1,162 @@
+.trip-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.trip-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.trip-header h1 {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.trip-overview {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.trip-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.label {
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.trip-notes {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.packing-days h2 {
+  margin-bottom: 1.5rem;
+}
+
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.day-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.day-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #333;
+  border-bottom: 2px solid #4a90e2;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.packing-list {
+  min-height: 150px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.empty-message {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+/* Loading and error states */
+.loading-state,
+.empty-state,
+.error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  color: #666;
+  margin: 2rem 0;
+}
+
+.error-state {
+  color: #dc3545;
+  background-color: #fff5f5;
+  border: 1px solid #ffebee;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #3a7bc8;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .trip-detail-container {
+    padding: 1rem;
+  }
+  
+  .trip-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .trip-info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .days-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FaTrash, FaTimes, FaSpinner } from 'react-icons/fa';
+import { FaTrash, FaTimes, FaSpinner, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import TripForm from './TripForm';
 import ConfirmationModal from '../common/ConfirmationModal';
 import { fetchTrips, addTrip, deleteTrip } from '../../lib/supabase';
@@ -122,37 +123,53 @@ const TripsList = () => {
       ) : (
         <div className="trips-grid">
           {trips.map(trip => (
-            <div key={trip.id} className="trip-card">
-              <div className="trip-card-header">
-                <h3>{trip.trip_name || 'Unnamed Trip'}</h3>
-                <button 
-                  className="delete-trip-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDeleteClick(trip);
-                  }}
-                  aria-label="Delete trip"
-                >
-                  <FaTrash />
-                </button>
+            <Link to={`/trip/${trip.id}`} key={trip.id} className="trip-card-link">
+              <div className="trip-card">
+                <div className="trip-card-header">
+                  <h3>{trip.trip_name || 'Unnamed Trip'}</h3>
+                  <div className="trip-actions">
+                    <button 
+                      className="view-trip-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.location.href = `/trip/${trip.id}`;
+                      }}
+                      aria-label="View trip details"
+                    >
+                      <FaArrowRight />
+                    </button>
+                    <button 
+                      className="delete-trip-button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleDeleteClick(trip);
+                      }}
+                      aria-label="Delete trip"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                </div>
+                <p className="trip-destination">
+                  {trip.origin} → {trip.destination}
+                </p>
+                <div className="trip-details">
+                  <p className="trip-detail">
+                    <span className="label">Dates:</span> {new Date(trip.start_date).toLocaleDateString()} to {new Date(trip.end_date).toLocaleDateString()}
+                  </p>
+                  <p className="trip-detail">
+                    <span className="label">Packing Days:</span> {trip.packing_days}
+                  </p>
+                </div>
+                {trip.notes && (
+                  <p className="trip-notes">
+                    <span className="label">Notes:</span> {trip.notes}
+                  </p>
+                )}
               </div>
-              <p className="trip-destination">
-                {trip.origin} → {trip.destination}
-              </p>
-              <div className="trip-details">
-                <p className="trip-detail">
-                  <span className="label">Dates:</span> {trip.start_date} to {trip.end_date}
-                </p>
-                <p className="trip-detail">
-                  <span className="label">Packing Days:</span> {trip.packing_days}
-                </p>
-              </div>
-              {trip.notes && (
-                <p className="trip-notes">
-                  <span className="label">Notes:</span> {trip.notes}
-                </p>
-              )}
-            </div>
+            </Link>
           ))}
         </div>
       )}
