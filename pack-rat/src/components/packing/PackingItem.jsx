@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaTrash, FaCheck, FaTimes, FaEdit, FaSave } from "react-icons/fa";
+import { FaTrash, FaEdit, FaTimes, FaSave } from "react-icons/fa";
 
 const PackingItem = ({ item, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -16,13 +16,9 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
     setIsEditing(false);
   };
 
-  const handleTogglePacked = () => {
-    onUpdate(item.id, { is_packed: !item.is_packed });
-  };
-
   if (isEditing) {
     return (
-      <div className={`packing-item editing ${item.is_packed ? "packed" : ""}`}>
+      <div className="packing-item editing">
         <input
           type="text"
           value={editedName}
@@ -72,17 +68,8 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   }
 
   return (
-    <div className={`packing-item ${item.is_packed ? "packed" : ""}`}>
-      <div className="item-checkbox" onClick={handleTogglePacked}>
-        {item.is_packed ? (
-          <FaCheck className="checked" />
-        ) : (
-          <div className="unchecked" />
-        )}
-      </div>
+    <div className="packing-item">
       <span className="item-name">{item.name}</span>
-      {/* <span className="item-category">{item.category}</span> */}
-      {/* <span className="item-day">Day {item.day}</span> */}
       <div className="item-actions">
         <button
           onClick={() => setIsEditing(true)}
