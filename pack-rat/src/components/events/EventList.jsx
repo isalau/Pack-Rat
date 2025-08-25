@@ -12,17 +12,13 @@ const EventList = () => {
   const fetchEvents = async () => {
     try {
       setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
       
-      if (!user) throw new Error('Not authenticated');
-
       const { data, error } = await supabase
         .from('events')
         .select(`
           *,
           event_items (*)
         `)
-        .eq('user_id', user.id)
         .order('name', { ascending: true });
 
       if (error) throw error;

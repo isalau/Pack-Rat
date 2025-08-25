@@ -92,15 +92,11 @@ const EventForm = () => {
     try {
       setLoading(true);
       setError('');
-      
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
 
       // Create or update event
       const eventData = {
         name: formData.name.trim(),
-        description: formData.description.trim() || null,
-        user_id: user.id
+        description: formData.description.trim() || null
       };
 
       let eventId = id;
