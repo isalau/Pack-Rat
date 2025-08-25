@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { FaHome, FaCalendarAlt, FaPlus } from "react-icons/fa";
+import { FaSignOutAlt, FaCalendarAlt, FaUser } from "react-icons/fa";
 import LogoutButton from "../auth/LogoutButton";
 import { useAuth } from "../../context/AuthContext";
 import "./MainNav.css";
@@ -29,10 +29,13 @@ const MainNav = () => {
 
         {user && (
           <div className="nav-link">
-            <span className="nav-link">{user.email}</span>
-            <span className="nav-link">
-              <LogoutButton />
-            </span>
+            <FaUser className="nav-icon" />
+            <span className="nav-text">{user.email}</span>
+          </div>
+        )}
+        {user && (
+          <div className="nav-link">
+            <LogoutButton className="nav-text" />
           </div>
         )}
       </div>
