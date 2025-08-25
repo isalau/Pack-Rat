@@ -30,7 +30,7 @@ const MainNav = () => {
         {user && (
           <div className="nav-link">
             <FaUser className="nav-icon" />
-            <span className="nav-text">{user.email}</span>
+            <span className="nav-text">Account</span>
           </div>
         )}
         {user && (

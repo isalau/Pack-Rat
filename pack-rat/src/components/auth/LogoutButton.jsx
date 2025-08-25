@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { FaSignOutAlt } from "react-icons/fa";
+import "./LogoutButton.css";
 
-function LogoutButton({ className = '' }) {
+function LogoutButton({ className = "" }) {
   const [loading, setLoading] = useState(false);
   const { signOut } = useAuth();
   const navigate = useNavigate();
@@ -13,9 +14,9 @@ function LogoutButton({ className = '' }) {
       setLoading(true);
       const { error } = await signOut();
       if (error) throw error;
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
     } finally {
       setLoading(false);
     }
@@ -25,10 +26,10 @@ function LogoutButton({ className = '' }) {
     <button
       onClick={handleLogout}
       disabled={loading}
-      className={`flex items-center space-x-2 text-gray-700 hover:text-red-600 transition-colors ${className}`}
+      className={`logout-button`}
     >
-      <FaSignOutAlt className="h-5 w-5" />
-      <span className="hidden md:inline">Logout</span>
+      <FaSignOutAlt className="nav-icon" />
+      <span className="nav-text">Logout</span>
     </button>
   );
 }
