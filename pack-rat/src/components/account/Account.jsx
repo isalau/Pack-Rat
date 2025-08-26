@@ -103,14 +103,17 @@ const Account = () => {
               name="username"
               value={formData.username}
               onChange={handleChange}
+              placeholder="New Username"
+              required
+              className="account-form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary mt-3">
+          <button type="submit" className="btn btn-primary mt-3 account-button">
             Update Username
           </button>
         </div>
       </form>
-      <hr style={{ borderColor: "blue", borderWidth: "2px" }}></hr>
+      <hr></hr>
 
       {/* Change Email */}
       <form onSubmit={handleEmailSubmit}>
@@ -124,16 +127,18 @@ const Account = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter new email address"
+              placeholder="New Email Address"
               required
-              className="form-control"
+              className="account-form-control"
             />
           </div>
-          <button type="submit" className="btn btn-primary mt-3">
+          <button type="submit" className="btn btn-primary mt-3 account-button">
             Update Email
           </button>
         </div>
       </form>
+
+      <hr></hr>
     </div>
   );
 };
