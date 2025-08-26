@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaSignOutAlt, FaCalendarAlt, FaUser, FaBars, FaTimes } from "react-icons/fa";
+import {
+  FaSignOutAlt,
+  FaCalendarAlt,
+  FaUser,
+  FaBars,
+  FaTimes,
+} from "react-icons/fa";
 import LogoutButton from "../auth/LogoutButton";
 import { useAuth } from "../../context/AuthContext";
 import "./MainNav.css";
@@ -21,8 +27,8 @@ const MainNav = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Close menu when location changes
@@ -40,16 +46,16 @@ const MainNav = () => {
   return (
     <>
       {isMobile && (
-        <button 
-          className="mobile-menu-toggle" 
+        <button
+          className="mobile-menu-toggle"
           onClick={toggleMenu}
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
         >
           {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
         </button>
       )}
-      <nav className={`main-nav ${isOpen ? 'nav-open' : ''}`}>
-        <div className={`nav-container ${isOpen ? 'nav-container-open' : ''}`}>
+      <nav className={`main-nav ${isOpen ? "nav-open" : ""}`}>
+        <div className={`nav-container ${isOpen ? "nav-container-open" : ""}`}>
           <Link to="/home" className="nav-link" title="Home">
             <div className="logo-nav">
               <img src="/packityrat.png" alt="Pack Rat Logo" />
