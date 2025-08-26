@@ -56,19 +56,24 @@ const Account = () => {
 
   return (
     <div className="account-container">
+      <h1>Account Settings</h1>
       {/* Change Username */}
       <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <p>Current Username: {userName}</p>
-          <label htmlFor="displayName">Change Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
+        <p>Current Username: {userName}</p>
+        <div className="account-form">
+          <div className="account-form-group">
+            <label htmlFor="displayName">Change Username:</label>
+            <input
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary mt-3">
+            Update Username
+          </button>
         </div>
-        <button type="submit">Update Username</button>
       </form>
     </div>
   );
