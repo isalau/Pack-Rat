@@ -8,6 +8,7 @@ const Account = () => {
   const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     username: "",
+    email: "",
   });
 
   useEffect(() => {
@@ -31,13 +32,28 @@ const Account = () => {
   if (!user) return <div>Not logged in</div>;
 
   const userName = user?.user_metadata?.full_name || "n/a";
+  const email = user?.email || "n/a";
 
-  const handleSubmit = async (e) => {
+  const handleUserNameSubmit = async (e) => {
     e.preventDefault();
     try {
       const { error } = await supabase.auth.updateUser({
         data: {
           full_name: formData.username,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          email: formData.email,
         },
       });
       if (error) throw error;
@@ -58,7 +74,7 @@ const Account = () => {
     <div className="account-container">
       <h1>Account Settings</h1>
       {/* Change Username */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleUserNameSubmit}>
         <p>Current Username: {userName}</p>
         <div className="account-form">
           <div className="account-form-group">
@@ -72,6 +88,26 @@ const Account = () => {
           </div>
           <button type="submit" className="btn btn-primary mt-3">
             Update Username
+          </button>
+        </div>
+      </form>
+      <hr style={{ borderColor: "blue", borderWidth: "2px" }}></hr>
+
+      {/* Change Email */}
+      <form onSubmit={handleEmailSubmit}>
+        <p>Current Email: {email}</p>
+        <div className="account-form">
+          <div className="account-form-group">
+            <label htmlFor="displayName">Change Email:</label>
+            <input
+              type="text"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </div>
+          <button type="submit" className="btn btn-primary mt-3">
+            Update Email
           </button>
         </div>
       </form>
