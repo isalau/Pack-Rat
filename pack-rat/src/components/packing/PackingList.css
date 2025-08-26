@@ -41,17 +41,10 @@
 
 .add-button {
   padding: 0 1.5rem;
-  background-color: #4a90e2;
-  color: white;
   border: none;
   border-radius: 6px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.add-button:hover {
-  background-color: #3a7bc8;
 }
 
 .add-button:active {

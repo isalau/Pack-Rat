@@ -258,16 +258,6 @@
   font-size: 0.9rem;
 }
 
-.btn-secondary {
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-.btn-secondary:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-1px);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .trip-detail-container {

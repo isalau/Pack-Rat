@@ -96,12 +96,37 @@ h3 {
   margin: 0 auto;
   padding: 0 1rem;
 }
+button {
+  background-color: transparent;
+}
+button:hover {
+  background-color: var(--color-secondary);
+}
 
 button.btn-primary {
   background-color: var(--color-primary);
 }
 button.btn-primary:hover {
   background-color: var(--color-secondary);
+}
+button.btn-secondary {
+  background-color: var(--color-secondary);
+}
+button.btn-secondary:hover {
+  background-color: var(--color-accent);
+}
+
+a.btn-primary {
+  background-color: var(--color-primary);
+}
+a.btn-primary:hover {
+  background-color: var(--color-secondary);
+}
+a.btn-secondary {
+  background-color: var(--color-secondary);
+}
+a.btn-secondary:hover {
+  background-color: var(--color-accent);
 }
 
 /* Responsive Design */

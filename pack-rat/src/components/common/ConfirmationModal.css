@@ -53,24 +53,6 @@
   transition: all 0.2s;
 }
 
-.btn-cancel {
-  background-color: #f0f0f0;
-  color: #555;
-}
-
-.btn-cancel:hover {
-  background-color: #e0e0e0;
-}
-
-.btn-danger {
-  background-color: #ff4444;
-  color: white;
-}
-
-.btn-danger:hover {
-  background-color: #cc0000;
-}
-
 @keyframes modalFadeIn {
   from {
     opacity: 0;

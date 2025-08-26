@@ -46,19 +46,11 @@
 }
 
 .close-button {
-  background: none;
-  border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: #6c757d;
   padding: 0.25rem 0.5rem;
   line-height: 1;
   border-radius: 4px;
-}
-
-.close-button:hover {
-  background-color: #f1f3f5;
-  color: #495057;
 }
 
 .modal-body {
@@ -133,16 +125,6 @@
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
-
-.btn-secondary {
-  background-color: #f8f9fa;
-  color: #495057;
-  border-color: #dee2e6;
-}
-
-.btn-secondary:not(:disabled):hover {
-  background-color: #e9ecef;
 }
 
 /* Responsive adjustments */

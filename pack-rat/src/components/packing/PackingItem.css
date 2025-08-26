@@ -88,9 +88,6 @@
 }
 
 .icon-button {
-  background: none;
-  border: none;
-  color: #888;
   cursor: pointer;
   padding: 0.3rem;
   border-radius: 4px;
@@ -98,11 +95,6 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
-}
-
-.icon-button:hover {
-  background-color: #f0f0f0;
-  color: #333;
 }
 
 /* Editing state */

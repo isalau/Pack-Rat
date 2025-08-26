@@ -99,16 +99,6 @@
   border: 1px solid transparent;
 }
 
-.btn-secondary {
-  background-color: #f8f9fa;
-  color: #495057;
-  border: 1px solid #dee2e6;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #e9ecef;
-}
-
 .btn:disabled {
   opacity: 0.65;
   cursor: not-allowed;

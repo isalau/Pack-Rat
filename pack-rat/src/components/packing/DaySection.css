@@ -45,16 +45,6 @@
   font-size: 0.875rem;
 }
 
-.btn-secondary {
-  background-color: #f8f9fa;
-  color: #495057;
-  border: 1px solid #dee2e6;
-}
-
-.btn-secondary:hover {
-  background-color: #e9ecef;
-}
-
 .btn svg {
   margin-right: 4px;
   font-size: 0.8em;
@@ -72,11 +62,11 @@
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .day-actions {
     width: 100%;
   }
-  
+
   .btn {
     width: 100%;
     justify-content: center;

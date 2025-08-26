@@ -74,9 +74,6 @@
 }
 
 .btn-remove-item {
-  background: none;
-  border: none;
-  color: #dc3545;
   cursor: pointer;
   font-size: 1.2rem;
   line-height: 1;
@@ -88,10 +85,6 @@
   height: 30px;
   border-radius: 4px;
   transition: background-color 0.2s ease;
-}
-
-.btn-remove-item:hover {
-  background-color: #f8d7da;
 }
 
 .btn-remove-item:disabled {
@@ -121,16 +114,6 @@
   text-decoration: none;
   transition: all 0.2s ease;
   border: 1px solid transparent;
-}
-
-.btn-secondary {
-  background-color: #f8f9fa;
-  color: #495057;
-  border: 1px solid #dee2e6;
-}
-
-.btn-secondary:hover:not(:disabled) {
-  background-color: #e9ecef;
 }
 
 .btn:disabled {
