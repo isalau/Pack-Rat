@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaSignOutAlt, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { FaSignOutAlt, FaCalendarAlt, FaUser, FaBars, FaTimes } from "react-icons/fa";
 import LogoutButton from "../auth/LogoutButton";
 import { useAuth } from "../../context/AuthContext";
 import "./MainNav.css";
@@ -7,15 +8,43 @@ import "./MainNav.css";
 const MainNav = () => {
   const location = useLocation();
   const { user } = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 450);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth <= 450;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsOpen(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close menu when location changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
 
   // Only show nav if user is logged in
   if (!user) {
     return null;
   }
 
+  const toggleMenu = () => setIsOpen(!isOpen);
+
   return (
-    <nav className="main-nav">
-      <div className="nav-container">
+    <nav className={`main-nav ${isOpen ? 'nav-open' : ''}`}>
+      {isMobile && (
+        <button className="mobile-menu-toggle" onClick={toggleMenu}>
+          {isOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      )}
+      <div className={`nav-container ${isOpen ? 'nav-container-open' : ''}`}>
         <Link to="/home" className="nav-link" title="Home">
           <div className="logo-nav">
             <img src="/packityrat.png" alt="Pack Rat Logo" />

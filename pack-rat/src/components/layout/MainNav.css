@@ -1,75 +1,160 @@
-/* The sidebar menu */
+/* Main Navigation Styles */
 .main-nav {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 160px; /* Set the width of the sidebar */
-  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
+  height: 100%;
+  width: 160px;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
   left: 0;
-  background-color: #fff; /* Black */
-  overflow-x: hidden; /* Disable horizontal scroll */
+  background-color: #fff;
+  overflow-x: hidden;
   padding-top: 20px;
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
+
+/* Navigation Links */
 .main-nav a {
   font-size: 16px;
-}
-
-/* When you mouse over the navigation links, change their color */
-.main-nav a:hover {
-  color: #f1f1f1;
-}
-
-/* Style page content */
-.main {
-  margin-left: 160px; /* Same as the width of the sidebar */
-  padding: 0px 10px;
-}
-
-.nav-link {
-  padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 15px;
-  color: #818181;
-  display: block;
+  color: #333;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  transition: all 0.2s ease;
 }
 
-.nav-link:hover {
-  color: #4a90e2;
-  background-color: #f8f9fa;
+.main-nav a:hover {
+  background-color: #f5f5f5;
+  color: #6b46c1;
 }
 
+/* Active State */
 .nav-link.active {
-  color: #4a90e2;
+  color: #6b46c1;
   font-weight: 500;
+  background-color: #f0e6ff;
 }
 
+/* Mobile Menu Toggle Button */
+.mobile-menu-toggle {
+  display: none;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #6b46c1;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-toggle:active {
+  transform: scale(0.95);
+}
+
+/* Navigation Container */
+.nav-container {
+  transition: all 0.3s ease-in-out;
+  padding-top: 20px;
+}
+
+/* Navigation Icons */
 .nav-icon {
-  font-size: 1rem;
-  margin-right: 10px;
+  font-size: 1.2rem;
+  margin-right: 12px;
+  width: 24px;
+  text-align: center;
 }
 
-/* .nav-text {
-  font-size: 0.7rem;
-  font-weight: 500;
-} */
-
+/* Logo Styles */
 .logo-nav {
-  width: 60px;
-  height: 60px;
-  /* margin: 0 auto 20px; */
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
+  padding: 10px 0;
+  margin: 0 auto 20px;
+  text-align: center;
   background: #f8f9fa;
   border-radius: 50%;
-  /* padding: 15px; */
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .logo-nav img {
-  height: 60px;
+  height: 40px;
   width: auto;
   object-fit: contain;
+}
+
+/* Navigation Text */
+.nav-text {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Page Content */
+.main {
+  margin-left: 160px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+/* Mobile Styles */
+@media (max-width: 450px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+  .main-nav {
+    transform: translateX(-100%);
+    width: 280px;
+    box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .main-nav.nav-open {
+    transform: translateX(0);
+  }
+
+  .nav-link {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-left: 4px solid transparent;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    border-left-color: #6b46c1;
+    background-color: #f8f5ff;
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 20px 10px 20px 70px;
+  }
+}
+
+/* Small height screens */
+@media screen and (max-height: 450px) {
+  .main-nav {
+    padding-top: 15px;
+  }
+
+  .nav-link {
+    padding: 10px 20px;
+    border-radius: 25px;
+  }
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
