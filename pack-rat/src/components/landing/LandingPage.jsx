@@ -10,8 +10,8 @@ const LandingPage = () => {
         </div>
         <h1>Welcome to PackRat!</h1>
         <p className="tagline">
-          Create a trip, add the items you'll need everyday, and get a
-          summarized packing check list.
+          Your trip, your list, zero stress. Pack smarter not harder. Let
+          PackRat help you plan your next adventure.
         </p>
 
         <div className="cta-buttons">
