@@ -11,6 +11,7 @@ import TripDetail from "./components/trip/TripDetail";
 import EventList from "./components/events/EventList";
 import EventForm from "./components/events/EventForm";
 import EventInstanceManager from "./components/events/EventInstanceManager";
+import Account from "./components/account";
 import MainNav from "./components/layout/MainNav";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -75,6 +76,7 @@ const AppContent = () => {
                       path="/events/:eventId/add-to-trip/:tripId"
                       element={<EventInstanceManager />}
                     />
+                    <Route path="/account" element={<Account />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Route>
                 </Routes>
