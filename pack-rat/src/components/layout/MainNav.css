@@ -119,9 +119,9 @@
 
   .main-content {
     margin-left: 0;
-    padding-left: 70px; /* Add padding to prevent content from being hidden behind the toggle */
+    /* padding-left: 70px; Add padding to prevent content from being hidden behind the toggle */
   }
-  
+
   .main-nav {
     transform: translateX(-100%);
     width: 280px;
