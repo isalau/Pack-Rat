@@ -1,15 +1,16 @@
-import { useState, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../lib/supabase";
 import './Account.css';
 
 const Account = () => {
-  const { currentUser, updateEmail, updatePassword, updateProfile } = useAuth();
+  const { user: currentUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   
   const [formData, setFormData] = useState({
-    displayName: currentUser?.displayName || "",
+    displayName: currentUser?.user_metadata?.full_name || "",
     email: currentUser?.email || "",
     currentPassword: "",
     newPassword: "",
@@ -83,29 +84,43 @@ const Account = () => {
     try {
       setLoading(true);
       
-      // Update display name if changed
-      if (displayName !== currentUser.displayName) {
-        await updateProfile({ displayName });
+      // Update user metadata if display name changed
+      if (currentUser?.user_metadata?.full_name !== displayName) {
+        const { error: updateError } = await supabase.auth.updateUser({
+          data: { full_name: displayName }
+        });
+        
+        if (updateError) throw updateError;
       }
       
       // Update email if changed
       if (email !== currentUser.email) {
-        await updateEmail(email);
+        const { error: emailError } = await supabase.auth.updateUser(
+          { email }
+        );
+        if (emailError) throw emailError;
       }
       
       // Update password if provided
       if (newPassword) {
-        await updatePassword(newPassword);
+        const { error: passwordError } = await supabase.auth.updateUser(
+          { password: newPassword }
+        );
+        if (passwordError) throw passwordError;
       }
       
+      // Refresh the user data
+      const { data: { user } } = await supabase.auth.getUser();
+      // The auth context will automatically update with the new user data
       setSuccess("Account updated successfully!");
+      
       // Clear password fields
-      setFormData({
-        ...formData,
+      setFormData(prev => ({
+        ...prev,
         currentPassword: "",
         newPassword: "",
         confirmPassword: ""
-      });
+      }));
     } catch (err) {
       console.error("Failed to update account:", err);
       setError(err.message || "Failed to update account. Please try again.");
@@ -119,6 +134,17 @@ const Account = () => {
       <h2>Account Settings</h2>
       {error && <div className="alert alert-error">{error}</div>}
       {success && <div className="alert alert-success">{success}</div>}
+      
+      <div className="current-info">
+        <div className="info-item">
+          <span className="info-label">Current Username:</span>
+          <span className="info-value">{currentUser?.user_metadata?.full_name || 'Not set'}</span>
+        </div>
+        <div className="info-item">
+          <span className="info-label">Current Email:</span>
+          <span className="info-value">{currentUser?.email || 'Not set'}</span>
+        </div>
+      </div>
       
       <form onSubmit={handleSubmit} className="account-form">
         <div className="form-group">
