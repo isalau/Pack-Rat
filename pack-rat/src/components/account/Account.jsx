@@ -15,15 +15,52 @@ const Account = () => {
     newPassword: "",
     confirmPassword: ""
   });
+  
+  const [errors, setErrors] = useState({
+    newPassword: "",
+    confirmPassword: ""
+  });
 
   const { displayName, email, currentPassword, newPassword, confirmPassword } = formData;
 
+  const validatePassword = (password) => {
+    if (password.length > 0 && password.length < 6) {
+      return "Password must be at least 6 characters long";
+    }
+    return "";
+  };
+
+  const validateConfirmPassword = (password, confirmPassword) => {
+    if (password !== confirmPassword) {
+      return "Passwords do not match";
+    }
+    return "";
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    
+    // Update form data
+    const newFormData = {
       ...formData,
       [name]: value
-    });
+    };
+    
+    // Validate passwords
+    if (name === 'newPassword') {
+      setErrors({
+        ...errors,
+        newPassword: validatePassword(value),
+        confirmPassword: validateConfirmPassword(value, formData.confirmPassword)
+      });
+    } else if (name === 'confirmPassword') {
+      setErrors({
+        ...errors,
+        confirmPassword: validateConfirmPassword(formData.newPassword, value)
+      });
+    }
+    
+    setFormData(newFormData);
   };
 
   const handleSubmit = async (e) => {
@@ -31,8 +68,16 @@ const Account = () => {
     setError("");
     setSuccess("");
     
-    if (newPassword !== confirmPassword) {
-      return setError("New passwords do not match");
+    // Validate all fields before submission
+    const passwordError = validatePassword(newPassword);
+    const confirmPasswordError = validateConfirmPassword(newPassword, confirmPassword);
+    
+    if (passwordError || confirmPasswordError) {
+      setErrors({
+        newPassword: passwordError,
+        confirmPassword: confirmPasswordError
+      });
+      return setError("Please fix the form errors before submitting.");
     }
 
     try {
@@ -126,9 +171,12 @@ const Account = () => {
               value={newPassword}
               onChange={handleChange}
               placeholder="Enter new password"
-              minLength={6}
+              className={errors.newPassword ? 'error' : ''}
             />
-            <small className="hint">Leave blank to keep current password</small>
+            {errors.newPassword && (
+              <small className="error-message">{errors.newPassword}</small>
+            )}
+            <small className="hint">Leave blank to keep current password (minimum 6 characters)</small>
           </div>
           
           {newPassword && (
@@ -141,8 +189,11 @@ const Account = () => {
                 value={confirmPassword}
                 onChange={handleChange}
                 placeholder="Confirm new password"
-                disabled={!newPassword}
+                className={errors.confirmPassword ? 'error' : ''}
               />
+              {errors.confirmPassword && (
+                <small className="error-message">{errors.confirmPassword}</small>
+              )}
             </div>
           )}
         </div>
