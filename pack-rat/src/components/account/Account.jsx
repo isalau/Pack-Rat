@@ -9,6 +9,7 @@ const Account = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
+    password: "",
   });
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const Account = () => {
 
   const userName = user?.user_metadata?.full_name || "n/a";
   const email = user?.email || "n/a";
+  const password = user?.password || "n/a";
 
   const handleUserNameSubmit = async (e) => {
     e.preventDefault();
@@ -78,6 +80,27 @@ const Account = () => {
       alert(`Error updating email: ${error.message}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {
+    if (formData.password !== formData.confirm_password) {
+      alert("Passwords do not match");
+      return;
+    }
+    if (formData.password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
+
+    e.preventDefault();
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: formData.password,
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error updating password:", error);
     }
   };
 
@@ -137,8 +160,40 @@ const Account = () => {
           </button>
         </div>
       </form>
-
       <hr></hr>
+
+      {/* Change Password */}
+      <form onSubmit={handlePasswordSubmit}>
+        <div className="account-form-group">
+          <label htmlFor="password">New Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="New Password"
+            required
+            className="account-form-control"
+          />
+        </div>
+        <div className="account-form-group">
+          <label htmlFor="confirm_password">Confirm New Password:</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            value={formData.confirm_password}
+            onChange={handleChange}
+            placeholder="Confirm New Password"
+            required
+            className="account-form-control"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary mt-3 account-button">
+          Update Password
+        </button>
+      </form>
     </div>
   );
 };
