@@ -38,37 +38,43 @@ const MainNav = () => {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className={`main-nav ${isOpen ? 'nav-open' : ''}`}>
+    <>
       {isMobile && (
-        <button className="mobile-menu-toggle" onClick={toggleMenu}>
-          {isOpen ? <FaTimes /> : <FaBars />}
+        <button 
+          className="mobile-menu-toggle" 
+          onClick={toggleMenu}
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+        >
+          {isOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
         </button>
       )}
-      <div className={`nav-container ${isOpen ? 'nav-container-open' : ''}`}>
-        <Link to="/home" className="nav-link" title="Home">
-          <div className="logo-nav">
-            <img src="/packityrat.png" alt="Pack Rat Logo" />
-          </div>
-        </Link>
-
-        <Link to="/events" className="nav-link" title="Events">
-          <FaCalendarAlt className="nav-icon" />
-          <span className="nav-text">Events</span>
-        </Link>
-
-        {user && (
-          <Link to="/account" className="nav-link">
-            <FaUser className="nav-icon" />
-            <span className="nav-text">Account</span>
+      <nav className={`main-nav ${isOpen ? 'nav-open' : ''}`}>
+        <div className={`nav-container ${isOpen ? 'nav-container-open' : ''}`}>
+          <Link to="/home" className="nav-link" title="Home">
+            <div className="logo-nav">
+              <img src="/packityrat.png" alt="Pack Rat Logo" />
+            </div>
           </Link>
-        )}
-        {user && (
-          <div className="nav-link">
-            <LogoutButton className="nav-text" />
-          </div>
-        )}
-      </div>
-    </nav>
+
+          <Link to="/events" className="nav-link" title="Events">
+            <FaCalendarAlt className="nav-icon" />
+            <span className="nav-text">Events</span>
+          </Link>
+
+          {user && (
+            <Link to="/account" className="nav-link">
+              <FaUser className="nav-icon" />
+              <span className="nav-text">Account</span>
+            </Link>
+          )}
+          {user && (
+            <div className="nav-link">
+              <LogoutButton className="nav-text" />
+            </div>
+          )}
+        </div>
+      </nav>
+    </>
   );
 };
 
