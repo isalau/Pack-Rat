@@ -33,7 +33,7 @@
 
 .modal-header {
   padding: 1rem 1.5rem;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,7 +64,7 @@
 .empty {
   text-align: center;
   padding: 1rem;
-  color: #6c757d;
+  color: #e0e0e0;
 }
 
 .event-list {
@@ -75,7 +75,7 @@
 
 .event-item {
   padding: 1rem;
-  border: 1px solid #e9ecef;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -83,11 +83,11 @@
 
 .event-item:hover {
   background-color: #f8f9fa;
-  border-color: #dee2e6;
+  border-color: #f5f5f5;
 }
 
 .event-item.selected {
-  border-color: #4a90e2;
+  border-color: #77874e;
   background-color: #f0f7ff;
 }
 
@@ -99,7 +99,7 @@
 
 .event-description {
   font-size: 0.875rem;
-  color: #6c757d;
+  color: #e0e0e0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,7 +107,7 @@
 
 .modal-footer {
   padding: 1rem 1.5rem;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #e0e0e0;
   display: flex;
   justify-content: flex-end;
   gap: 0.75rem;

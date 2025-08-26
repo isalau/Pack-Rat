@@ -23,7 +23,7 @@
 .item-checkbox {
   width: 20px;
   height: 20px;
-  border: 2px solid #4a90e2;
+  border: 2px solid #77874e;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -34,12 +34,12 @@
 }
 
 .item-checkbox:hover {
-  border-color: #3a7bc8;
+  border-color: #1a090d;
   background-color: #f0f7ff;
 }
 
 .item-checkbox .checked {
-  color: #4a90e2;
+  color: #77874e;
   font-size: 0.9rem;
 }
 
@@ -55,19 +55,19 @@
 .packed .item-category,
 .packed .item-day {
   text-decoration: line-through;
-  color: #888;
+  color: #757575;
 }
 
 .item-name {
   flex: 3;
   font-weight: 500;
-  color: #333;
+  color: #757575;
 }
 
 .item-category {
   flex: 2;
   font-size: 0.85rem;
-  color: #666;
+  color: #757575;
   background-color: #f0f0f0;
   padding: 0.2rem 0.5rem;
   border-radius: 12px;
@@ -78,7 +78,7 @@
   flex: 1;
   text-align: center;
   font-size: 0.85rem;
-  color: #666;
+  color: #757575;
 }
 
 .item-actions {

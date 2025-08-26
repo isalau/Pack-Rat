@@ -9,7 +9,7 @@
 
 .trip-form-container h2 {
   margin-top: 0;
-  color: #333;
+  color: #757575;
   text-align: center;
 }
 
@@ -55,7 +55,7 @@ input[type="date"]:focus,
 input[type="number"]:focus,
 textarea:focus {
   outline: none;
-  border-color: #4a90e2;
+  border-color: #77874e;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 

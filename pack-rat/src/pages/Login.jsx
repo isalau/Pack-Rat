@@ -57,7 +57,7 @@ function Login() {
           left: "20px",
           background: "none",
           border: "none",
-          color: "#6b46c1",
+          color: "#77874e",
           display: "flex",
           alignItems: "center",
           gap: "8px",

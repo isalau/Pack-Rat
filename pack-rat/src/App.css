@@ -4,6 +4,13 @@
   --color-primary: #77874e; /* Green */
   --color-secondary: #e1936e; /* Peach */
   --color-accent: #4a314d; /* Purple */
+  --color-secondary-accent: #a96f47; /* Brown */
+  --color-secondary-accent-transparent: rgba(
+    169,
+    111,
+    71,
+    0.4
+  ); /* Transparent Brown */
   --color-background: #f8f9fa;
   --color-gray-light: #f5f5f5;
   --color-gray: #e0e0e0;
@@ -107,7 +114,7 @@ button.btn-primary {
   background-color: var(--color-primary);
 }
 button.btn-primary:hover {
-  background-color: var(--color-secondary);
+  background-color: var(--color-accent);
 }
 button.btn-secondary {
   background-color: var(--color-secondary);
@@ -120,7 +127,7 @@ a.btn-primary {
   background-color: var(--color-primary);
 }
 a.btn-primary:hover {
-  background-color: var(--color-secondary);
+  background-color: var(--color-accent);
 }
 a.btn-secondary {
   background-color: var(--color-secondary);
