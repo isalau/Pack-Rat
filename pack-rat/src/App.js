@@ -17,6 +17,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ForgotPassword from "./pages/ForgotPassword";
 import ProtectedLayout from "./components/layout/ProtectedLayout";
+import LandingPage from "./components/landing/LandingPage";
 
 // A wrapper for routes that require authentication
 const PrivateRoute = ({ children }) => {
@@ -47,6 +48,7 @@ const AppContent = () => {
       <div className="App">
         <Routes>
           {/* Public routes */}
+          <Route path="/" element={<LandingPage />} />
           <Route
             path="/login"
             element={user ? <Navigate to="/" replace /> : <Login />}
