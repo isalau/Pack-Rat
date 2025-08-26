@@ -76,7 +76,7 @@ const AppContent = () => {
                       path="/events/:eventId/add-to-trip/:tripId"
                       element={<EventInstanceManager />}
                     />
-                    <Route path="/account" element={<Account />} />
+                    {/* <Route path="/account" element={<Account />} /> */}
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Route>
                 </Routes>

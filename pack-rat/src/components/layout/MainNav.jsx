@@ -27,12 +27,12 @@ const MainNav = () => {
           <span className="nav-text">Events</span>
         </Link>
 
-        {user && (
+        {/* {user && (
           <Link to="/account" className="nav-link">
             <FaUser className="nav-icon" />
             <span className="nav-text">Account</span>
           </Link>
-        )}
+        )} */}
         {user && (
           <div className="nav-link">
             <LogoutButton className="nav-text" />
