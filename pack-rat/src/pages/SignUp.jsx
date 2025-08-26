@@ -68,7 +68,7 @@ function SignUp() {
               className="login-logo"
             />
           </div>
-          <h2>Create your account</h2>
+          <h1>Create your account</h1>
           <p>Join us and start planning your next adventure</p>
         </div>
 

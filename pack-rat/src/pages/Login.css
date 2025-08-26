@@ -45,7 +45,7 @@
   object-fit: contain;
 }
 
-.login-header h2 {
+.login-header h1 {
   color: #2d3748;
   font-size: 28px;
   font-weight: 700;
@@ -53,7 +53,7 @@
 }
 
 .login-header p {
-  color: #718096;
+  color: #292a2d;
   margin: 0;
   font-size: 15px;
 }
@@ -110,7 +110,7 @@
 }
 
 .forgot-password {
-  color: #9f7aea;
+  color: #6b46c1;
   font-size: 14px;
   text-decoration: none;
   transition: color 0.2s;
@@ -161,12 +161,12 @@
 .signup-link {
   text-align: center;
   margin-top: 24px;
-  color: #718096;
+  color: #292a2d;
   font-size: 15px;
 }
 
 .signup-link a {
-  color: #9f7aea;
+  color: #6b46c1;
   text-decoration: none;
   font-weight: 600;
   margin-left: 4px;
@@ -214,11 +214,11 @@
   .login-card {
     padding: 32px 24px;
   }
-  
-  .login-header h2 {
+
+  .login-header h1 {
     font-size: 24px;
   }
-  
+
   .login-header p {
     font-size: 14px;
   }
