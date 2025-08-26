@@ -38,7 +38,7 @@ function Login() {
 
       if (signInError) throw signInError;
 
-      navigate("/");
+      navigate("/home");
     } catch (err) {
       console.error("Login error:", err);
       setError(err.message || "Failed to sign in");

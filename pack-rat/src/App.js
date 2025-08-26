@@ -42,7 +42,7 @@ const PrivateRoute = ({ children }) => {
 const PublicRoute = ({ children }) => {
   const { user } = useAuth();
   const location = window.location;
-  const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/home";
 
   if (user) {
     return <Navigate to={from} replace />;
@@ -102,7 +102,7 @@ const AppContent = () => {
               <PrivateRoute>
                 <Routes>
                   <Route element={<ProtectedLayout />}>
-                    <Route path="/" element={<TripsList />} />
+                    <Route path="/home" element={<TripsList />} />
                     <Route path="/trip/:id" element={<TripDetail />} />
                     <Route path="/events" element={<EventList />} />
                     <Route path="/events/new" element={<EventForm />} />

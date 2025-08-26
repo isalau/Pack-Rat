@@ -16,7 +16,7 @@ const MainNav = () => {
   return (
     <nav className="main-nav">
       <div className="nav-container">
-        <Link to="/" className="nav-link" title="Home">
+        <Link to="/home" className="nav-link" title="Home">
           <div className="logo-nav">
             <img src="/packityrat.png" alt="Pack Rat Logo" />
           </div>
