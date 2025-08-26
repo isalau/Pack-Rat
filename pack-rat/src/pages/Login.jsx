@@ -23,12 +23,6 @@ function Login() {
     }
   }, [location.state]);
 
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -21,10 +21,31 @@ import LandingPage from "./components/landing/LandingPage";
 
 // A wrapper for routes that require authentication
 const PrivateRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login" state={{ from: window.location.pathname }} replace />;
+  }
+
+  return children;
+};
+
+// A wrapper for public routes that should only be accessible when not logged in
+const PublicRoute = ({ children }) => {
+  const { user } = useAuth();
+  const location = window.location;
+  const from = location.state?.from?.pathname || "/";
+
+  if (user) {
+    return <Navigate to={from} replace />;
   }
 
   return children;
@@ -51,15 +72,27 @@ const AppContent = () => {
           <Route path="/" element={<LandingPage />} />
           <Route
             path="/login"
-            element={user ? <Navigate to="/" replace /> : <Login />}
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
           />
           <Route
             path="/signup"
-            element={user ? <Navigate to="/" replace /> : <SignUp />}
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
           />
           <Route
             path="/forgot-password"
-            element={user ? <Navigate to="/" replace /> : <ForgotPassword />}
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
           />
 
           {/* Protected routes */}
