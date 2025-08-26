@@ -48,6 +48,8 @@ const Account = () => {
     } catch (error) {
       console.error("Error updating user:", error);
     }
+    // Show success message
+    alert("Your new username has been saved.");
   };
 
   const handleEmailSubmit = async (e) => {
@@ -102,6 +104,8 @@ const Account = () => {
     } catch (error) {
       console.error("Error updating password:", error);
     }
+    // Show success message
+    alert("Your new password has been saved.");
   };
 
   const handleChange = (e) => {
