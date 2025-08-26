@@ -1,236 +1,74 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
-import './Account.css';
+import "./Account.css";
 
 const Account = () => {
-  const { user: currentUser } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    displayName: currentUser?.user_metadata?.full_name || "",
-    email: currentUser?.email || "",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
-  });
-  
-  const [errors, setErrors] = useState({
-    newPassword: "",
-    confirmPassword: ""
+    username: "",
   });
 
-  const { displayName, email, currentPassword, newPassword, confirmPassword } = formData;
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        setUser(user);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const validatePassword = (password) => {
-    if (password.length > 0 && password.length < 6) {
-      return "Password must be at least 6 characters long";
-    }
-    return "";
-  };
+    fetchUser();
+  }, []);
 
-  const validateConfirmPassword = (password, confirmPassword) => {
-    if (password !== confirmPassword) {
-      return "Passwords do not match";
+  if (loading) return <div>Loading...</div>;
+  if (!user) return <div>Not logged in</div>;
+
+  const userName = user?.user_metadata?.full_name || "n/a";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { error } = await supabase.auth.updateUser({
+        data: {
+          full_name: formData.username,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error("Error updating user:", error);
     }
-    return "";
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
-    // Update form data
-    const newFormData = {
+    setFormData({
       ...formData,
-      [name]: value
-    };
-    
-    // Validate passwords
-    if (name === 'newPassword') {
-      setErrors({
-        ...errors,
-        newPassword: validatePassword(value),
-        confirmPassword: validateConfirmPassword(value, formData.confirmPassword)
-      });
-    } else if (name === 'confirmPassword') {
-      setErrors({
-        ...errors,
-        confirmPassword: validateConfirmPassword(formData.newPassword, value)
-      });
-    }
-    
-    setFormData(newFormData);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-    
-    // Validate all fields before submission
-    const passwordError = validatePassword(newPassword);
-    const confirmPasswordError = validateConfirmPassword(newPassword, confirmPassword);
-    
-    if (passwordError || confirmPasswordError) {
-      setErrors({
-        newPassword: passwordError,
-        confirmPassword: confirmPasswordError
-      });
-      return setError("Please fix the form errors before submitting.");
-    }
-
-    try {
-      setLoading(true);
-      
-      // Update user metadata if display name changed
-      if (currentUser?.user_metadata?.full_name !== displayName) {
-        const { error: updateError } = await supabase.auth.updateUser({
-          data: { full_name: displayName }
-        });
-        
-        if (updateError) throw updateError;
-      }
-      
-      // Update email if changed
-      if (email !== currentUser.email) {
-        const { error: emailError } = await supabase.auth.updateUser(
-          { email }
-        );
-        if (emailError) throw emailError;
-      }
-      
-      // Update password if provided
-      if (newPassword) {
-        const { error: passwordError } = await supabase.auth.updateUser(
-          { password: newPassword }
-        );
-        if (passwordError) throw passwordError;
-      }
-      
-      // Refresh the user data
-      const { data: { user } } = await supabase.auth.getUser();
-      // The auth context will automatically update with the new user data
-      setSuccess("Account updated successfully!");
-      
-      // Clear password fields
-      setFormData(prev => ({
-        ...prev,
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: ""
-      }));
-    } catch (err) {
-      console.error("Failed to update account:", err);
-      setError(err.message || "Failed to update account. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+      [name]: value,
+    });
   };
 
   return (
     <div className="account-container">
-      <h2>Account Settings</h2>
-      {error && <div className="alert alert-error">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-      
-      <div className="current-info">
-        <div className="info-item">
-          <span className="info-label">Current Username:</span>
-          <span className="info-value">{currentUser?.user_metadata?.full_name || 'Not set'}</span>
-        </div>
-        <div className="info-item">
-          <span className="info-label">Current Email:</span>
-          <span className="info-value">{currentUser?.email || 'Not set'}</span>
-        </div>
-      </div>
-      
-      <form onSubmit={handleSubmit} className="account-form">
+      {/* Change Username */}
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="displayName">Username</label>
+          <p>Current Username: {userName}</p>
+          <label htmlFor="displayName">Change Username:</label>
           <input
             type="text"
-            id="displayName"
-            name="displayName"
-            value={displayName}
+            name="username"
+            value={formData.username}
             onChange={handleChange}
-            placeholder="Enter your username"
-            required
           />
         </div>
-        
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-          />
-        </div>
-        
-        <div className="password-section">
-          <h3>Change Password</h3>
-          
-          <div className="form-group">
-            <label htmlFor="currentPassword">Current Password</label>
-            <input
-              type="password"
-              id="currentPassword"
-              name="currentPassword"
-              value={currentPassword}
-              onChange={handleChange}
-              placeholder="Enter current password"
-            />
-          </div>
-          
-          <div className="form-group">
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={newPassword}
-              onChange={handleChange}
-              placeholder="Enter new password"
-              className={errors.newPassword ? 'error' : ''}
-            />
-            {errors.newPassword && (
-              <small className="error-message">{errors.newPassword}</small>
-            )}
-            <small className="hint">Leave blank to keep current password (minimum 6 characters)</small>
-          </div>
-          
-          {newPassword && (
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                name="confirmPassword"
-                value={confirmPassword}
-                onChange={handleChange}
-                placeholder="Confirm new password"
-                className={errors.confirmPassword ? 'error' : ''}
-              />
-              {errors.confirmPassword && (
-                <small className="error-message">{errors.confirmPassword}</small>
-              )}
-            </div>
-          )}
-        </div>
-        
-        <button 
-          type="submit" 
-          className="btn btn-primary"
-          disabled={loading}
-        >
-          {loading ? 'Updating...' : 'Update Account'}
-        </button>
+        <button type="submit">Update Username</button>
       </form>
     </div>
   );
