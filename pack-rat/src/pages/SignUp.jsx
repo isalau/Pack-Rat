@@ -47,7 +47,7 @@ function SignUp() {
         });
       } else {
         // Auto-login successful, redirect to home
-        navigate("/");
+        navigate("/home");
       }
     } catch (err) {
       console.error("Signup error:", err);
