@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaEnvelope, FaLock, FaUser, FaArrowRight } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import "./Login.css";
 
 function SignUp() {
@@ -59,6 +59,26 @@ function SignUp() {
 
   return (
     <div className="login-container">
+      <button 
+        onClick={() => navigate('/')} 
+        className="back-button"
+        style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px',
+          background: 'none',
+          border: 'none',
+          color: '#6b46c1',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          cursor: 'pointer',
+          fontSize: '16px',
+          fontWeight: 500
+        }}
+      >
+        <FaArrowLeft /> Back to Home
+      </button>
       <div className="login-card">
         <div className="login-header">
           <div className="logo-container">
