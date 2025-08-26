@@ -23,7 +23,6 @@ function Login() {
     }
   }, [location.state]);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,22 +48,22 @@ function Login() {
 
   return (
     <div className="login-container">
-      <button 
-        onClick={() => navigate('/')} 
+      <button
+        onClick={() => navigate("/")}
         className="back-button"
         style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          background: 'none',
-          border: 'none',
-          color: '#6b46c1',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: 500
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          background: "none",
+          border: "none",
+          color: "#6b46c1",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: 500,
         }}
       >
         <FaArrowLeft /> Back to Home
@@ -148,7 +147,11 @@ function Login() {
             </div>
           </div>
 
-          <button type="submit" className="login-button" disabled={loading}>
+          <button
+            type="submit"
+            className="login-button btn btn-primary"
+            disabled={loading}
+          >
             {loading ? "Signing in..." : "Sign In"}
             <FaArrowRight className="button-icon" />
           </button>

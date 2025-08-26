@@ -160,7 +160,7 @@ const TripsList = () => {
                       }}
                       aria-label="Delete trip"
                     >
-                      <FaTrash />
+                      <FaTrash className="delete-trip-icon" />
                     </button>
                   </div>
                 </div>
