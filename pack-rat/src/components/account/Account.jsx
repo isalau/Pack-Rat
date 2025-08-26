@@ -50,15 +50,34 @@ const Account = () => {
 
   const handleEmailSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.email) {
+      alert("Please enter a new email address");
+      return;
+    }
+
     try {
-      const { error } = await supabase.auth.updateUser({
-        data: {
-          email: formData.email,
-        },
+      setLoading(true);
+      const { data, error } = await supabase.auth.updateUser({
+        email: formData.email,
       });
+
       if (error) throw error;
+
+      // Show success message
+      alert(
+        "Please check your email for a confirmation link to update your email address. Your email change will not reflect below until confirmed."
+      );
+
+      // Clear the email field
+      setFormData((prev) => ({
+        ...prev,
+        email: "",
+      }));
     } catch (error) {
-      console.error("Error updating user:", error);
+      console.error("Error updating email:", error);
+      alert(`Error updating email: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -98,12 +117,16 @@ const Account = () => {
         <p>Current Email: {email}</p>
         <div className="account-form">
           <div className="account-form-group">
-            <label htmlFor="displayName">Change Email:</label>
+            <label htmlFor="email">New Email:</label>
             <input
-              type="text"
+              type="email"
+              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
+              placeholder="Enter new email address"
+              required
+              className="form-control"
             />
           </div>
           <button type="submit" className="btn btn-primary mt-3">
