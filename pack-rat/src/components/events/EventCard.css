@@ -140,16 +140,6 @@
   font-size: 0.8125rem;
 }
 
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
-  border-color: #3a7bc8;
-}
-
-.btn-primary:hover {
-  background-color: #3a7bc8;
-}
-
 /* Responsive adjustments */
 @media (max-width: 576px) {
   .event-card-header {
@@ -157,7 +147,7 @@
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .event-actions {
     width: 100%;
     justify-content: flex-end;

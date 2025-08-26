@@ -99,16 +99,6 @@
   border: 1px solid transparent;
 }
 
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
-  border-color: #3a7bc8;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #3a7bc8;
-}
-
 .btn-secondary {
   background-color: #f8f9fa;
   color: #495057;
@@ -140,11 +130,11 @@
   .event-instance-manager {
     padding: 20px 15px;
   }
-  
+
   .form-actions {
     flex-direction: column;
   }
-  
+
   .btn {
     width: 100%;
   }
