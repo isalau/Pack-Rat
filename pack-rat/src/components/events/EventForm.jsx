@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { useAuth } from "../../context/AuthContext";
 import "./EventForm.css";
 
 const EventForm = () => {
@@ -11,6 +12,7 @@ const EventForm = () => {
   const [tripId, setTripId] = useState(null);
   const [day, setDay] = useState(null);
 
+  const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -109,9 +111,14 @@ const EventForm = () => {
       setError("");
 
       // Create or update event
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
       const eventData = {
         name: formData.name.trim(),
         description: formData.description.trim() || null,
+        user_id: user.id,
       };
 
       let eventId = id;

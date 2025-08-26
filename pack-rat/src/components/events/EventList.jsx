@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { useAuth } from '../../context/AuthContext';
 import EventCard from './EventCard';
 import './EventList.css';
 
@@ -10,6 +11,7 @@ const EventList = () => {
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   
   const tripId = searchParams.get('tripId');
   const day = searchParams.get('day');
@@ -18,12 +20,17 @@ const EventList = () => {
     try {
       setLoading(true);
       
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
       const { data, error } = await supabase
         .from('events')
         .select(`
           *,
           event_items (*)
         `)
+        .eq('user_id', user.id)
         .order('name', { ascending: true });
 
       if (error) throw error;
