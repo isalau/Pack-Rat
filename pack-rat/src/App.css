@@ -122,6 +122,20 @@ button.btn-secondary {
 button.btn-secondary:hover {
   background-color: var(--color-accent);
 }
+button.btn-cancel {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}
+button.btn-cancel:hover {
+  background-color: var(--color-secondary);
+}
+button.btn-save {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+button.btn-save:hover {
+  background-color: var(--color-secondary);
+}
 
 a.btn-primary {
   background-color: var(--color-primary);
