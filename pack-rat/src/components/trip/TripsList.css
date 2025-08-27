@@ -222,9 +222,26 @@ button.delete-trip-button:hover {
   width: 100%;
   max-width: 600px;
   max-height: 90vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   animation: modalFadeIn 0.2s ease-out;
+  position: relative;
+}
+
+/* Ensure the form is scrollable */
+.trip-form-container {
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: 100%;
+  flex: 1;
+}
+
+/* Adjust the form to take full height */
+.trip-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 @keyframes modalFadeIn {
