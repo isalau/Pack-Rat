@@ -1,3 +1,15 @@
+:root {
+  --color-text: #1a090d; /* Black */
+  --color-primary: #77874e; /* Green */
+  --color-secondary: #e1936e; /* Peach */
+  --color-accent: #4a314d; /* Purple */
+  --color-background: #f8f9fa;
+  --color-gray-light: #f5f5f5;
+  --color-gray: #e0e0e0;
+  --color-gray-dark: #757575;
+  --color-white: #ffffff;
+}
+
 .trip-detail-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -20,7 +32,7 @@
 .trip-header h1 {
   margin: 0;
   flex-grow: 1;
-  color: #2c3e50;
+  color: var(--color-background);
 }
 
 .btn {
@@ -36,16 +48,6 @@
   transition: all 0.2s ease;
   border: 1px solid transparent;
   white-space: nowrap;
-}
-
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
-  border-color: #3a7bc8;
-}
-
-.btn-primary:hover {
-  background-color: #3a7bc8;
 }
 
 .btn svg {
@@ -98,13 +100,13 @@
 }
 
 .packing-days h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 60px;
   height: 4px;
-  background-color: #4a90e2;
+  background-color: #77874e;
   border-radius: 2px;
 }
 
@@ -158,15 +160,15 @@
 }
 
 .date-badge::before {
-  content: '📅';
+  content: "📅";
   font-size: 0.9em;
 }
 
 .day-card h3 {
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #333;
-  border-bottom: 2px solid #4a90e2;
+  color: #757575;
+  border-bottom: 2px solid #77874e;
   padding-bottom: 0.5rem;
   display: inline-block;
 }
@@ -175,7 +177,7 @@
   display: flex;
   gap: 1px;
   margin: 20px 0 30px 0;
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 1px solid #f5f5f5;
   padding: 0 5px;
 }
 
@@ -189,7 +191,7 @@
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #495057;
+  color: #757575;
   transition: all 0.2s ease-in-out;
   position: relative;
   top: 1px;
@@ -198,15 +200,15 @@
 
 .view-tab:hover {
   background-color: #f8f9fa;
-  border-color: #dee2e6;
-  color: #0056b3;
+  border-color: #f5f5f5;
+  color: #e1936e;
 }
 
 .view-tab.active {
   background-color: white;
-  border-color: #dee2e6 #dee2e6 white;
-  color: #0056b3;
-  border-bottom: 2px solid #0056b3;
+  border-color: #f5f5f5 #f5f5f5 white;
+  color: #4a314d;
+  border-bottom: 2px solid #4a314d;
   margin-bottom: -1px;
   font-weight: 600;
 }
@@ -219,7 +221,7 @@
 }
 
 .empty-message {
-  color: #888;
+  color: #757575;
   font-style: italic;
   text-align: center;
   margin: 2rem 0;
@@ -233,12 +235,12 @@
   padding: 4rem 2rem;
   background-color: #f8f9fa;
   border-radius: 8px;
-  color: #666;
+  color: #757575;
   margin: 2rem 0;
 }
 
 .error-state {
-  color: #dc3545;
+  color: #4a314d;
   background-color: #fff5f5;
   border: 1px solid #ffebee;
 }
@@ -256,42 +258,22 @@
   font-size: 0.9rem;
 }
 
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
-}
-
-.btn-primary:hover {
-  background-color: #3a7bc8;
-  transform: translateY(-1px);
-}
-
-.btn-secondary {
-  background-color: #f0f0f0;
-  color: #333;
-}
-
-.btn-secondary:hover {
-  background-color: #e0e0e0;
-  transform: translateY(-1px);
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .trip-detail-container {
     padding: 1rem;
   }
-  
+
   .trip-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .trip-info-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .days-grid {
     grid-template-columns: 1fr;
   }

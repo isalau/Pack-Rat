@@ -82,30 +82,6 @@ h1 {
   text-align: center;
 }
 
-.btn-primary {
-  background-color: #6b46c1;
-  color: white;
-  border: none;
-}
-
-.btn-primary:hover {
-  background-color: #4338ca;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-}
-
-.btn-outline-primary {
-  background-color: white;
-  color: #6b46c1;
-  border: 2px solid #6b46c1;
-}
-
-.btn-outline-primary:hover {
-  background-color: #f5f3ff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
-}
-
 .steps {
   max-width: 800px;
   margin: 3rem auto 0;
@@ -128,7 +104,7 @@ h1 {
 .step-icon {
   width: 40px;
   height: 40px;
-  background-color: #6b46c1;
+  background-color: #77874e;
   color: white;
   border-radius: 50%;
   display: flex;

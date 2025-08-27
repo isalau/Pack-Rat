@@ -100,9 +100,6 @@ hr {
 }
 
 .account-button {
-  background: linear-gradient(135deg, #9f7aea 0%, #6b46c1 100%);
-  color: white;
-  border: none;
   border-radius: 8px;
   font-size: 15px;
   font-weight: 800;

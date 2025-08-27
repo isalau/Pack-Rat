@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaEnvelope, FaLock, FaUser, FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import {
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaArrowRight,
+  FaArrowLeft,
+} from "react-icons/fa";
 import "./Login.css";
 
 function SignUp() {
@@ -59,22 +65,22 @@ function SignUp() {
 
   return (
     <div className="login-container">
-      <button 
-        onClick={() => navigate('/')} 
+      <button
+        onClick={() => navigate("/")}
         className="back-button"
         style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          background: 'none',
-          border: 'none',
-          color: '#6b46c1',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          cursor: 'pointer',
-          fontSize: '16px',
-          fontWeight: 500
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          background: "none",
+          border: "none",
+          color: "#77874e",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontWeight: 500,
         }}
       >
         <FaArrowLeft /> Back to Home
@@ -166,7 +172,11 @@ function SignUp() {
             </div>
           </div>
 
-          <button type="submit" className="login-button" disabled={loading}>
+          <button
+            type="submit"
+            className="login-button btn btn-primary"
+            disabled={loading}
+          >
             {loading ? "Creating account..." : "Sign Up"}
             <FaArrowRight className="button-icon" />
           </button>

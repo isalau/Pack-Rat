@@ -17,7 +17,7 @@
 .event-card-header {
   padding: 16px 20px;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e0e0e0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,9 +41,6 @@
 }
 
 .icon-button {
-  background: none;
-  border: none;
-  color: #6c757d;
   cursor: pointer;
   padding: 6px;
   border-radius: 4px;
@@ -53,32 +50,13 @@
   transition: all 0.2s ease;
 }
 
-.icon-button:hover {
-  background-color: #e9ecef;
-  color: #495057;
-}
-
-.icon-button.danger:hover {
-  background-color: #f8d7da;
-  color: #dc3545;
-}
-
-.icon-button.primary {
-  color: #0d6efd;
-}
-
-.icon-button.primary:hover {
-  background-color: #e7f1ff;
-  color: #0a58ca;
-}
-
 .event-description {
   padding: 16px 20px;
   margin: 0;
-  color: #495057;
+  color: #757575;
   font-size: 0.95rem;
   line-height: 1.5;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .event-items {
@@ -89,7 +67,7 @@
 .event-items h4 {
   margin: 0 0 12px 0;
   font-size: 1rem;
-  color: #495057;
+  color: #757575;
 }
 
 .event-items ul {
@@ -105,9 +83,9 @@
   display: flex;
   align-items: center;
   font-size: 0.9rem;
-  color: #6c757d;
+  color: #e0e0e0;
   padding: 6px 0;
-  border-bottom: 1px dashed #e9ecef;
+  border-bottom: 1px dashed #e0e0e0;
 }
 
 .event-items li:last-child {
@@ -117,7 +95,7 @@
 .event-footer {
   padding: 12px 20px;
   background-color: #f8f9fa;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #e0e0e0;
   text-align: right;
 }
 
@@ -140,16 +118,6 @@
   font-size: 0.8125rem;
 }
 
-.btn-primary {
-  background-color: #4a90e2;
-  color: white;
-  border-color: #3a7bc8;
-}
-
-.btn-primary:hover {
-  background-color: #3a7bc8;
-}
-
 /* Responsive adjustments */
 @media (max-width: 576px) {
   .event-card-header {
@@ -157,7 +125,7 @@
     align-items: flex-start;
     gap: 10px;
   }
-  
+
   .event-actions {
     width: 100%;
     justify-content: flex-end;

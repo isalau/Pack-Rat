@@ -31,12 +31,12 @@
   display: block;
   font-size: 2rem;
   font-weight: bold;
-  color: #4a90e2;
+  color: #77874e;
   margin-bottom: 5px;
 }
 
 .stat-label {
-  color: #6c757d;
+  color: #e0e0e0;
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -91,13 +91,13 @@
 
 .packing-summary-item.packed .item-name {
   text-decoration: line-through;
-  color: #6c757d;
+  color: #e0e0e0;
 }
 
 .item-checkbox {
   width: 20px;
   height: 20px;
-  border: 2px solid #dee2e6;
+  border: 2px solid #f5f5f5;
   border-radius: 4px;
   margin-right: 12px;
   display: flex;
@@ -109,8 +109,8 @@
 }
 
 .packed .item-checkbox {
-  background: #4a90e2;
-  border-color: #4a90e2;
+  background: #77874e;
+  border-color: #77874e;
 }
 
 .checkmark {
@@ -135,8 +135,8 @@
 }
 
 .item-count {
-  background: #e9ecef;
-  color: #495057;
+  background: #e0e0e0;
+  color: #757575;
   font-size: 0.75rem;
   font-weight: 600;
   min-width: 20px;
@@ -150,8 +150,8 @@
 }
 
 .item-day {
-  background: #e9ecef;
-  color: #495057;
+  background: #e0e0e0;
+  color: #757575;
   font-size: 0.75rem;
   padding: 3px 8px;
   border-radius: 10px;
@@ -162,7 +162,7 @@
 .loading {
   text-align: center;
   padding: 20px;
-  color: #6c757d;
+  color: #e0e0e0;
 }
 
 /* Responsive adjustments */
@@ -172,20 +172,20 @@
     align-items: center;
     gap: 15px;
   }
-  
+
   .stat {
     width: 100%;
     max-width: 200px;
   }
-  
+
   .packing-summary-item {
     padding: 10px 12px;
   }
-  
+
   .item-name {
     font-size: 0.95rem;
   }
-  
+
   .item-day {
     font-size: 0.7rem;
     padding: 2px 6px;
