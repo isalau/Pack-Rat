@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import './TripForm.css';
+import { useState } from "react";
+import "./TripForm.css";
 
 const TripForm = ({ onSave, onCancel }) => {
   const [formData, setFormData] = useState({
-    tripName: '',
-    destination: '',
-    origin: '',
-    startDate: '',
-    endDate: '',
-    notes: '',
-    packingDays: 1
+    tripName: "",
+    destination: "",
+    origin: "",
+    startDate: "",
+    endDate: "",
+    notes: "",
+    packingDays: 1,
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'packingDays' ? parseInt(value, 10) : value
+      [name]: name === "packingDays" ? parseInt(value, 10) : value,
     }));
   };
 
