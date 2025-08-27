@@ -1,27 +1,28 @@
-import { Link } from 'react-router-dom';
-import { FaTrash, FaEdit, FaPlus, FaCalendarPlus } from 'react-icons/fa';
-import { supabase } from '../../lib/supabase';
+import { Link } from "react-router-dom";
+import { FaTrash, FaEdit, FaCalendarPlus } from "react-icons/fa";
+import { supabase } from "../../lib/supabase";
+import "./EventCard.css";
 
 const EventCard = ({ event, onDelete, onAddToDay, showAddButton = false }) => {
   const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     if (!window.confirm(`Are you sure you want to delete "${event.name}"?`)) {
       return;
     }
-    
+
     try {
       const { error } = await supabase
-        .from('events')
+        .from("events")
         .delete()
-        .eq('id', event.id);
-        
+        .eq("id", event.id);
+
       if (error) throw error;
       onDelete();
     } catch (err) {
-      console.error('Error deleting event:', err);
-      alert('Failed to delete event');
+      console.error("Error deleting event:", err);
+      alert("Failed to delete event");
     }
   };
 
@@ -43,42 +44,42 @@ const EventCard = ({ event, onDelete, onAddToDay, showAddButton = false }) => {
               <FaCalendarPlus />
             </button>
           )}
-          <Link 
-            to={`/events/${event.id}/edit`} 
-            className="icon-button" 
+          <Link
+            to={`/events/${event.id}/edit`}
+            className="icon-button"
             title="Edit event"
           >
             <FaEdit />
           </Link>
-          <button 
-            onClick={handleDelete} 
-            className="icon-button danger"
+          <button
+            onClick={handleDelete}
+            className="delete-trip-button"
             title="Delete event"
           >
-            <FaTrash />
+            <FaTrash className="delete-trip-icon" />
           </button>
         </div>
       </div>
-      
+
       {event.description && (
         <p className="event-description">{event.description}</p>
       )}
-      
+
       {event.event_items && event.event_items.length > 0 && (
         <div className="event-items">
           <h4>Items:</h4>
           <ul>
-            {event.event_items.map(item => (
+            {event.event_items.map((item) => (
               <li key={item.id}>
-                {item.name} 
+                {item.name}
                 {item.quantity > 1 && ` (${item.quantity})`}
-                {item.category && ` [${item.category}]`}
+                {/* {item.category && ` [${item.category}]`} */}
               </li>
             ))}
           </ul>
         </div>
       )}
-      
+
       <div className="event-footer">
         <Link to={`/events/${event.id}`} className="btn btn-sm">
           View Details
