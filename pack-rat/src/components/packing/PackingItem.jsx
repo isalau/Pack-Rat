@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { FaTrash, FaEdit, FaTimes, FaSave } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+
+import "./PackingItem.css";
 
 const PackingItem = ({ item, onUpdate, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -67,9 +69,20 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
     );
   }
 
+  const handleDeleteItems = async (e) => {
+    // TODO: delete event from day
+  };
+
   return (
     <div className="packing-item">
       <span className="item-name">{item.name}</span>
+      <button
+        onClick={handleDeleteItems}
+        className="delete-trip-button"
+        title="Delete event"
+      >
+        <FaTimes className="delete-trip-item-icon" />
+      </button>
       {/* <div className="item-actions">
         <button
           onClick={() => setIsEditing(true)}

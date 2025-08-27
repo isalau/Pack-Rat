@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { supabase } from "../../lib/supabase";
 import PackingItem from "./PackingItem";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaTimes } from "react-icons/fa";
 import "./PackingList.css";
 
 const PackingList = ({ tripId, totalDays, day }) => {

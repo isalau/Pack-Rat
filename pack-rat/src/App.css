@@ -36,11 +36,6 @@ body {
   background-color: var(--color-background);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
-}
-
 /* App Container */
 .App {
   min-height: 100vh;

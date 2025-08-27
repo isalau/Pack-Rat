@@ -148,3 +148,11 @@
     margin-top: 0.5rem;
   }
 }
+
+.packing-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 1rem;
+}

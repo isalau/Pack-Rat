@@ -106,6 +106,6 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  width: 95%;
-  margin: 0;
+  width: fit-content;
+  gap: 1rem;
 }
