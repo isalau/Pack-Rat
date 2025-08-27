@@ -101,3 +101,11 @@
   padding: 10px;
   border-radius: 25px;
 }
+
+.event-group__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 95%;
+  margin: 0;
+}

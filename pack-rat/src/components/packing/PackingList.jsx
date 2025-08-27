@@ -1,12 +1,13 @@
-import { useState, useEffect, useMemo } from 'react';
-import { supabase } from '../../lib/supabase';
-import PackingItem from './PackingItem';
-import './PackingList.css';
+import { useState, useEffect, useMemo } from "react";
+import { supabase } from "../../lib/supabase";
+import PackingItem from "./PackingItem";
+import { FaTrash } from "react-icons/fa";
+import "./PackingList.css";
 
 const PackingList = ({ tripId, totalDays, day }) => {
   const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState('');
-  const [category, setCategory] = useState('Clothing');
+  const [newItem, setNewItem] = useState("");
+  const [category, setCategory] = useState("Clothing");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [events, setEvents] = useState([]); // [{ id, name }]
@@ -22,10 +23,10 @@ const PackingList = ({ tripId, totalDays, day }) => {
       try {
         // Get event instances for this trip/day
         const { data: instances, error: instErr } = await supabase
-          .from('event_instances')
-          .select('*')
-          .eq('trip_id', tripId)
-          .eq('day', day);
+          .from("event_instances")
+          .select("*")
+          .eq("trip_id", tripId)
+          .eq("day", day);
         if (instErr) throw instErr;
 
         const eventIds = (instances || []).map((i) => i.event_id);
@@ -37,17 +38,17 @@ const PackingList = ({ tripId, totalDays, day }) => {
 
         // Fetch event meta (name/title)
         const { data: eventsData, error: eventsErr } = await supabase
-          .from('events')
-          .select('id, name')
-          .in('id', eventIds);
+          .from("events")
+          .select("id, name")
+          .in("id", eventIds);
         if (eventsErr) throw eventsErr;
         setEvents(eventsData || []);
 
         // Fetch template items for these events
         const { data: eventItems, error: evItemsErr } = await supabase
-          .from('event_items')
-          .select('event_id, name')
-          .in('event_id', eventIds);
+          .from("event_items")
+          .select("event_id, name")
+          .in("event_id", eventIds);
         if (evItemsErr) throw evItemsErr;
 
         const map = {};
@@ -57,7 +58,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
         });
         setEventItemsMap(map);
       } catch (e) {
-        console.error('Error fetching events/items for day:', e);
+        console.error("Error fetching events/items for day:", e);
         // Do not block packing list; just show items flat if needed
         setEvents([]);
         setEventItemsMap({});
@@ -73,17 +74,17 @@ const PackingList = ({ tripId, totalDays, day }) => {
     try {
       setIsLoading(true);
       const { data, error } = await supabase
-        .from('packing_items')
-        .select('*')
-        .eq('trip_id', tripId)
-        .eq('day', day)
-        .order('created_at', { ascending: true });
+        .from("packing_items")
+        .select("*")
+        .eq("trip_id", tripId)
+        .eq("day", day)
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
       setItems(data || []);
     } catch (err) {
-      console.error('Error fetching packing items:', err);
-      setError('Failed to load packing items');
+      console.error("Error fetching packing items:", err);
+      setError("Failed to load packing items");
     } finally {
       setIsLoading(false);
     }
@@ -113,61 +114,65 @@ const PackingList = ({ tripId, totalDays, day }) => {
 
     try {
       const { data, error } = await supabase
-        .from('packing_items')
+        .from("packing_items")
         .insert([
-          { 
-            trip_id: tripId, 
-            name: newItem.trim(), 
+          {
+            trip_id: tripId,
+            name: newItem.trim(),
             category,
-            day: parseInt(day, 10) 
-          }
+            day: parseInt(day, 10),
+          },
         ])
         .select();
 
       if (error) throw error;
-      
+
       if (data && data[0]) {
         setItems([...items, data[0]]);
-        setNewItem('');
+        setNewItem("");
       }
     } catch (err) {
-      console.error('Error adding item:', err);
-      setError('Failed to add item');
+      console.error("Error adding item:", err);
+      setError("Failed to add item");
     }
   };
 
   const handleUpdateItem = async (id, updates) => {
     try {
       const { error } = await supabase
-        .from('packing_items')
+        .from("packing_items")
         .update(updates)
-        .eq('id', id);
+        .eq("id", id);
 
       if (error) throw error;
-      
-      setItems(items.map(item => 
-        item.id === id ? { ...item, ...updates } : item
-      ));
+
+      setItems(
+        items.map((item) => (item.id === id ? { ...item, ...updates } : item))
+      );
     } catch (err) {
-      console.error('Error updating item:', err);
-      setError('Failed to update item');
+      console.error("Error updating item:", err);
+      setError("Failed to update item");
     }
   };
 
   const handleDeleteItem = async (id) => {
     try {
       const { error } = await supabase
-        .from('packing_items')
+        .from("packing_items")
         .delete()
-        .eq('id', id);
+        .eq("id", id);
 
       if (error) throw error;
-      
-      setItems(items.filter(item => item.id !== id));
+
+      setItems(items.filter((item) => item.id !== id));
     } catch (err) {
-      console.error('Error deleting item:', err);
-      setError('Failed to delete item');
+      console.error("Error deleting item:", err);
+      setError("Failed to delete item");
     }
+  };
+
+  const handleDeleteEvent = async (e) => {
+    // TODO: delete event from day
   };
 
   if (isLoading) {
@@ -214,7 +219,14 @@ const PackingList = ({ tripId, totalDays, day }) => {
           {grouped.groups.map(({ event, items: evItems }) => (
             <div key={event.id} className="event-group">
               <div className="event-group__header">
-                <h4 className="event-title">{event.name || 'Event'}</h4>
+                <h4 className="event-title">{event.name || "Event"}</h4>
+                <button
+                  onClick={handleDeleteEvent}
+                  className="delete-trip-button"
+                  title="Delete event"
+                >
+                  <FaTrash className="delete-trip-icon" />
+                </button>
               </div>
               {evItems.length === 0 ? (
                 <div className="empty-sublist">No items for this event.</div>
