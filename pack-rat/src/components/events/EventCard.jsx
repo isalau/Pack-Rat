@@ -67,24 +67,25 @@ const EventCard = ({ event, onDelete, onAddToDay, showAddButton = false }) => {
 
       {event.event_items && event.event_items.length > 0 && (
         <div className="event-items">
-          <h4>Items:</h4>
+          {/* <h4>Items:</h4> */}
           <ul>
             {event.event_items.map((item) => (
               <li key={item.id}>
                 {item.name}
-                {item.quantity > 1 && ` (${item.quantity})`}
-                {/* {item.category && ` [${item.category}]`} */}
+                {` (${item.quantity})`}
+                {/* {item.quantity > 1 && ` (${item.quantity})`} */}
+                {item.category && ` [${item.category}]`}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      <div className="event-footer">
+      {/* <div className="event-footer">
         <Link to={`/events/${event.id}`} className="btn btn-sm">
           View Details
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 };
