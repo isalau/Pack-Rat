@@ -1,9 +1,12 @@
 /* Import Noto Sans Display with different weights */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600;700&display=swap");
 
 /* Apply Noto Sans Display to all elements */
-html, body {
-  font-family: 'Noto Sans Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+html,
+body {
+  font-family: "Noto Sans Display", Tahoma, Calibri, -apple-system,
+    "Lucida Sans Unicode", BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -11,6 +14,20 @@ html, body {
 }
 
 /* Ensure all text elements use the same font */
-h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, span, div {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button,
+input,
+textarea,
+select,
+label,
+span,
+div {
   font-family: inherit;
 }

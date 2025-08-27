@@ -1,3 +1,4 @@
+/* Base font settings */
 :root {
   --color-text: #1a090d; /* Black */
   --color-primary: #77874e; /* Green */
@@ -7,18 +8,17 @@
   --color-gray-light: #f5f5f5;
   --color-gray: #e0e0e0;
   --color-gray-dark: #757575;
+  --font-family-sans-serif: 'Noto Sans Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
-  /* margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  margin: 0;
+  font-family: 'Noto Sans Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: var(--color-text);
   background-color: var(--color-background);
-  line-height: 1.6; */
+  line-height: 1.6;
 }
 
 h1,
