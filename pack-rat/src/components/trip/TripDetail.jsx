@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import PackingListSummary from "../packing/PackingListSummary";
 import DaySection from "../packing/DaySection";
+import EventModal from "../events/EventModal";
 import { FaPlus } from "react-icons/fa";
 import "./TripDetail.css";
 
@@ -13,6 +14,9 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
   const [trip, setTrip] = useState(initialTrip);
   const [isLoading, setIsLoading] = useState(!initialTrip);
   const [error, setError] = useState(null);
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(null);
+  const [isAdding, setIsAdding] = useState(false);
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -160,8 +164,78 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
                   day={day}
                   tripId={trip.id}
                   totalDays={packingDays.length}
+                  onAddEvent={() => {
+                    setSelectedDay(day);
+                    setShowEventModal(true);
+                  }}
                 />
               ))}
+              <EventModal
+                isOpen={showEventModal}
+                onClose={() => setShowEventModal(false)}
+                onSelectEvent={async (event) => {
+                  if (!selectedDay) return;
+                  
+                  try {
+                    setIsAdding(true);
+                    
+                    // Add event instance
+                    const { error: instanceError } = await supabase
+                      .from('event_instances')
+                      .insert([{
+                        event_id: event.id,
+                        trip_id: trip.id,
+                        day: selectedDay
+                      }]);
+                      
+                    if (instanceError) throw instanceError;
+                    
+                    // Add event items to packing list
+                    const { data: items, error: itemsError } = await supabase
+                      .from('event_items')
+                      .select('*')
+                      .eq('event_id', event.id);
+                      
+                    if (itemsError) throw itemsError;
+                    
+                    if (items && items.length > 0) {
+                      const itemsToAdd = items.map(item => ({
+                        trip_id: trip.id,
+                        name: item.name,
+                        category: item.category || 'Other',
+                        day: selectedDay,
+                        is_packed: false
+                      }));
+                      
+                      const { error: insertError } = await supabase
+                        .from('packing_items')
+                        .insert(itemsToAdd);
+                        
+                      if (insertError) throw insertError;
+                    }
+                    
+                    // Refresh the trip data to show the new event
+                    const { data: updatedTrip } = await supabase
+                      .from('trips')
+                      .select('*')
+                      .eq('id', trip.id)
+                      .single();
+                      
+                    if (updatedTrip) {
+                      setTrip(updatedTrip);
+                    }
+                    
+                  } catch (err) {
+                    console.error('Error adding event to day:', err);
+                    alert('Failed to add event to day');
+                  } finally {
+                    setIsAdding(false);
+                    setShowEventModal(false);
+                  }
+                }}
+                tripId={trip.id}
+                day={selectedDay}
+              />
             </div>
           </div>
         ) : (
