@@ -4,7 +4,7 @@ import { supabase } from "../../lib/supabase";
 import PackingListSummary from "../packing/PackingListSummary";
 import DaySection from "../packing/DaySection";
 import EventModal from "../events/EventModal";
-import { FaPlus } from "react-icons/fa";
+import { FaTrash, FaCalendarPlus } from "react-icons/fa";
 import "./TripDetail.css";
 
 const TripDetail = ({ trip: initialTrip, onBack }) => {
@@ -17,6 +17,7 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
   const [isAdding, setIsAdding] = useState(false);
+  const [packingDays, setPackingDays] = useState([1]);
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -30,6 +31,8 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
 
         if (error) throw error;
         setTrip(data);
+        const count = data?.packing_days ?? 1;
+        setPackingDays(Array.from({ length: Math.max(1, count) }, (_, i) => i + 1));
       } catch (err) {
         console.error("Error fetching trip:", err);
         setError("Failed to load trip details");
@@ -73,10 +76,40 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
     );
   }
 
-  // Generate array of packing days
-  const packingDays = trip
-    ? Array.from({ length: trip.packing_days || 1 }, (_, i) => i + 1)
-    : [];
+  // Handlers to add/remove packing days (syncs local state and DB)
+  const addPackingDay = async () => {
+    try {
+      const newCount = packingDays.length + 1;
+      setPackingDays((prev) => [...prev, newCount]);
+      // Persist to DB
+      const { error } = await supabase
+        .from("trips")
+        .update({ packing_days: newCount })
+        .eq("id", trip.id);
+      if (error) throw error;
+      // Also reflect in trip object so overview shows updated count
+      setTrip((t) => ({ ...t, packing_days: newCount }));
+    } catch (e) {
+      console.error("Failed to add day", e);
+      // Optional: toast
+    }
+  };
+
+  const removePackingDay = async () => {
+    if (packingDays.length <= 1) return;
+    try {
+      const newCount = packingDays.length - 1;
+      setPackingDays((prev) => prev.slice(0, -1));
+      const { error } = await supabase
+        .from("trips")
+        .update({ packing_days: newCount })
+        .eq("id", trip.id);
+      if (error) throw error;
+      setTrip((t) => ({ ...t, packing_days: newCount }));
+    } catch (e) {
+      console.error("Failed to remove day", e);
+    }
+  };
 
   // Format date for display
   const formatDate = (dateString) => {
@@ -156,7 +189,21 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
 
         {view === "days" ? (
           <div className="packing-days">
-            <h2>Packing Days</h2>
+            <div className="packing-days-header">
+              <h2>Packing Days</h2>
+              <div className="actions">
+                {packingDays.length > 1 && (
+                  <button className="btn btn-outline" onClick={removePackingDay} title="Remove last day">
+                    <FaTrash />
+                    <span>Remove Day</span>
+                  </button>
+                )}
+                <button className="btn btn-primary" onClick={addPackingDay} title="Add day">
+                  <FaCalendarPlus />
+                  <span>Add Day</span>
+                </button>
+              </div>
+            </div>
             <div className="days-container">
               {packingDays.map((day) => (
                 <DaySection
