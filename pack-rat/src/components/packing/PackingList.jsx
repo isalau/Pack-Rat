@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import PackingItem from './PackingItem';
 import './PackingList.css';
@@ -9,9 +9,64 @@ const PackingList = ({ tripId, totalDays, day }) => {
   const [category, setCategory] = useState('Clothing');
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [events, setEvents] = useState([]); // [{ id, name }]
+  const [eventItemsMap, setEventItemsMap] = useState({}); // { [event_id]: Set(names) }
 
   useEffect(() => {
     fetchPackingItems();
+  }, [tripId, day]);
+
+  // Fetch events for this day and the template items associated with them
+  useEffect(() => {
+    const fetchEventsAndItems = async () => {
+      try {
+        // Get event instances for this trip/day
+        const { data: instances, error: instErr } = await supabase
+          .from('event_instances')
+          .select('*')
+          .eq('trip_id', tripId)
+          .eq('day', day);
+        if (instErr) throw instErr;
+
+        const eventIds = (instances || []).map((i) => i.event_id);
+        if (!eventIds.length) {
+          setEvents([]);
+          setEventItemsMap({});
+          return;
+        }
+
+        // Fetch event meta (name/title)
+        const { data: eventsData, error: eventsErr } = await supabase
+          .from('events')
+          .select('id, name')
+          .in('id', eventIds);
+        if (eventsErr) throw eventsErr;
+        setEvents(eventsData || []);
+
+        // Fetch template items for these events
+        const { data: eventItems, error: evItemsErr } = await supabase
+          .from('event_items')
+          .select('event_id, name')
+          .in('event_id', eventIds);
+        if (evItemsErr) throw evItemsErr;
+
+        const map = {};
+        (eventItems || []).forEach((row) => {
+          if (!map[row.event_id]) map[row.event_id] = new Set();
+          map[row.event_id].add(row.name);
+        });
+        setEventItemsMap(map);
+      } catch (e) {
+        console.error('Error fetching events/items for day:', e);
+        // Do not block packing list; just show items flat if needed
+        setEvents([]);
+        setEventItemsMap({});
+      }
+    };
+
+    if (tripId && day != null) {
+      fetchEventsAndItems();
+    }
   }, [tripId, day]);
 
   const fetchPackingItems = async () => {
@@ -33,6 +88,24 @@ const PackingList = ({ tripId, totalDays, day }) => {
       setIsLoading(false);
     }
   };
+
+  // Compute grouping: map items to the event whose template list contains their name
+  const grouped = useMemo(() => {
+    const remaining = [...items];
+    const groups = events.map((ev) => {
+      const names = eventItemsMap[ev.id] || new Set();
+      const belong = remaining.filter((it) => names.has(it.name));
+      // remove assigned from remaining
+      if (belong.length) {
+        belong.forEach((b) => {
+          const idx = remaining.findIndex((r) => r.id === b.id);
+          if (idx !== -1) remaining.splice(idx, 1);
+        });
+      }
+      return { event: ev, items: belong };
+    });
+    return { groups, others: remaining };
+  }, [items, events, eventItemsMap]);
 
   const handleAddItem = async (e) => {
     e.preventDefault();
@@ -137,14 +210,43 @@ const PackingList = ({ tripId, totalDays, day }) => {
         </div>
       ) : (
         <div className="items-container">
-          {items.map((item) => (
-            <PackingItem
-              key={item.id}
-              item={{ ...item, totalDays }}
-              onUpdate={handleUpdateItem}
-              onDelete={handleDeleteItem}
-            />
+          {/* Render grouped by events */}
+          {grouped.groups.map(({ event, items: evItems }) => (
+            <div key={event.id} className="event-group">
+              <div className="event-group__header">
+                <h4 className="event-title">{event.name || 'Event'}</h4>
+              </div>
+              {evItems.length === 0 ? (
+                <div className="empty-sublist">No items for this event.</div>
+              ) : (
+                evItems.map((item) => (
+                  <PackingItem
+                    key={item.id}
+                    item={{ ...item, totalDays }}
+                    onUpdate={handleUpdateItem}
+                    onDelete={handleDeleteItem}
+                  />
+                ))
+              )}
+            </div>
           ))}
+
+          {/* Remaining items without an event association */}
+          {grouped.others.length > 0 && (
+            <div className="event-group">
+              <div className="event-group__header">
+                <h4 className="event-title">Other items</h4>
+              </div>
+              {grouped.others.map((item) => (
+                <PackingItem
+                  key={item.id}
+                  item={{ ...item, totalDays }}
+                  onUpdate={handleUpdateItem}
+                  onDelete={handleDeleteItem}
+                />
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
