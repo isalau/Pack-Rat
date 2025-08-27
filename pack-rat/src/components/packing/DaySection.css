@@ -1,63 +1,28 @@
 .day-section {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   overflow: hidden;
 }
 
 .day-header {
-  background-color: #f8f9fa;
-  padding: 12px 16px;
-  border-bottom: 1px solid #e9ecef;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+  padding: 12px 16px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .day-header h3 {
   margin: 0;
   font-size: 1.1rem;
-  color: #333;
-}
-
-.day-events {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 4px 0;
-  flex: 1;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.event-tag {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 150px;
-  border: 1px solid #bbdefb;
+  color: #2c3e50;
 }
 
 .day-actions {
   position: relative;
-  display: flex;
-  gap: 8px;
-}
-
-.day-actions .btn {
-  white-space: nowrap;
-}
-
-.day-actions .btn svg {
-  margin-right: 4px;
 }
 
 /* Button styles */
