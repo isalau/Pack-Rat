@@ -222,7 +222,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
                 <h4 className="event-title">{event.name || "Event"}</h4>
                 <button
                   onClick={handleDeleteEvent}
-                  className="delete-trip-button"
+                  className="delete-event-button"
                   title="Delete event"
                 >
                   <FaTrash className="delete-trip-icon" />

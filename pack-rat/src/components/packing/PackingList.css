@@ -98,14 +98,36 @@
 
 .event-group {
   background-color: #fff;
-  padding: 10px;
+  padding: 10px 10px 10px 20px;
   border-radius: 25px;
 }
 
 .event-group__header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   width: fit-content;
   gap: 1rem;
+}
+
+.delete-event-button {
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+button.delete-event-button:hover {
+  background-color: transparent;
+}
+
+.event-group__header {
+  margin-bottom: 0.5rem;
+}
+
+.event-group__header h4 {
+  margin-bottom: 0;
 }
