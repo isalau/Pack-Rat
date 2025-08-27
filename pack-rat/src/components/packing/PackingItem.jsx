@@ -47,7 +47,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
             </option>
           ))}
         </select>
-        <div className="item-actions">
+        {/* <div className="item-actions">
           <button
             onClick={handleSave}
             className="icon-button"
@@ -62,7 +62,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
           >
             <FaTimes />
           </button>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -70,7 +70,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   return (
     <div className="packing-item">
       <span className="item-name">{item.name}</span>
-      <div className="item-actions">
+      {/* <div className="item-actions">
         <button
           onClick={() => setIsEditing(true)}
           className="icon-button"
@@ -85,7 +85,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
         >
           <FaTrash />
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

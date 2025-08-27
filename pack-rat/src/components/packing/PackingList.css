@@ -95,3 +95,8 @@
     padding: 1rem;
   }
 }
+
+.event-group {
+  background-color: #fff;
+  padding: 10px;
+}
