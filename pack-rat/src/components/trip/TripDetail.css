@@ -126,7 +126,7 @@
   z-index: 1001;
 }
 
-.packing-days h2::after {
+/* .packing-days h2::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -135,7 +135,7 @@
   height: 4px;
   background-color: #77874e;
   border-radius: 2px;
-}
+} */
 
 .days-container {
   display: flex;
@@ -304,4 +304,10 @@
   .days-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.packing-days-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }

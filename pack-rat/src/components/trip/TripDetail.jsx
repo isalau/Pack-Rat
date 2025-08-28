@@ -32,7 +32,9 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
         if (error) throw error;
         setTrip(data);
         const count = data?.packing_days ?? 1;
-        setPackingDays(Array.from({ length: Math.max(1, count) }, (_, i) => i + 1));
+        setPackingDays(
+          Array.from({ length: Math.max(1, count) }, (_, i) => i + 1)
+        );
       } catch (err) {
         console.error("Error fetching trip:", err);
         setError("Failed to load trip details");
@@ -92,22 +94,6 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
     } catch (e) {
       console.error("Failed to add day", e);
       // Optional: toast
-    }
-  };
-
-  const removePackingDay = async () => {
-    if (packingDays.length <= 1) return;
-    try {
-      const newCount = packingDays.length - 1;
-      setPackingDays((prev) => prev.slice(0, -1));
-      const { error } = await supabase
-        .from("trips")
-        .update({ packing_days: newCount })
-        .eq("id", trip.id);
-      if (error) throw error;
-      setTrip((t) => ({ ...t, packing_days: newCount }));
-    } catch (e) {
-      console.error("Failed to remove day", e);
     }
   };
 
@@ -190,15 +176,14 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
         {view === "days" ? (
           <div className="packing-days">
             <div className="packing-days-header">
+              <div className="empty-div-for-space"></div>
               <h2>Packing Days</h2>
-              <div className="actions">
-                {packingDays.length > 1 && (
-                  <button className="btn btn-outline" onClick={removePackingDay} title="Remove last day">
-                    <FaTrash />
-                    <span>Remove Day</span>
-                  </button>
-                )}
-                <button className="btn btn-primary" onClick={addPackingDay} title="Add day">
+              <div className="actions packing-day-actions">
+                <button
+                  className="btn btn-primary"
+                  onClick={addPackingDay}
+                  title="Add day"
+                >
                   <FaCalendarPlus />
                   <span>Add Day</span>
                 </button>
@@ -222,59 +207,60 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
                 onClose={() => setShowEventModal(false)}
                 onSelectEvent={async (event) => {
                   if (!selectedDay) return;
-                  
+
                   try {
                     setIsAdding(true);
-                    
+
                     // Add event instance
                     const { error: instanceError } = await supabase
-                      .from('event_instances')
-                      .insert([{
-                        event_id: event.id,
-                        trip_id: trip.id,
-                        day: selectedDay
-                      }]);
-                      
+                      .from("event_instances")
+                      .insert([
+                        {
+                          event_id: event.id,
+                          trip_id: trip.id,
+                          day: selectedDay,
+                        },
+                      ]);
+
                     if (instanceError) throw instanceError;
-                    
+
                     // Add event items to packing list
                     const { data: items, error: itemsError } = await supabase
-                      .from('event_items')
-                      .select('*')
-                      .eq('event_id', event.id);
-                      
+                      .from("event_items")
+                      .select("*")
+                      .eq("event_id", event.id);
+
                     if (itemsError) throw itemsError;
-                    
+
                     if (items && items.length > 0) {
-                      const itemsToAdd = items.map(item => ({
+                      const itemsToAdd = items.map((item) => ({
                         trip_id: trip.id,
                         name: item.name,
-                        category: item.category || 'Other',
+                        category: item.category || "Other",
                         day: selectedDay,
-                        is_packed: false
+                        is_packed: false,
                       }));
-                      
+
                       const { error: insertError } = await supabase
-                        .from('packing_items')
+                        .from("packing_items")
                         .insert(itemsToAdd);
-                        
+
                       if (insertError) throw insertError;
                     }
-                    
+
                     // Refresh the trip data to show the new event
                     const { data: updatedTrip } = await supabase
-                      .from('trips')
-                      .select('*')
-                      .eq('id', trip.id)
+                      .from("trips")
+                      .select("*")
+                      .eq("id", trip.id)
                       .single();
-                      
+
                     if (updatedTrip) {
                       setTrip(updatedTrip);
                     }
-                    
                   } catch (err) {
-                    console.error('Error adding event to day:', err);
-                    alert('Failed to add event to day');
+                    console.error("Error adding event to day:", err);
+                    alert("Failed to add event to day");
                   } finally {
                     setIsAdding(false);
                     setShowEventModal(false);
