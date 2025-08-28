@@ -261,6 +261,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           className="category-select"
+          aria-label="Select a category"
         >
           <option value="Clothing">Clothing</option>
           <option value="Toiletries">Toiletries</option>
