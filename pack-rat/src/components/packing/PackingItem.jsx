@@ -49,22 +49,6 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
             </option>
           ))}
         </select>
-        {/* <div className="item-actions">
-          <button
-            onClick={handleSave}
-            className="icon-button"
-            aria-label="Save"
-          >
-            <FaSave />
-          </button>
-          <button
-            onClick={() => setIsEditing(false)}
-            className="icon-button"
-            aria-label="Cancel"
-          >
-            <FaTimes />
-          </button>
-        </div> */}
       </div>
     );
   }
@@ -88,22 +72,6 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
       >
         <FaTimes className="delete-trip-item-icon" />
       </button>
-      {/* <div className="item-actions">
-        <button
-          onClick={() => setIsEditing(true)}
-          className="icon-button"
-          aria-label="Edit"
-        >
-          <FaEdit />
-        </button>
-        <button
-          onClick={() => onDelete(item.id)}
-          className="icon-button"
-          aria-label="Delete"
-        >
-          <FaTrash />
-        </button>
-      </div> */}
     </div>
   );
 };
