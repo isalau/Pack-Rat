@@ -68,7 +68,7 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
       <button
         onClick={handleDeleteItems}
         className="delete-trip-button"
-        title="Delete event"
+        title="Delete item"
       >
         <FaTimes className="delete-trip-item-icon" />
       </button>
