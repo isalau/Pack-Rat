@@ -172,66 +172,69 @@ const PackingList = ({ tripId, totalDays, day }) => {
   };
 
   const handleDeleteEvent = async (eventId) => {
-    if (!window.confirm('Are you sure you want to delete this event and all its associated items?')) {
+    if (
+      !window.confirm(
+        "Are you sure you want to delete this event and all its associated items?"
+      )
+    ) {
       return;
     }
 
     try {
       // Get the event template items to know which items to delete
       const { data: templateItems, error: templateError } = await supabase
-        .from('event_items')
-        .select('name')
-        .eq('event_id', eventId);
+        .from("event_items")
+        .select("name")
+        .eq("event_id", eventId);
 
       if (templateError) throw templateError;
 
       // If there are template items, delete matching packing items
       if (templateItems && templateItems.length > 0) {
-        const itemNames = templateItems.map(item => item.name);
+        const itemNames = templateItems.map((item) => item.name);
         const { error: deleteError } = await supabase
-          .from('packing_items')
+          .from("packing_items")
           .delete()
-          .eq('trip_id', tripId)
-          .eq('day', day)
-          .in('name', itemNames);
+          .eq("trip_id", tripId)
+          .eq("day", day)
+          .in("name", itemNames);
 
         if (deleteError) throw deleteError;
       }
 
       // Delete the event instance
       const { error: eventError } = await supabase
-        .from('event_instances')
+        .from("event_instances")
         .delete()
-        .eq('trip_id', tripId)
-        .eq('day', day)
-        .eq('event_id', eventId);
+        .eq("trip_id", tripId)
+        .eq("day", day)
+        .eq("event_id", eventId);
 
       if (eventError) throw eventError;
 
       // Refresh the data
       fetchPackingItems();
-      
+
       // Refetch events to update the UI
       const { data: instances } = await supabase
-        .from('event_instances')
-        .select('*')
-        .eq('trip_id', tripId)
-        .eq('day', day);
+        .from("event_instances")
+        .select("*")
+        .eq("trip_id", tripId)
+        .eq("day", day);
 
       const eventIds = (instances || []).map((i) => i.event_id);
       if (eventIds.length > 0) {
         const { data: eventsData } = await supabase
-          .from('events')
-          .select('id, name')
-          .in('id', eventIds);
+          .from("events")
+          .select("id, name")
+          .in("id", eventIds);
         setEvents(eventsData || []);
       } else {
         setEvents([]);
       }
-
     } catch (error) {
-      console.error('Error deleting event:', error);
-      setError('Failed to delete event');
+      console.error("Error deleting event:", error);
+      setError("Failed to delete event");
     }
   };
 
@@ -252,6 +255,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
           onChange={(e) => setNewItem(e.target.value)}
           placeholder="Add an item..."
           className="item-input"
+          aria-label="Item Name"
         />
         <select
           value={category}
