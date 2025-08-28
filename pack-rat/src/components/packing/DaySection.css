@@ -25,6 +25,11 @@
   position: relative;
 }
 
+.day-actions > .btn.btn-sm.btn-secondary:first-child {
+  margin-right: 1rem;
+  background-color: var(--color-primary);
+}
+
 /* Button styles */
 .btn {
   display: inline-flex;
