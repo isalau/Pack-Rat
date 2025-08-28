@@ -220,13 +220,13 @@ const PackingList = ({ tripId, totalDays, day }) => {
             <div key={event.id} className="event-group">
               <div className="event-group__header">
                 <h4 className="event-title">{event.name || "Event"}</h4>
-                {/* <button
+                <button
                   onClick={handleDeleteEvent}
                   className="delete-event-button"
                   title="Delete event"
                 >
                   <FaTrash className="delete-trip-icon" />
-                </button> */}
+                </button>
               </div>
               {evItems.length === 0 ? (
                 <div className="empty-sublist">No items for this event.</div>

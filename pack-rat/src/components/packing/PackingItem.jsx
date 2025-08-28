@@ -76,13 +76,29 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   return (
     <div className="packing-item">
       <span className="item-name">{item.name}</span>
-      {/* <button
+      <button
         onClick={handleDeleteItems}
         className="delete-trip-button"
         title="Delete event"
       >
         <FaTimes className="delete-trip-item-icon" />
-      </button> */}
+      </button>
+      {/* <div className="item-actions">
+        <button
+          onClick={() => setIsEditing(true)}
+          className="icon-button"
+          aria-label="Edit"
+        >
+          <FaEdit />
+        </button>
+        <button
+          onClick={() => onDelete(item.id)}
+          className="icon-button"
+          aria-label="Delete"
+        >
+          <FaTrash />
+        </button>
+      </div> */}
     </div>
   );
 };
