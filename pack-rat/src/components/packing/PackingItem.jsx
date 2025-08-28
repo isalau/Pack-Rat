@@ -70,7 +70,12 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   }
 
   const handleDeleteItems = async (e) => {
-    // TODO: delete event from day
+    e.stopPropagation();
+    if (window.confirm(`Are you sure you want to remove "${item.name}"?`)) {
+      if (onDelete) {
+        onDelete(item.id);
+      }
+    }
   };
 
   return (
