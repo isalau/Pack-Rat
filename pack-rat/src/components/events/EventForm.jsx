@@ -112,7 +112,7 @@ const EventForm = () => {
 
       // Create or update event
       if (!user) {
-        throw new Error('User not authenticated');
+        throw new Error("User not authenticated");
       }
 
       const eventData = {
@@ -308,10 +308,16 @@ const EventForm = () => {
                   handleItemChange(index, "category", e.target.value)
                 }
               >
+                <option value="Accessories">Accessories</option>
+                <option value="Bags">Bags</option>
                 <option value="Clothing">Clothing</option>
-                <option value="Toiletries">Toiletries</option>
-                <option value="Electronics">Electronics</option>
                 <option value="Documents">Documents</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Makeup">Makeup</option>
+                <option value="Meds">Meds</option>
+                <option value="Shoes">Shoes</option>
+                <option value="Toiletries">Toiletries</option>
+                <option value="Travel">Travel</option>
                 <option value="Other">Other</option>
               </select>
 

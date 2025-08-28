@@ -32,10 +32,16 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
           onChange={(e) => setEditedCategory(e.target.value)}
           className="category-select"
         >
+          <option value="Accessories">Accessories</option>
+          <option value="Bags">Bags</option>
           <option value="Clothing">Clothing</option>
-          <option value="Toiletries">Toiletries</option>
-          <option value="Electronics">Electronics</option>
           <option value="Documents">Documents</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Makeup">Makeup</option>
+          <option value="Meds">Meds</option>
+          <option value="Shoes">Shoes</option>
+          <option value="Toiletries">Toiletries</option>
+          <option value="Travel">Travel</option>
           <option value="Other">Other</option>
         </select>
         <select
