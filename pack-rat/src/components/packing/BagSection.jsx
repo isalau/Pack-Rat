@@ -259,16 +259,19 @@ const BagSection = ({ tripId }) => {
         {bags.map((bag) => (
           <div key={bag.id} className="bag-card">
             <div className="bag-header">
-              <h3>{bag.name}</h3>
-              <button
-                className="icon-button"
-                onClick={() =>
-                  setCurrentBag(currentBag?.id === bag.id ? null : bag)
-                }
-                aria-label={currentBag?.id === bag.id ? 'Collapse bag' : 'Expand bag'}
-              >
-                {currentBag?.id === bag.id ? <FaTimes /> : <FaPlus />}
-              </button>
+              <div className="bag-title-container">
+                <h3>{bag.name}</h3>
+                <button
+                  className="icon-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentBag(currentBag?.id === bag.id ? null : bag);
+                  }}
+                  aria-label={currentBag?.id === bag.id ? 'Collapse bag' : 'Expand bag'}
+                >
+                  {currentBag?.id === bag.id ? <FaTimes /> : <FaPlus />}
+                </button>
+              </div>
             </div>
 
             {currentBag?.id === bag.id && (
