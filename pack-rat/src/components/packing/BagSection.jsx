@@ -131,9 +131,36 @@ const BagSection = ({ tripId }) => {
     const currentInput = bagInputs[bagId];
     if (!currentInput?.newItem?.trim() || !bagId) return;
 
+    const itemName = currentInput.newItem.trim();
+    const itemCategory = currentInput.category;
+    
+    // Optimistically update the UI
+    const tempId = `temp-${Date.now()}`;
+    setBags(prevBags => 
+      prevBags.map(bag => 
+        bag.id === bagId 
+          ? { 
+              ...bag, 
+              items: [
+                ...(bag.items || []), 
+                { 
+                  id: tempId, 
+                  name: itemName, 
+                  category: itemCategory, 
+                  packed: false,
+                  isOptimistic: true
+                }
+              ] 
+            } 
+          : bag
+      )
+    );
+    
+    // Clear the input immediately
+    updateBagInput(bagId, 'newItem', '');
+    updateBagInput(bagId, 'category', 'Clothing');
+    
     try {
-      setIsLoading(true);
-      
       // Check if user is authenticated
       const { data: { session }, error: authError } = await supabase.auth.getSession();
       if (authError || !session) {
@@ -145,8 +172,8 @@ const BagSection = ({ tripId }) => {
         .insert([
           { 
             bag_id: bagId, 
-            name: currentInput.newItem.trim(), 
-            category: currentInput.category,
+            name: itemName, 
+            category: itemCategory,
             packed: false,
             user_id: session.user.id
           },
@@ -156,30 +183,43 @@ const BagSection = ({ tripId }) => {
       if (error) throw error;
 
       if (data && data[0]) {
-        // Update the UI by fetching the latest data
-        const { data: updatedBag, error: fetchError } = await supabase
-          .from('bag_items')
-          .select('*')
-          .eq('bag_id', bagId);
-          
-        if (fetchError) throw fetchError;
-        
+        // Update the UI with the actual database record
         setBags(prevBags => 
           prevBags.map(bag => 
             bag.id === bagId 
-              ? { ...bag, items: updatedBag || [] } 
+              ? { 
+                  ...bag, 
+                  items: [
+                    ...(bag.items || []).filter(item => item.id !== tempId),
+                    data[0]
+                  ].sort((a, b) => a.name.localeCompare(b.name)) // Optional: sort items
+                } 
               : bag
           )
         );
-        
-        // Clear the input for this bag
-        updateBagInput(bagId, 'newItem', '');
-        updateBagInput(bagId, 'category', 'Clothing');
-        setError(null);
       }
     } catch (err) {
       console.error("Error adding item to bag:", err);
+      
+      // Revert optimistic update on error
+      setBags(prevBags => 
+        prevBags.map(bag => 
+          bag.id === bagId 
+            ? { 
+                ...bag, 
+                items: (bag.items || []).filter(item => item.id !== tempId)
+              } 
+            : bag
+        )
+      );
+      
+      // Restore the input that failed to submit
+      updateBagInput(bagId, 'newItem', itemName);
+      updateBagInput(bagId, 'category', itemCategory);
+      
       setError("Failed to add item to bag");
+    } finally {
+      setIsLoading(false);
     }
   };
 
