@@ -20,11 +20,14 @@ const PackingItem = ({ item, onUpdate, onDelete, onTogglePacked }) => {
 
   if (isEditing) {
     return (
-      <div className={`packing-item ${item.is_packed ? 'packed' : ''}`}>
+      <div className={`packing-item ${item.is_packed ? "packed" : ""}`}>
         <input
           type="checkbox"
           checked={item.is_packed}
-          onChange={onTogglePacked || (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))}
+          onChange={
+            onTogglePacked ||
+            (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))
+          }
           className="packed-checkbox"
         />
         <input
@@ -75,17 +78,22 @@ const PackingItem = ({ item, onUpdate, onDelete, onTogglePacked }) => {
   };
 
   return (
-    <div className={`packing-item ${item.is_packed ? 'packed' : ''}`}>
+    <div className={`packing-item ${item.is_packed ? "packed" : ""}`}>
       <input
         type="checkbox"
         checked={item.is_packed || false}
-        onChange={onTogglePacked || (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))}
+        onChange={
+          onTogglePacked ||
+          (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))
+        }
         className="packed-checkbox"
       />
       <span className="item-name">
         {item.name}
         {item.count > 1 && <span className="item-count">×{item.count}</span>}
-        {item.category && <span className="item-category">{item.category}</span>}
+        {/* {item.category && (
+          <span className="item-category">{item.category}</span>
+        )} */}
       </span>
       {onDelete && (
         <button
