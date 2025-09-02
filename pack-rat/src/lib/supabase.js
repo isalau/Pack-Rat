@@ -35,13 +35,13 @@ export const addTrip = async (tripData, userId) => {
       .from("trips")
       .insert([
         {
-          trip_name: tripData.tripName,
-          origin: tripData.origin,
-          destination: tripData.destination,
+          trip_name: tripData.tripName.toLowerCase(),
+          origin: tripData.origin.toLowerCase(),
+          destination: tripData.destination.toLowerCase(),
           start_date: tripData.startDate,
           end_date: tripData.endDate,
           packing_days: tripData.packingDays,
-          notes: tripData.notes,
+          notes: tripData.notes.toLowerCase(),
           user_id: userId, // Add the user's UID to the trip
         },
       ])
