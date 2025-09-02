@@ -158,8 +158,6 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
         )}
       </div>
 
-      <BagSection tripId={trip.id} />
-
       <div className="packing-views">
         <div className="view-tabs">
           <button
@@ -169,6 +167,12 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
             By Day
           </button>
           <button
+            className={`view-tab ${view === "bags" ? "active" : ""}`}
+            onClick={() => setView("bags")}
+          >
+            Bags
+          </button>
+          <button
             className={`view-tab ${view === "summary" ? "active" : ""}`}
             onClick={() => setView("summary")}
           >
@@ -176,7 +180,11 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
           </button>
         </div>
 
-        {view === "days" ? (
+        {view === "bags" ? (
+          <div className="bags-view">
+            <BagSection tripId={trip.id} />
+          </div>
+        ) : view === "days" ? (
           <div className="packing-days">
             <div className="packing-days-header">
               <div className="empty-div-for-space"></div>
