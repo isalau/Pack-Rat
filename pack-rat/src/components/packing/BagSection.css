@@ -167,7 +167,73 @@
   background-color: #f8fafc;
 }
 
-@media (min-width: 450px) and (max-width: 765px) {
+.bag-items-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bag-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.bag-item:last-child {
+  border-bottom: none;
+}
+
+.bag-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  appearance: none;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.bag-item input[type="checkbox"]:checked {
+  background-color: #77874e;
+  border-color: #77874e;
+}
+
+.bag-item input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 0.5rem;
+}
+
+.delete-button:hover {
+  color: #ef4444;
+  background-color: #fee2e2;
+}
+
+@media (max-width: 800px) {
   .bags-header {
     flex-direction: column;
     align-items: flex-start;
@@ -182,13 +248,24 @@
   .add-bag-form .form-actions {
     justify-content: flex-start;
   }
-}
 
-@media (max-width: 800px) {
-  .checkbox-container {
+  .bag-item {
+    display: flex;
     flex-wrap: wrap;
+    gap: 0.5rem;
     align-items: center;
-    row-gap: 0.25rem; /* Add some space between the rows */
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .bag-item-category {
+    flex: 2;
+    font-size: 0.85rem;
+    color: #757575;
+    background-color: #f0f0f0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    text-align: center;
   }
 }
 

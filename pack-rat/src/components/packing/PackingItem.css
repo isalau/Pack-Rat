@@ -128,7 +128,7 @@
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 780px) {
   .packing-item {
     width: auto;
   }
@@ -150,12 +150,9 @@
     margin-top: 0.5rem;
   }
 
-  .delete-button {
-    order: 1; /* Keep delete button on the first row */
-  }
-
   .item-category {
-    order: 2; /* Move category to the next line */
+    /* order: 0;  */
+    /* Move category to the next line */
     flex-basis: 100%; /* Make category take the full width */
     margin-left: 0; /* Align under item name, accounting for checkbox and gap */
     text-align: left;

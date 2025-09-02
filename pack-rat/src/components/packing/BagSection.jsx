@@ -402,37 +402,37 @@ const BagSection = ({ tripId }) => {
                 </form>
 
                 <div className="bag-content-scrollable">
-                  <ul className="items-list">
+                  <ul className="bag-items-list">
                     {bag.items?.map((item) => (
-                      <li key={item.id} className="item">
-                        <label className="checkbox-container">
-                          <input
-                            type="checkbox"
-                            checked={item.packed}
-                            onChange={() =>
-                              toggleItemPacked(bag.id, item.id, item.packed)
-                            }
-                            aria-label={`Mark ${item.name} as ${
-                              item.packed ? "unpacked" : "packed"
-                            }`}
-                          />
-                          <span
-                            className={`item-name ${
-                              item.packed ? "packed" : ""
-                            }`}
-                          >
-                            {item.name}
-                          </span>
-                          <span className="item-category">{item.category}</span>
-                          <button
-                            type="button"
-                            className="delete-button"
-                            onClick={() => removeItemFromBag(bag.id, item.id)}
-                            aria-label={`Remove ${item.name}`}
-                          >
-                            <FaTrash />
-                          </button>
-                        </label>
+                      <li key={item.id} className="bag-item">
+                        {/* <label className="checkbox-container"> */}
+                        <input
+                          type="checkbox"
+                          checked={item.packed}
+                          onChange={() =>
+                            toggleItemPacked(bag.id, item.id, item.packed)
+                          }
+                          aria-label={`Mark ${item.name} as ${
+                            item.packed ? "unpacked" : "packed"
+                          }`}
+                        />
+                        <span
+                          className={`item-name ${item.packed ? "packed" : ""}`}
+                        >
+                          {item.name}
+                        </span>
+                        <span className="item-category bag-item-category">
+                          {item.category}
+                        </span>
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => removeItemFromBag(bag.id, item.id)}
+                          aria-label={`Remove ${item.name}`}
+                        >
+                          <FaTrash />
+                        </button>
+                        {/* </label> */}
                       </li>
                     ))}
                   </ul>

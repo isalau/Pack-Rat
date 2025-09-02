@@ -64,12 +64,6 @@
   font-size: 1.3rem;
 }
 
-.items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
 .packing-summary-item {
   display: flex;
   align-items: center;
