@@ -394,10 +394,10 @@ const BagSection = ({ tripId }) => {
                   </select>
                   <button
                     type="submit"
-                    className="add-button"
+                    className="add-button button btn btn-primary"
                     disabled={!bagInputs[bag.id]?.newItem?.trim() || isLoading}
                   >
-                    Add
+                    Add Item
                   </button>
                 </form>
 
