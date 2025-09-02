@@ -379,6 +379,35 @@
 }
 
 /* Responsive adjustments */
+@media (max-width: 800px) {
+  /* Keep checkbox + item-name on the first row and move category to its own row */
+  .checkbox-container {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.25rem; /* Add some space between the rows */
+  }
+
+  .item-name {
+    flex-grow: 0;
+  }
+
+  .item-category {
+    margin-left: 0;
+  }
+
+  .delete-button {
+    order: 1;
+  }
+}
+
+@media (max-width: 800px) {
+  .checkbox-container {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.25rem; /* Add some space between the rows */
+  }
+}
+
 @media (max-width: 600px) {
   .add-item-form {
     flex-direction: column;

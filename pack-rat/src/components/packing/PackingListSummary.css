@@ -185,16 +185,6 @@
   line-height: 1;
 }
 
-.item-day {
-  background: #e0e0e0;
-  color: #757575;
-  font-size: 0.75rem;
-  padding: 3px 8px;
-  border-radius: 10px;
-  margin-left: 10px;
-  white-space: nowrap;
-}
-
 .loading {
   text-align: center;
   padding: 20px;
@@ -220,10 +210,5 @@
 
   .item-name {
     font-size: 0.95rem;
-  }
-
-  .item-day {
-    font-size: 0.7rem;
-    padding: 2px 6px;
   }
 }

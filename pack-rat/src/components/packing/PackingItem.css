@@ -52,8 +52,7 @@
 }
 
 .packed .item-name,
-.packed .item-category,
-.packed .item-day {
+.packed .item-category {
   text-decoration: line-through;
   color: #757575;
 }
@@ -72,13 +71,6 @@
   padding: 0.2rem 0.5rem;
   border-radius: 12px;
   text-align: center;
-}
-
-.item-day {
-  flex: 1;
-  text-align: center;
-  font-size: 0.85rem;
-  color: #757575;
 }
 
 .item-actions {
@@ -127,36 +119,45 @@
   flex: 1;
 }
 
+.packing-item {
+  display: flex;
+  align-items: baseline;
+  /* justify-content: space-between; */
+  width: fit-content;
+  /* gap: 1rem; */
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .packing-item {
-    flex-wrap: wrap;
-    padding: 0.75rem;
-    gap: 0.5rem;
+    width: auto;
   }
 
-  .item-name,
-  .item-category,
-  .item-day {
-    flex: 1 0 100%;
+  .item-name {
+    flex-wrap: wrap;
+    flex: 0 0 75%;
     text-align: left;
   }
 
-  .item-category,
-  .item-day {
-    padding-left: 2rem;
+  .item-category {
+    flex: 0 0 75%;
+    text-align: left;
+    margin-left: 0;
   }
 
   .item-actions {
     margin-left: 0;
     margin-top: 0.5rem;
   }
-}
 
-.packing-item {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  width: fit-content;
-  gap: 1rem;
+  .delete-button {
+    order: 1; /* Keep delete button on the first row */
+  }
+
+  .item-category {
+    order: 2; /* Move category to the next line */
+    flex-basis: 100%; /* Make category take the full width */
+    margin-left: 0; /* Align under item name, accounting for checkbox and gap */
+    text-align: left;
+  }
 }
