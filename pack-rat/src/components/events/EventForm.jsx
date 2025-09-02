@@ -157,7 +157,7 @@ const EventForm = () => {
       for (const item of formData.items) {
         const itemData = {
           event_id: eventId,
-          name: item.name.trim(),
+          name: item.name.trim().toLowerCase(),
           category: item.category,
           quantity: parseInt(item.quantity, 10) || 1,
         };
