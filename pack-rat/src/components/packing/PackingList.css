@@ -7,13 +7,16 @@
 }
 
 .bag-card {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 1.25rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 650px;
   border: 1px solid #e2e8f0;
 }
 
@@ -108,12 +111,12 @@
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .add-bag-form-container {
     width: 100%;
     margin-left: 0;
   }
-  
+
   .add-bag-form .form-actions {
     justify-content: flex-start;
   }
@@ -133,25 +136,70 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1040px) {
   .bags-container {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  .bag-content {
+    overflow: hidden;
+  }
+
+  .bag-content > *:not(.bag-content-scrollable) {
+    flex-shrink: 0;
+  }
+
+  .bag-content > .bag-content-scrollable {
+    max-height: 500px; /* Adjusted to account for padding and form */
+  }
 }
 
-/* Ensure cards take full height of their grid cell */
-.bag-card {
-  height: 100%;
+/* Card content area */
+.bag-content {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  gap: 1rem;
 }
 
-.bag-content {
-  padding: 0.5rem 0 0 0;
-  background: transparent;
-  border-top: 1px solid #f1f5f9;
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
+/* Scrollable items container */
+.bag-content-scrollable {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-right: -0.5rem;
+  padding-top: 0.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 100%;
+}
+
+/* Custom scrollbar for webkit browsers */
+.bag-content-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* For Firefox */
+.bag-content-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 rgba(0, 0, 0, 0.05);
 }
 
 .items-list {
@@ -204,7 +252,7 @@
 }
 
 .item input[type="checkbox"]:checked::after {
-  content: '✓';
+  content: "✓";
   position: absolute;
   color: white;
   font-size: 12px;
@@ -262,7 +310,7 @@
 .add-item-form {
   display: flex;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
   flex-wrap: wrap;
 }
 

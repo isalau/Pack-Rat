@@ -281,7 +281,11 @@ const BagSection = ({ tripId }) => {
           </div>
         )}
       </div>
-      {error && <div className="error">{error}</div>}
+      {error && (
+        <div className="error">
+          {error}
+        </div>
+      )}
 
       <div className="bags-container">
         {bags.map((bag) => (
@@ -342,42 +346,39 @@ const BagSection = ({ tripId }) => {
                     Add
                   </button>
                 </form>
-
-                <ul className="items-list">
-                  {bag.items?.map((item) => (
-                    <li key={item.id} className="item">
-                      <label className="checkbox-container">
-                        <input
-                          type="checkbox"
-                          checked={item.packed}
-                          onChange={() =>
-                            toggleItemPacked(bag.id, item.id, item.packed)
-                          }
-                          aria-label={`Mark ${item.name} as ${
-                            item.packed ? 'unpacked' : 'packed'
-                          }`}
-                        />
-                        <span className={`item-name ${item.packed ? 'packed' : ''}`}>
-                          {item.name}
-                        </span>
-                        <span className="item-category">{item.category}</span>
-                        <button
-                          type="button"
-                          className="delete-button"
-                          onClick={() => removeItemFromBag(bag.id, item.id)}
-                          aria-label={`Remove ${item.name}`}
-                        >
-                          <FaTrash />
-                        </button>
-                      </label>
-                    </li>
-                  ))}
-                  {!bag.items?.length && (
-                    <li className="empty-state">
-                      <p>No items in this bag yet. Add some items above.</p>
-                    </li>
-                  )}
-                </ul>
+                
+                <div className="bag-content-scrollable">
+                  <ul className="items-list">
+                    {bag.items?.map((item) => (
+                      <li key={item.id} className="item">
+                        <label className="checkbox-container">
+                          <input
+                            type="checkbox"
+                            checked={item.packed}
+                            onChange={() =>
+                              toggleItemPacked(bag.id, item.id, item.packed)
+                            }
+                            aria-label={`Mark ${item.name} as ${
+                              item.packed ? 'unpacked' : 'packed'
+                            }`}
+                          />
+                          <span className={`item-name ${item.packed ? 'packed' : ''}`}>
+                            {item.name}
+                          </span>
+                          <span className="item-category">{item.category}</span>
+                          <button
+                            type="button"
+                            className="delete-button"
+                            onClick={() => removeItemFromBag(bag.id, item.id)}
+                            aria-label={`Remove ${item.name}`}
+                          >
+                            <FaTrash />
+                          </button>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             )}
           </div>
