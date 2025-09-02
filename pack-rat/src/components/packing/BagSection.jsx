@@ -7,11 +7,19 @@ const BagSection = ({ tripId }) => {
   const [bags, setBags] = useState([]);
   const [showBagForm, setShowBagForm] = useState(false);
   const [bagName, setBagName] = useState("");
-  const [currentBag, setCurrentBag] = useState(null);
+  const [expandedBags, setExpandedBags] = useState({});
   const [newItem, setNewItem] = useState("");
   const [category, setCategory] = useState("Clothing");
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Toggle expanded state for a bag
+  const toggleBagExpand = (bagId) => {
+    setExpandedBags(prev => ({
+      ...prev,
+      [bagId]: !prev[bagId]
+    }));
+  };
 
   // Fetch bags when component mounts or tripId changes
   useEffect(() => {
@@ -268,16 +276,16 @@ const BagSection = ({ tripId }) => {
                   className="icon-button"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCurrentBag(currentBag?.id === bag.id ? null : bag);
+                    toggleBagExpand(bag.id);
                   }}
-                  aria-label={currentBag?.id === bag.id ? 'Collapse bag' : 'Expand bag'}
+                  aria-label={expandedBags[bag.id] ? 'Collapse bag' : 'Expand bag'}
                 >
-                  {currentBag?.id === bag.id ? <FaTimes /> : <FaPlus />}
+                  {expandedBags[bag.id] ? <FaTimes /> : <FaPlus />}
                 </button>
               </div>
             </div>
 
-            {currentBag?.id === bag.id && (
+            {expandedBags[bag.id] && (
               <div className="bag-content">
                 <form
                   onSubmit={(e) => addItemToBag(bag.id, e)}
