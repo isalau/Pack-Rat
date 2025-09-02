@@ -116,8 +116,8 @@ const EventForm = () => {
       }
 
       const eventData = {
-        name: formData.name.trim(),
-        description: formData.description.trim() || null,
+        name: formData.name.trim().toLowerCase(),
+        description: formData.description.trim().toLowerCase() || null,
         user_id: user.id,
       };
 
