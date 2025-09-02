@@ -131,7 +131,7 @@ const BagSection = ({ tripId }) => {
     const currentInput = bagInputs[bagId];
     if (!currentInput?.newItem?.trim() || !bagId) return;
 
-    const itemName = currentInput.newItem.trim();
+    const itemName = currentInput.newItem.trim().toLowerCase();
     const itemCategory = currentInput.category;
     
     // Optimistically update the UI

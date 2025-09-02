@@ -118,7 +118,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
         .insert([
           {
             trip_id: tripId,
-            name: newItem.trim(),
+            name: newItem.trim().toLowerCase(),
             category,
             day: parseInt(day, 10),
           },
