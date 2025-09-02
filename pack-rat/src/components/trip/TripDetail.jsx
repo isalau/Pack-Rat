@@ -164,7 +164,7 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
             className={`view-tab ${view === "days" ? "active" : ""}`}
             onClick={() => setView("days")}
           >
-            By Day
+            Days
           </button>
           <button
             className={`view-tab ${view === "bags" ? "active" : ""}`}
