@@ -1,0 +1,217 @@
+.bag-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 650px;
+  border: 1px solid #e2e8f0;
+}
+
+.bag-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bag-header {
+  cursor: pointer;
+  margin-bottom: 1rem;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.bag-header:hover {
+  background: none;
+}
+
+.bag-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.bag-title-container h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a090d;
+  flex-grow: 1;
+  margin-right: 0.5rem;
+}
+
+.bag-title-container .icon-button {
+  color: #77874e;
+  background: rgba(119, 135, 78, 0.1);
+  border: 1px solid rgba(119, 135, 78, 0.2);
+  padding: 0.35rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  width: 28px;
+  height: 28px;
+}
+
+.bag-title-container .icon-button:hover {
+  background: rgba(119, 135, 78, 0.2);
+  transform: translateY(-1px);
+}
+
+.bags-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.bags-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #1a090d;
+}
+
+.add-bag-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin-left: auto;
+}
+
+.add-bag-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.add-bag-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.bags-container {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  padding: 0.25rem 0;
+}
+
+.bag-content {
+  padding: 0 1.25rem 1.25rem 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 1rem;
+}
+
+/* Scrollable items container */
+.bag-content-scrollable {
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-right: -0.5rem;
+  padding-top: 0.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 100%;
+}
+
+/* Custom scrollbar for webkit browsers */
+.bag-content-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.bag-content-scrollable::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* For Firefox */
+.bag-content-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: #c1c1c1 rgba(0, 0, 0, 0.05);
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.75rem;
+  cursor: pointer;
+  padding: 0.5rem 0.25rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox-container:hover {
+  background-color: #f8fafc;
+}
+
+@media (min-width: 450px) and (max-width: 765px) {
+  .bags-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .add-bag-form-container {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .add-bag-form .form-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 800px) {
+  .checkbox-container {
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.25rem; /* Add some space between the rows */
+  }
+}
+
+@media (min-width: 768px) {
+  .bags-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1040px) {
+  .bags-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bag-content {
+    overflow: hidden;
+  }
+
+  .bag-content > *:not(.bag-content-scrollable) {
+    flex-shrink: 0;
+  }
+
+  .bag-content > .bag-content-scrollable {
+    max-height: 500px; /* Adjusted to account for padding and form */
+  }
+}

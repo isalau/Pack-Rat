@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { FaTrash, FaPlus, FaTimes } from "react-icons/fa";
 import { supabase } from "../../lib/supabase";
 import "./PackingList.css";
+import "./BagSection.css";
 
 const BagSection = ({ tripId }) => {
   const [bags, setBags] = useState([]);
@@ -11,28 +12,28 @@ const BagSection = ({ tripId }) => {
   const [bagInputs, setBagInputs] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // Toggle expanded state for a bag
   const toggleBagExpand = (bagId) => {
-    setExpandedBags(prev => ({
+    setExpandedBags((prev) => ({
       ...prev,
-      [bagId]: !prev[bagId]
+      [bagId]: !prev[bagId],
     }));
     // Initialize input state for this bag if it doesn't exist
-    setBagInputs(prev => ({
+    setBagInputs((prev) => ({
       ...prev,
-      [bagId]: prev[bagId] || { newItem: "", category: "Clothing" }
+      [bagId]: prev[bagId] || { newItem: "", category: "Clothing" },
     }));
   };
-  
+
   // Update input state for a specific bag
   const updateBagInput = (bagId, field, value) => {
-    setBagInputs(prev => ({
+    setBagInputs((prev) => ({
       ...prev,
       [bagId]: {
         ...(prev[bagId] || { newItem: "", category: "Clothing" }),
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -40,41 +41,44 @@ const BagSection = ({ tripId }) => {
   useEffect(() => {
     const fetchBags = async () => {
       if (!tripId) return;
-      
+
       try {
         setIsLoading(true);
         // First fetch bags
         const { data: bagsData, error: bagsError } = await supabase
-          .from('bags')
-          .select('*')
-          .eq('trip_id', tripId)
-          .order('created_at', { ascending: true });
+          .from("bags")
+          .select("*")
+          .eq("trip_id", tripId)
+          .order("created_at", { ascending: true });
 
         if (bagsError) throw bagsError;
-        
+
         if (!bagsData || bagsData.length === 0) {
           setBags([]);
           return;
         }
-        
+
         // Then fetch items for all bags
         const { data: itemsData, error: itemsError } = await supabase
-          .from('bag_items')
-          .select('*')
-          .in('bag_id', bagsData.map(bag => bag.id));
-          
+          .from("bag_items")
+          .select("*")
+          .in(
+            "bag_id",
+            bagsData.map((bag) => bag.id)
+          );
+
         if (itemsError) throw itemsError;
-        
+
         // Combine bags with their items
-        const bagsWithItems = bagsData.map(bag => ({
+        const bagsWithItems = bagsData.map((bag) => ({
           ...bag,
-          items: itemsData.filter(item => item.bag_id === bag.id) || []
+          items: itemsData.filter((item) => item.bag_id === bag.id) || [],
         }));
-        
+
         setBags(bagsWithItems);
       } catch (err) {
-        console.error('Error fetching bags:', err);
-        setError('Failed to load bags');
+        console.error("Error fetching bags:", err);
+        setError("Failed to load bags");
       } finally {
         setIsLoading(false);
       }
@@ -86,7 +90,7 @@ const BagSection = ({ tripId }) => {
   const addBag = async (e) => {
     e.preventDefault();
     if (!bagName.trim()) return;
-    
+
     if (!tripId) {
       setError("Cannot add bag: No trip selected");
       return;
@@ -94,20 +98,25 @@ const BagSection = ({ tripId }) => {
 
     try {
       setIsLoading(true);
-      
+
       // Check if user is authenticated
-      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: authError,
+      } = await supabase.auth.getSession();
       if (authError || !session) {
         throw new Error("You must be logged in to add a bag");
       }
 
       const { data, error } = await supabase
         .from("bags")
-        .insert([{ 
-          trip_id: tripId, 
-          name: bagName.trim(),
-          user_id: session.user.id
-        }])
+        .insert([
+          {
+            trip_id: tripId,
+            name: bagName.trim(),
+            user_id: session.user.id,
+          },
+        ])
         .select();
 
       if (error) throw error;
@@ -133,36 +142,39 @@ const BagSection = ({ tripId }) => {
 
     const itemName = currentInput.newItem.trim().toLowerCase();
     const itemCategory = currentInput.category;
-    
+
     // Optimistically update the UI
     const tempId = `temp-${Date.now()}`;
-    setBags(prevBags => 
-      prevBags.map(bag => 
-        bag.id === bagId 
-          ? { 
-              ...bag, 
+    setBags((prevBags) =>
+      prevBags.map((bag) =>
+        bag.id === bagId
+          ? {
+              ...bag,
               items: [
-                ...(bag.items || []), 
-                { 
-                  id: tempId, 
-                  name: itemName, 
-                  category: itemCategory, 
+                ...(bag.items || []),
+                {
+                  id: tempId,
+                  name: itemName,
+                  category: itemCategory,
                   packed: false,
-                  isOptimistic: true
-                }
-              ] 
-            } 
+                  isOptimistic: true,
+                },
+              ],
+            }
           : bag
       )
     );
-    
+
     // Clear the input immediately
-    updateBagInput(bagId, 'newItem', '');
-    updateBagInput(bagId, 'category', 'Clothing');
-    
+    updateBagInput(bagId, "newItem", "");
+    updateBagInput(bagId, "category", "Clothing");
+
     try {
       // Check if user is authenticated
-      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      const {
+        data: { session },
+        error: authError,
+      } = await supabase.auth.getSession();
       if (authError || !session) {
         throw new Error("You must be logged in to add items");
       }
@@ -170,12 +182,12 @@ const BagSection = ({ tripId }) => {
       const { data, error } = await supabase
         .from("bag_items")
         .insert([
-          { 
-            bag_id: bagId, 
-            name: itemName, 
+          {
+            bag_id: bagId,
+            name: itemName,
             category: itemCategory,
             packed: false,
-            user_id: session.user.id
+            user_id: session.user.id,
           },
         ])
         .select();
@@ -184,39 +196,39 @@ const BagSection = ({ tripId }) => {
 
       if (data && data[0]) {
         // Update the UI with the actual database record
-        setBags(prevBags => 
-          prevBags.map(bag => 
-            bag.id === bagId 
-              ? { 
-                  ...bag, 
+        setBags((prevBags) =>
+          prevBags.map((bag) =>
+            bag.id === bagId
+              ? {
+                  ...bag,
                   items: [
-                    ...(bag.items || []).filter(item => item.id !== tempId),
-                    data[0]
-                  ].sort((a, b) => a.name.localeCompare(b.name)) // Optional: sort items
-                } 
+                    ...(bag.items || []).filter((item) => item.id !== tempId),
+                    data[0],
+                  ].sort((a, b) => a.name.localeCompare(b.name)), // Optional: sort items
+                }
               : bag
           )
         );
       }
     } catch (err) {
       console.error("Error adding item to bag:", err);
-      
+
       // Revert optimistic update on error
-      setBags(prevBags => 
-        prevBags.map(bag => 
-          bag.id === bagId 
-            ? { 
-                ...bag, 
-                items: (bag.items || []).filter(item => item.id !== tempId)
-              } 
+      setBags((prevBags) =>
+        prevBags.map((bag) =>
+          bag.id === bagId
+            ? {
+                ...bag,
+                items: (bag.items || []).filter((item) => item.id !== tempId),
+              }
             : bag
         )
       );
-      
+
       // Restore the input that failed to submit
-      updateBagInput(bagId, 'newItem', itemName);
-      updateBagInput(bagId, 'category', itemCategory);
-      
+      updateBagInput(bagId, "newItem", itemName);
+      updateBagInput(bagId, "category", itemCategory);
+
       setError("Failed to add item to bag");
     } finally {
       setIsLoading(false);
@@ -314,18 +326,14 @@ const BagSection = ({ tripId }) => {
                   className="btn btn-primary"
                   disabled={isLoading || !bagName.trim()}
                 >
-                  {isLoading ? 'Adding...' : 'Add Bag'}
+                  {isLoading ? "Adding..." : "Add Bag"}
                 </button>
               </div>
             </form>
           </div>
         )}
       </div>
-      {error && (
-        <div className="error">
-          {error}
-        </div>
-      )}
+      {error && <div className="error">{error}</div>}
 
       <div className="bags-container">
         {bags.map((bag) => (
@@ -339,7 +347,9 @@ const BagSection = ({ tripId }) => {
                     e.stopPropagation();
                     toggleBagExpand(bag.id);
                   }}
-                  aria-label={expandedBags[bag.id] ? 'Collapse bag' : 'Expand bag'}
+                  aria-label={
+                    expandedBags[bag.id] ? "Collapse bag" : "Expand bag"
+                  }
                 >
                   {expandedBags[bag.id] ? <FaTimes /> : <FaPlus />}
                 </button>
@@ -354,15 +364,19 @@ const BagSection = ({ tripId }) => {
                 >
                   <input
                     type="text"
-                    value={bagInputs[bag.id]?.newItem || ''}
-                    onChange={(e) => updateBagInput(bag.id, 'newItem', e.target.value)}
+                    value={bagInputs[bag.id]?.newItem || ""}
+                    onChange={(e) =>
+                      updateBagInput(bag.id, "newItem", e.target.value)
+                    }
                     placeholder="Add an item..."
                     className="item-input"
                     aria-label="Item Name"
                   />
                   <select
-                    value={bagInputs[bag.id]?.category || 'Clothing'}
-                    onChange={(e) => updateBagInput(bag.id, 'category', e.target.value)}
+                    value={bagInputs[bag.id]?.category || "Clothing"}
+                    onChange={(e) =>
+                      updateBagInput(bag.id, "category", e.target.value)
+                    }
                     className="category-select"
                     aria-label="Select a category"
                   >
@@ -386,7 +400,7 @@ const BagSection = ({ tripId }) => {
                     Add
                   </button>
                 </form>
-                
+
                 <div className="bag-content-scrollable">
                   <ul className="items-list">
                     {bag.items?.map((item) => (
@@ -399,10 +413,14 @@ const BagSection = ({ tripId }) => {
                               toggleItemPacked(bag.id, item.id, item.packed)
                             }
                             aria-label={`Mark ${item.name} as ${
-                              item.packed ? 'unpacked' : 'packed'
+                              item.packed ? "unpacked" : "packed"
                             }`}
                           />
-                          <span className={`item-name ${item.packed ? 'packed' : ''}`}>
+                          <span
+                            className={`item-name ${
+                              item.packed ? "packed" : ""
+                            }`}
+                          >
                             {item.name}
                           </span>
                           <span className="item-category">{item.category}</span>
