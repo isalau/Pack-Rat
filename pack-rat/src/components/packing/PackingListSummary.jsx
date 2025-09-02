@@ -52,31 +52,53 @@ const PackingListSummary = ({ tripId, days }) => {
     }
   };
 
-  // Toggle packed status for all items with the same name
+  // Toggle packed status for items
   const togglePacked = async (itemId, currentStatus) => {
     try {
-      // Find the item to get its name
-      const item = packingItems.find((i) => i.id === itemId);
+      // Find the item in either packingItems or bagItems
+      let item = packingItems.find((i) => i.id === itemId);
+      let isBagItem = false;
+      
+      if (!item) {
+        item = bagItems.find((i) => i.id === itemId);
+        isBagItem = true;
+      }
+      
       if (!item) return;
 
-      // Update all items with the same name
-      const { data, error } = await supabase
-        .from("packing_items")
-        .update({ is_packed: !currentStatus })
-        .eq("trip_id", tripId)
-        .eq("name", item.name);
+      const newPackedStatus = !currentStatus;
 
-      if (error) throw error;
+      if (isBagItem) {
+        // Update bag item in the database
+        const { error } = await supabase
+          .from('bag_items')
+          .update({ packed: newPackedStatus })
+          .eq('id', itemId);
+          
+        if (error) throw error;
 
-      // Update local state for all matching items
-      setPackingItems((prevItems) =>
-        prevItems.map((i) =>
-          i.name === item.name ? { ...i, is_packed: !currentStatus } : i
-        )
-      );
+        // Update local state for bag items
+        setBagItems(prevItems => 
+          prevItems.map(i => 
+            i.id === itemId ? { ...i, packed: newPackedStatus } : i
+          )
+        );
+      } else {
+        // Update packing item in the database
+        const { error } = await supabase
+          .from('packing_items')
+          .update({ is_packed: newPackedStatus })
+          .eq('id', itemId);
+          
+        if (error) throw error;
 
-      // Refresh the list to ensure consistency
-      fetchPackingItems();
+        // Update local state for packing items
+        setPackingItems(prevItems => 
+          prevItems.map(i => 
+            i.id === itemId ? { ...i, is_packed: newPackedStatus } : i
+          )
+        );
+      }
     } catch (error) {
       console.error("Error updating packed status:", error);
     }
@@ -151,7 +173,7 @@ const PackingListSummary = ({ tripId, days }) => {
         </div>
         <div className="stat">
           <span className="stat-number">
-            {packingItems.filter((item) => item.is_packed).length}
+            {packingItems.filter(item => item.is_packed).length + bagItems.filter(item => item.packed).length}
           </span>
           <span className="stat-label">Packed</span>
         </div>
