@@ -5,6 +5,7 @@ import PackingListSummary from "../packing/PackingListSummary";
 import DaySection from "../packing/DaySection";
 import EventModal from "../events/EventModal";
 import { FaTrash, FaCalendarPlus } from "react-icons/fa";
+import BagSection from "../packing/BagSection";
 import "./TripDetail.css";
 
 const TripDetail = ({ trip: initialTrip, onBack }) => {
@@ -156,6 +157,8 @@ const TripDetail = ({ trip: initialTrip, onBack }) => {
           </div>
         )}
       </div>
+
+      <BagSection tripId={trip.id} />
 
       <div className="packing-views">
         <div className="view-tabs">
