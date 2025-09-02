@@ -8,8 +8,7 @@ const BagSection = ({ tripId }) => {
   const [showBagForm, setShowBagForm] = useState(false);
   const [bagName, setBagName] = useState("");
   const [expandedBags, setExpandedBags] = useState({});
-  const [newItem, setNewItem] = useState("");
-  const [category, setCategory] = useState("Clothing");
+  const [bagInputs, setBagInputs] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   
@@ -18,6 +17,22 @@ const BagSection = ({ tripId }) => {
     setExpandedBags(prev => ({
       ...prev,
       [bagId]: !prev[bagId]
+    }));
+    // Initialize input state for this bag if it doesn't exist
+    setBagInputs(prev => ({
+      ...prev,
+      [bagId]: prev[bagId] || { newItem: "", category: "Clothing" }
+    }));
+  };
+  
+  // Update input state for a specific bag
+  const updateBagInput = (bagId, field, value) => {
+    setBagInputs(prev => ({
+      ...prev,
+      [bagId]: {
+        ...(prev[bagId] || { newItem: "", category: "Clothing" }),
+        [field]: value
+      }
     }));
   };
 
@@ -113,7 +128,8 @@ const BagSection = ({ tripId }) => {
 
   const addItemToBag = async (bagId, e) => {
     e.preventDefault();
-    if (!newItem.trim() || !bagId) return;
+    const currentInput = bagInputs[bagId];
+    if (!currentInput?.newItem?.trim() || !bagId) return;
 
     try {
       setIsLoading(true);
@@ -129,8 +145,8 @@ const BagSection = ({ tripId }) => {
         .insert([
           { 
             bag_id: bagId, 
-            name: newItem.trim(), 
-            category,
+            name: currentInput.newItem.trim(), 
+            category: currentInput.category,
             packed: false,
             user_id: session.user.id
           },
@@ -156,8 +172,9 @@ const BagSection = ({ tripId }) => {
           )
         );
         
-        setNewItem("");
-        setCategory("Clothing");
+        // Clear the input for this bag
+        updateBagInput(bagId, 'newItem', '');
+        updateBagInput(bagId, 'category', 'Clothing');
         setError(null);
       }
     } catch (err) {
@@ -293,15 +310,15 @@ const BagSection = ({ tripId }) => {
                 >
                   <input
                     type="text"
-                    value={newItem}
-                    onChange={(e) => setNewItem(e.target.value)}
+                    value={bagInputs[bag.id]?.newItem || ''}
+                    onChange={(e) => updateBagInput(bag.id, 'newItem', e.target.value)}
                     placeholder="Add an item..."
                     className="item-input"
                     aria-label="Item Name"
                   />
                   <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    value={bagInputs[bag.id]?.category || 'Clothing'}
+                    onChange={(e) => updateBagInput(bag.id, 'category', e.target.value)}
                     className="category-select"
                     aria-label="Select a category"
                   >
@@ -320,7 +337,7 @@ const BagSection = ({ tripId }) => {
                   <button
                     type="submit"
                     className="add-button"
-                    disabled={!newItem.trim() || isLoading}
+                    disabled={!bagInputs[bag.id]?.newItem?.trim() || isLoading}
                   >
                     Add
                   </button>
