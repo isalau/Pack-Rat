@@ -322,7 +322,7 @@ const PackingList = ({ tripId, totalDays, day }) => {
           {grouped.others.length > 0 && (
             <div className="event-group">
               <div className="event-group__header">
-                <h4 className="event-title">Other items</h4>
+                <h4 className="event-title">other items</h4>
               </div>
               {grouped.others.map((item) => (
                 <PackingItem
