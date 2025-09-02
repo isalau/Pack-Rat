@@ -3,7 +3,7 @@ import { FaTimes } from "react-icons/fa";
 
 import "./PackingItem.css";
 
-const PackingItem = ({ item, onUpdate, onDelete }) => {
+const PackingItem = ({ item, onUpdate, onDelete, onTogglePacked }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState(item.name);
   const [editedCategory, setEditedCategory] = useState(item.category);
@@ -20,7 +20,13 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
 
   if (isEditing) {
     return (
-      <div className="packing-item editing">
+      <div className={`packing-item ${item.is_packed ? 'packed' : ''}`}>
+        <input
+          type="checkbox"
+          checked={item.is_packed}
+          onChange={onTogglePacked || (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))}
+          className="packed-checkbox"
+        />
         <input
           type="text"
           value={editedName}
@@ -69,15 +75,27 @@ const PackingItem = ({ item, onUpdate, onDelete }) => {
   };
 
   return (
-    <div className="packing-item">
-      <span className="item-name">{item.name}</span>
-      <button
-        onClick={handleDeleteItems}
-        className="delete-trip-button"
-        title="Delete item"
-      >
-        <FaTimes className="delete-trip-item-icon" />
-      </button>
+    <div className={`packing-item ${item.is_packed ? 'packed' : ''}`}>
+      <input
+        type="checkbox"
+        checked={item.is_packed || false}
+        onChange={onTogglePacked || (() => onUpdate?.(item.id, { is_packed: !item.is_packed }))}
+        className="packed-checkbox"
+      />
+      <span className="item-name">
+        {item.name}
+        {item.count > 1 && <span className="item-count">×{item.count}</span>}
+        {item.category && <span className="item-category">{item.category}</span>}
+      </span>
+      {onDelete && (
+        <button
+          onClick={handleDeleteItems}
+          className="delete-trip-button"
+          title="Delete item"
+        >
+          <FaTimes className="delete-trip-item-icon" />
+        </button>
+      )}
     </div>
   );
 };

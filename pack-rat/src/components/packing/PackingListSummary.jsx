@@ -5,22 +5,46 @@ import "./PackingListSummary.css";
 
 const PackingListSummary = ({ tripId, days }) => {
   const [packingItems, setPackingItems] = useState([]);
+  const [bagItems, setBagItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch all packing items for the trip
   const fetchPackingItems = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      
+      // Fetch regular packing items
+      const { data: packingData, error: packingError } = await supabase
         .from("packing_items")
         .select("*")
-        .eq("trip_id", tripId)
-        .order("name", { ascending: true });
+        .eq("trip_id", tripId);
 
-      if (error) throw error;
-      setPackingItems(data || []);
+      if (packingError) throw packingError;
+
+      // Fetch bag items
+      const { data: bagsData, error: bagsError } = await supabase
+        .from("bags")
+        .select(`
+          *,
+          bag_items (*)
+        `)
+        .eq("trip_id", tripId);
+
+      if (bagsError) throw bagsError;
+
+      // Flatten bag items and add a source identifier
+      const allBagItems = bagsData.flatMap(bag => 
+        (bag.bag_items || []).map(item => ({
+          ...item,
+          source: 'bag',
+          bag_name: bag.name
+        }))
+      );
+
+      setPackingItems(packingData || []);
+      setBagItems(allBagItems);
     } catch (error) {
-      console.error("Error fetching packing items:", error);
+      console.error("Error fetching items:", error);
     } finally {
       setLoading(false);
     }
@@ -56,33 +80,52 @@ const PackingListSummary = ({ tripId, days }) => {
     }
   };
 
-  // Group items by name and count duplicates
-  const groupItems = (items) => {
-    const grouped = {};
-    items.forEach(item => {
-      if (!grouped[item.name]) {
-        grouped[item.name] = { ...item, count: 1 };
+  // Combine and prepare items for display
+  const getAllItems = () => {
+    // Add source and format packing items
+    const formattedPackingItems = (packingItems || []).map(item => ({
+      ...item,
+      source: 'packing_list',
+      packed: item.is_packed || false
+    }));
+
+    // Combine all items
+    const allItems = [...formattedPackingItems, ...(bagItems || [])];
+
+    // Group items by name and count duplicates
+    const grouped = allItems.reduce((acc, item) => {
+      const key = `${item.name}-${item.category || 'Uncategorized'}`;
+      if (!acc[key]) {
+        acc[key] = { 
+          ...item, 
+          count: 1,
+          sources: [item.source],
+          bag_names: item.source === 'bag' ? [item.bag_name] : []
+        };
       } else {
-        grouped[item.name].count += 1;
+        acc[key].count += 1;
+        if (!acc[key].sources.includes(item.source)) {
+          acc[key].sources.push(item.source);
+        }
+        if (item.source === 'bag' && !acc[key].bag_names.includes(item.bag_name)) {
+          acc[key].bag_names.push(item.bag_name);
+        }
       }
-    });
-    return Object.values(grouped);
+      return acc;
+    }, {});
+
+    // Categorize items
+    return Object.values(grouped).reduce((acc, item) => {
+      const category = item.category || "Uncategorized";
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(item);
+      return acc;
+    }, {});
   };
 
-  // Categorize items
-  const categorizedItems = packingItems.reduce((acc, item) => {
-    const category = item.category || "Uncategorized";
-    if (!acc[category]) {
-      acc[category] = [];
-    }
-    acc[category].push(item);
-    return acc;
-  }, {});
-
-  // Process each category to group items
-  Object.keys(categorizedItems).forEach(category => {
-    categorizedItems[category] = groupItems(categorizedItems[category]);
-  });
+  const categorizedItems = getAllItems();
 
   useEffect(() => {
     fetchPackingItems();
@@ -96,7 +139,9 @@ const PackingListSummary = ({ tripId, days }) => {
       
       <div className="packing-stats">
         <div className="stat">
-          <span className="stat-number">{packingItems.length}</span>
+          <span className="stat-number">
+            {packingItems.length + bagItems.length}
+          </span>
           <span className="stat-label">Total Items</span>
         </div>
         <div className="stat">
@@ -111,26 +156,33 @@ const PackingListSummary = ({ tripId, days }) => {
         {Object.entries(categorizedItems).map(([category, items]) => (
           <div key={category} className="category-section">
             <h3>{category}</h3>
-            <div className="items-list">
-              {items.map((item) => (
-                <div 
-                  key={item.id} 
-                  className={`packing-summary-item ${item.is_packed ? 'packed' : ''}`}
-                  onClick={() => togglePacked(item.id, item.is_packed)}
-                >
-                  <div className="item-checkbox">
-                    {item.is_packed ? (
-                      <span className="checkmark">✓</span>
-                    ) : (
-                      <span className="checkbox"></span>
+            <div className="items-grid">
+              {items.map((item) => {
+                const sourceInfo = [];
+                if (item.sources.includes('packing_list')) sourceInfo.push('Packing List');
+                if (item.bag_names?.length > 0) {
+                  sourceInfo.push(`Bags: ${item.bag_names.join(', ')}`);
+                }
+                
+                return (
+                  <div key={`${category}-${item.name}`} className="item-container">
+                    <PackingItem
+                      item={{
+                        ...item,
+                        is_packed: item.packed,
+                        name: item.name,
+                        count: item.count
+                      }}
+                      onTogglePacked={() => togglePacked(item.id, item.packed)}
+                    />
+                    {sourceInfo.length > 0 && (
+                      <div className="item-sources">
+                        {sourceInfo.join(' • ')}
+                      </div>
                     )}
                   </div>
-                  <span className="item-name">
-                    {item.name}
-                    {item.count > 1 && <span className="item-count">{item.count}</span>}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}

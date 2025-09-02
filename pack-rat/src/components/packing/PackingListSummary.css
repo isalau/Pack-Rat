@@ -94,6 +94,42 @@
   color: #e0e0e0;
 }
 
+.item-count {
+  margin-left: 6px;
+  color: #77874e;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+.item-category {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  background: #f0f4f8;
+  border-radius: 4px;
+  font-size: 0.8em;
+  color: #627d98;
+}
+
+.item-sources {
+  font-size: 0.8em;
+  color: #94a3b8;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.item-container {
+  margin-bottom: 8px;
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.item-container:hover {
+  background: #f1f3f5;
+}
+
 .item-checkbox {
   width: 20px;
   height: 20px;
