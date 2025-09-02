@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../context/AuthContext";
 import "./EventForm.css";
+import { FaTrash } from "react-icons/fa";
 
 const EventForm = () => {
   const { id } = useParams();
@@ -333,12 +334,12 @@ const EventForm = () => {
 
               <button
                 type="button"
-                className="btn btn-icon danger"
+                className="remove-event-item"
                 onClick={() => removeItem(index)}
                 disabled={formData.items.length <= 1}
                 title="Remove item"
               >
-                ×
+                <FaTrash className="delete-trip-icon" />
               </button>
             </div>
           ))}

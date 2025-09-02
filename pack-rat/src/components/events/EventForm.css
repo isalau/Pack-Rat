@@ -161,3 +161,12 @@
     width: 100%;
   }
 }
+
+.remove-event-item {
+  padding: 0;
+  border: none;
+}
+
+.remove-event-item:hover {
+  background-color: transparent;
+}
