@@ -212,48 +212,51 @@ const BagSection = ({ tripId }) => {
 
   return (
     <div className="packing-list">
-      <h2>Bags</h2>
-      {error && <div className="error">{error}</div>}
-
-      {!showBagForm ? (
-        <button
-          className="btn btn-primary"
-          onClick={() => setShowBagForm(true)}
-          disabled={isLoading}
-        >
-          <FaPlus />
-          <span>Add Bag</span>
-        </button>
-      ) : (
-        <form onSubmit={addBag} className="add-bag-form">
-          <input
-            type="text"
-            value={bagName}
-            onChange={(e) => setBagName(e.target.value)}
-            placeholder="Enter bag name"
-            className="item-input"
-            aria-label="Bag Name"
-            autoFocus
-          />
-          <div className="form-actions">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setShowBagForm(false)}
-              disabled={isLoading}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isLoading || !bagName.trim()}
-            >
-              {isLoading ? 'Adding...' : 'Add Bag'}
-            </button>
+      <div className="bags-header">
+        <h2>Bags</h2>
+        {!showBagForm ? (
+          <button
+            className="btn btn-primary"
+            onClick={() => setShowBagForm(true)}
+            disabled={isLoading}
+          >
+            <FaPlus />
+            <span>Add Bag</span>
+          </button>
+        ) : (
+          <div className="add-bag-form-container">
+            <form onSubmit={addBag} className="add-bag-form">
+              <input
+                type="text"
+                value={bagName}
+                onChange={(e) => setBagName(e.target.value)}
+                placeholder="Enter bag name"
+                className="item-input"
+                aria-label="Bag Name"
+                autoFocus
+              />
+              <div className="form-actions">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowBagForm(false)}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isLoading || !bagName.trim()}
+                >
+                  {isLoading ? 'Adding...' : 'Add Bag'}
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-      )}
+        )}
+      </div>
+      {error && <div className="error">{error}</div>}
 
       <div className="bags-container">
         {bags.map((bag) => (
