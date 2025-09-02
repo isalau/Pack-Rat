@@ -20,18 +20,35 @@ const BagSection = ({ tripId }) => {
       
       try {
         setIsLoading(true);
-        const { data, error } = await supabase
+        // First fetch bags
+        const { data: bagsData, error: bagsError } = await supabase
           .from('bags')
-          .select(`
-            *,
-            bag_items (*)
-          `)
+          .select('*')
           .eq('trip_id', tripId)
           .order('created_at', { ascending: true });
 
-        if (error) throw error;
+        if (bagsError) throw bagsError;
         
-        setBags(data || []);
+        if (!bagsData || bagsData.length === 0) {
+          setBags([]);
+          return;
+        }
+        
+        // Then fetch items for all bags
+        const { data: itemsData, error: itemsError } = await supabase
+          .from('bag_items')
+          .select('*')
+          .in('bag_id', bagsData.map(bag => bag.id));
+          
+        if (itemsError) throw itemsError;
+        
+        // Combine bags with their items
+        const bagsWithItems = bagsData.map(bag => ({
+          ...bag,
+          items: itemsData.filter(item => item.bag_id === bag.id) || []
+        }));
+        
+        setBags(bagsWithItems);
       } catch (err) {
         console.error('Error fetching bags:', err);
         setError('Failed to load bags');
@@ -91,6 +108,14 @@ const BagSection = ({ tripId }) => {
     if (!newItem.trim() || !bagId) return;
 
     try {
+      setIsLoading(true);
+      
+      // Check if user is authenticated
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
+      if (authError || !session) {
+        throw new Error("You must be logged in to add items");
+      }
+
       const { data, error } = await supabase
         .from("bag_items")
         .insert([
@@ -98,7 +123,8 @@ const BagSection = ({ tripId }) => {
             bag_id: bagId, 
             name: newItem.trim(), 
             category,
-            packed: false 
+            packed: false,
+            user_id: session.user.id
           },
         ])
         .select();
@@ -106,15 +132,25 @@ const BagSection = ({ tripId }) => {
       if (error) throw error;
 
       if (data && data[0]) {
-        setBags(
-          bags.map((bag) =>
-            bag.id === bagId
-              ? { ...bag, items: [...(bag.items || []), data[0]] }
+        // Update the UI by fetching the latest data
+        const { data: updatedBag, error: fetchError } = await supabase
+          .from('bag_items')
+          .select('*')
+          .eq('bag_id', bagId);
+          
+        if (fetchError) throw fetchError;
+        
+        setBags(prevBags => 
+          prevBags.map(bag => 
+            bag.id === bagId 
+              ? { ...bag, items: updatedBag || [] } 
               : bag
           )
         );
+        
         setNewItem("");
         setCategory("Clothing");
+        setError(null);
       }
     } catch (err) {
       console.error("Error adding item to bag:", err);
